@@ -17,4 +17,4 @@ https://pauserra-ie.github.io/ISOPJ1/
 ---
 
 Pau Serra, 1r ASIX CURS 2025-26, INSTITUT DE L'EBRE
-
+  ![imatge](/assets/images/binary.jpg)
