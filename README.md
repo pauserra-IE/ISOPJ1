@@ -1,25 +1,20 @@
-# Curso de Machine Learning
+# Implantació de sistemes operatius 
 
-Este repositorio contiene el material del curso de Machine Learning desarrollado por Mireia Consarnau.
+Aquest repositori conte les diferents pràctiques realitzades durant el curs
+## Continguts  
 
-## Contenido
+- SP1
+- SP2
+- SP3
+- SP4
+- SP5
+## Us
 
-- Índice y enlaces a las unidades del curso.
-- Recursos en formato PDF, vídeos, y Google Colab.
-- Código y ejemplos prácticos.
-
-## Uso
-
-Este repositorio está preparado para ser publicado con GitHub Pages.  
-Puedes ver la versión web pública en:  
-https://mireiaconsarnau.github.io/machine_learning/
-
-## Licencia
-
-El contenido está bajo licencia [Creative Commons BY-NC-SA 3.0 ES](LICENSE.md).
-
+Aquest repositori està preparat per ser publicat amb GitHub Pages.  
+Pots veure la versió web pública a:
+https://pauserra-ie.github.io/ISOPJ1/
 
 ---
 
-© 2025 Mireia Consarnau
+Pau Serra, 1r ASIX CURS 2025-26, INSTITUT DE L'EBRE
 
