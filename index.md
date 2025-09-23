@@ -7,12 +7,13 @@ Aquest repositori conte les diferents pràctiques realitzades durant el curs
 
 ## Licencia
 
-El contenido está bajo licencia [Creative Commons BY-NC-SA 3.0 ES](LICENSE.md).
+Aquest continugt esta sota la llicencia [Creative Commons BY-NC-SA 4.0 ES](LICENSE.md).
 
-## Contenido del curso
+## Continguts
 
-### [Sprint 1: Instal·lació, Configuració Inicial i Programari de Base](unidad1/unidad1.md)  
+### [Sprint 1: Instal·lació, Configuració Inicial i Programari de Base](SP1/SP1.md)  
+### [Sprint 2: Instal·lació, Configuració de Programari de Base i Gestió de Fitxers](SP2/SP2.md)
+### [Sprint 3: Administració de Dominis i Seguretat](SP3,SP3.md)
+### [Sprint 4: Configuració del Programari de Base i Sistemes d’Emmagatzematge en Ubuntu](SP4/SP4.md)
+### [Sprint 5: Monitoratge, Auditories i Programari Client/Servidor](SP5/SP5.md)
 
-### [Relación entre Unidades y Resultados de Aprendizaje (RAs)](ras.md)  
-
-### [FAQs](faqs/faqs.md)  
