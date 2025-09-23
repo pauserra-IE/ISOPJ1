@@ -27,4 +27,4 @@ S’ha de donar crèdit adequat, proporcionar un enllaç a aquesta llicència i 
 
 ---
 
-© 2025 Mireia Consarnau
+© 2025 Pau Serra Bertomeu
