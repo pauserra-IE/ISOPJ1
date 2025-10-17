@@ -43,6 +43,21 @@ Pel que fa a l’emmagatzematge, he assignat 80 GB de disc: 40 GB per a Ubuntu i
 - Finalment, he afegit una partició swap de 4 GB. Tot i que no seria estrictament necessària, ja que el host disposa de 32 GB de RAM, pot resultar útil en casos puntuals.  
 - Un cop creades totes les particions, seleccionem la / (arrel) com a destinació d’instal·lació del sistema i procedim amb la instal·lació d’Ubuntu.
 
+##Instalacio del seguent sistema operatiu
+
+A conitnuació carreguem la iso del windows 10 i iniciem la màquina per començar la instalacio
+<img width="991" height="778" alt="Captura de pantalla de 2025-10-02 15-01-19" src="https://github.com/user-attachments/assets/06e7044c-1c75-44be-a8e9-4f468417366e" />
+
+Quan arribessim a la pantalla de la ubicació d'instalació del windows em de triar la partició de 40gb que hem deixat lliure
+<img width="812" height="700" alt="Captura de pantalla de 2025-10-02 14-55-41" src="https://github.com/user-attachments/assets/42107a86-00f7-4ed7-898c-522feefa7871" />
+
+Una vegada acabi la instalació procedirem a recuperar el grub ja que al fer la instalació de windows, aquest arrenca per defecte.
+
+Primer carreguem la iso de supergrub
+
+
+
+
 
 
 
