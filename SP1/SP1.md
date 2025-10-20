@@ -53,7 +53,117 @@ Quan arribessim a la pantalla de la ubicació d'instalació del windows em de tr
 
 Una vegada acabi la instalació procedirem a recuperar el grub ja que al fer la instalació de windows, aquest arrenca per defecte.
 
-Primer carreguem la iso de supergrub
+Primer accedim als paràmetres de la màquina a l'apartat d'emmagatzematge i sel·leccionem la iso de Super Grub Disk
+<img width="883" height="556" alt="image" src="https://github.com/user-attachments/assets/9bf0f958-951d-44cf-8d97-18ab91396807" />
+
+###  Arrencar amb Super Grub Disk
+
+A continuació iniciem el boot menu de la màquina i sel·leccionem el supergrub
+<img width="641" height="570" alt="image" src="https://github.com/user-attachments/assets/cb17e061-2254-4eb2-9fa2-1feb4d2135e2" />
+
+Triem la opció de detect and show boot methods
+<img width="641" height="570" alt="image" src="https://github.com/user-attachments/assets/510aad5d-0b44-40c6-ac4e-03957fda92bc" />
+
+I per ultim seleccionem el kernel de linux
+<img width="641" height="570" alt="image" src="https://github.com/user-attachments/assets/0258d2f4-a58f-4991-9220-c84683fd059b" />
+
+
+### Iniciar Ubuntu 
+
+Una vegada ha iniciat Ubuntu fem el següent:
+
+1. Obrir el terminal.
+2. Reinstal·lar GRUB amb:
+   sudo apt install --reinstall grub-pc
+
+3. Quan ho demani, seleccionar **/dev/sda** com a dispositiu.
+
+---
+
+### 🔍 Identificar la partició EFI
+
+Podem utilitzar aquesta comanda per a llistar les particions del disc:
+
+sudo fdisk -l
+
+
+Identificar a quin **/dev/sda** està el **Sistema EFI**.
+En el meu cas està a **/dev/sda7**.
+
+Muntar la partició EFI:
+
+
+sudo mount /dev/sda7 /boot/efi
+
+
+###  Reinstal·lar GRUB en mode UEFI
+
+Un cop muntada la partició EFI, executar la comanda següent per reinstal·lar GRUB en mode UEFI:
+
+sudo grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=Ubuntu
+
+
+### 📝 Editar la configuració de GRUB
+
+Obrir l’arxiu de configuració de GRUB:
+
+sudo nano /etc/default/grub
+
+
+Comentar les línies següents:
+
+#GRUB_TIMEOUT_STYLE=hidden
+#GRUB_TIMEOUT=0
+
+I descomentar aquesta línia:
+
+GRUB_DISABLE_OS_PROBER=false
+
+
+Guardar l’arxiu i actualitzar la configuració de GRUB:
+
+
+sudo update-grub
+
+
+---
+
+### 🧾 Configurar l’ordre d’arrencada EFI
+
+Instal·lar l’eina **efibootmgr** per gestionar l’ordre d’arrencada:
+
+
+sudo apt-get install efibootmgr
+
+
+Comprovar l’ordre actual:
+
+
+sudo efibootmgr
+
+Verificar que **Ubuntu** sigui el primer i **Windows** el segon.
+En aquest cas, l’ordre és **0006,0004**.
+
+Si no estiguessin en ordre, cal modificar-ho amb:
+
+
+sudo efibootmgr -o 0006,0004
+
+
+---
+
+### 🔁 Comprovació final
+
+Apagar la màquina i comprovar que:
+
+* El **GRUB** apareix correctament en iniciar.
+* Tant **Ubuntu** com **Windows** es poden iniciar des del menú del GRUB sense errors.
+
+
+
+
+
+
 
 
 
