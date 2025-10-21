@@ -43,7 +43,7 @@ Pel que fa a l’emmagatzematge, he assignat 80 GB de disc: 40 GB per a Ubuntu i
 - Finalment, he afegit una partició swap de 4 GB. Tot i que no seria estrictament necessària, ja que el host disposa de 32 GB de RAM, pot resultar útil en casos puntuals.  
 - Un cop creades totes les particions, seleccionem la / (arrel) com a destinació d’instal·lació del sistema i procedim amb la instal·lació d’Ubuntu.
 
-##Instalacio del seguent sistema operatiu
+## Instalació de Windows
 
 A conitnuació carreguem la iso del windows 10 i iniciem la màquina per començar la instalacio
 <img width="991" height="778" alt="Captura de pantalla de 2025-10-02 15-01-19" src="https://github.com/user-attachments/assets/06e7044c-1c75-44be-a8e9-4f468417366e" />
@@ -51,12 +51,19 @@ A conitnuació carreguem la iso del windows 10 i iniciem la màquina per començ
 Quan arribessim a la pantalla de la ubicació d'instalació del windows em de triar la partició de 40gb que hem deixat lliure
 <img width="812" height="700" alt="Captura de pantalla de 2025-10-02 14-55-41" src="https://github.com/user-attachments/assets/42107a86-00f7-4ed7-898c-522feefa7871" />
 
-Una vegada acabi la instalació procedirem a recuperar el grub ja que al fer la instalació de windows, aquest arrenca per defecte.
+Una vegada acabi la instalació, al següent apartat procedirem a recuperar el grub.
+
+## Gestors d'arrencada per a instal·lacions DUALS
+En una instal·lació dual boot amb Ubuntu i Windows, el gestor d’arrencada s’encarrega de permetre escollir quin sistema operatiu iniciar.
+Ubuntu utilitza GRUB (GRand Unified Bootloader) com a gestor d’arrencada principal, mentre que Windows fa servir el seu propi gestor (Windows Boot Manager).
+
+Quan s’instal·la Windows després d’Ubuntu, el seu instal·lador sobreescriu el sector d’arrencada (MBR o EFI), i això fa que el GRUB quedi eliminat o inactiu.
+A conseqüència d’això, el sistema arrenca directament a Windows i no mostra el menú per escollir Ubuntu.
+
+###  Arrencar amb Super Grub Disk
 
 Primer accedim als paràmetres de la màquina a l'apartat d'emmagatzematge i sel·leccionem la iso de Super Grub Disk
 <img width="883" height="556" alt="image" src="https://github.com/user-attachments/assets/9bf0f958-951d-44cf-8d97-18ab91396807" />
-
-###  Arrencar amb Super Grub Disk
 
 A continuació iniciem el boot menu de la màquina i sel·leccionem el supergrub
 <img width="641" height="570" alt="image" src="https://github.com/user-attachments/assets/cb17e061-2254-4eb2-9fa2-1feb4d2135e2" />
@@ -163,6 +170,82 @@ Apagar la màquina i comprovar que:
 <img width="999" height="399" alt="image" src="https://github.com/user-attachments/assets/e3f72ed2-bee3-4eae-8aae-e2891e248b5c" />
 
 
+:
+
+## 💾 PUNTS DE RESTAURACIÓ
+
+Els punts de restauració ens permeten tornar el sistema a un estat anterior en cas d’error o configuració incorrecta. A Ubuntu, aquesta funció es pot gestionar amb l’eina Timeshift.
+
+### 🗂️ Emmagatzematge
+
+Abans de crear punts de restauració, afegim un disc addicional de 15 GB a la màquina virtual, que s’utilitzarà exclusivament per guardar les còpies del sistema.
+
+### ⚙️ Configuració inicial
+
+Iniciar la màquina virtual.
+
+Obrir el terminal i obtenir permisos d’administrador:
+
+sudo su
+
+
+Instal·lar Timeshift:
+
+apt install timeshift
+
+
+Iniciar Timeshift (des de terminal o menú d’aplicacions).
+
+Configurar la freqüència de les còpies segons preferència (diària, setmanal, etc.) i seleccionar el disc de 15 GB com a destinació.
+
+### 🧹 Verificació
+
+Per comprovar el funcionament, es poden crear o eliminar fitxers de prova.
+Per exemple, eliminem els fitxers hola i adeu:
+
+sudo rm hola
+sudo rm -r adeu
+
+
+Després, podem utilitzar Timeshift per restaurar el sistema i verificar que els fitxers tornen a aparèixer.
+
+## 🌐 CONFIGURACIÓ DE XARXA
+
+A continuació es configura la xarxa de la màquina virtual per utilitzar una IP manual mitjançant Netplan.
+
+⚙️ Paràmetres de xarxa
+
+Obrir la configuració de VirtualBox i establir l’adaptador de xarxa en mode Pont (Bridged Adapter).
+
+Iniciar la màquina virtual.
+
+Configurar una IP manual editant el fitxer de configuració de Netplan.
+
+📄 Editar Netplan
+
+Obrir el fitxer de configuració (pot variar segons la versió, per exemple: /etc/netplan/01-network-manager-all.yaml):
+
+sudo nano /etc/netplan/01-network-manager-all.yaml
+
+
+Modificar el fitxer per definir una IP estàtica. Exemple:
+
+
+Desar els canvis i aplicar la configuració:
+
+sudo netplan apply
+
+🖼️ Captures de comprovació
+
+Afegir una captura amb la configuració IP mostrant la nova adreça assignada.
+
+Afegir una captura de ping demostrant la connectivitat amb altres dispositius o amb Internet.
+
+✅ Verificació final
+
+Per comprovar que la xarxa funciona correctament, executar:
+
+ping
 
 
 
@@ -172,12 +255,7 @@ Apagar la màquina i comprovar que:
 
 
 
-
-
-
-
-## Gestors d'arrencada per a instal·lacions DUALS
-## Punts de restauració
 ## Configuració de xarxa
+
 ## Comandes generals i instal·lacions
 
