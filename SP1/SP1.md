@@ -75,8 +75,10 @@ Una vegada ha iniciat Ubuntu fem el següent:
 1. Obrir el terminal.
 2. Reinstal·lar GRUB amb:
    sudo apt install --reinstall grub-pc
+<img width="692" height="411" alt="image" src="https://github.com/user-attachments/assets/69d5a9f7-a6dc-4ed9-a533-cd6bbd1a3786" />
 
 3. Quan ho demani, seleccionar **/dev/sda** com a dispositiu.
+<img width="692" height="411" alt="image" src="https://github.com/user-attachments/assets/22aac8e4-d365-483b-b21a-e6ad79629602" />
 
 ---
 
@@ -85,15 +87,15 @@ Una vegada ha iniciat Ubuntu fem el següent:
 Podem utilitzar aquesta comanda per a llistar les particions del disc:
 
 sudo fdisk -l
-
-
 Identificar a quin **/dev/sda** està el **Sistema EFI**.
 En el meu cas està a **/dev/sda7**.
+<img width="693" height="410" alt="image" src="https://github.com/user-attachments/assets/ff262242-bca7-4a4d-a104-aeb304275efa" />
 
 Muntar la partició EFI:
 
 
 sudo mount /dev/sda7 /boot/efi
+<img width="590" height="60" alt="image" src="https://github.com/user-attachments/assets/821ed4d8-532c-4091-9a53-c55ba474a0d8" />
 
 
 ###  Reinstal·lar GRUB en mode UEFI
@@ -101,6 +103,7 @@ sudo mount /dev/sda7 /boot/efi
 Un cop muntada la partició EFI, executar la comanda següent per reinstal·lar GRUB en mode UEFI:
 
 sudo grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=Ubuntu
+<img width="853" height="85" alt="image" src="https://github.com/user-attachments/assets/f4dab4c3-1b5e-49ea-b106-86e09b93a35f" />
 
 
 ### 📝 Editar la configuració de GRUB
@@ -109,15 +112,15 @@ Obrir l’arxiu de configuració de GRUB:
 
 sudo nano /etc/default/grub
 
-
 Comentar les línies següents:
 
 #GRUB_TIMEOUT_STYLE=hidden
 #GRUB_TIMEOUT=0
 
 I descomentar aquesta línia:
-
 GRUB_DISABLE_OS_PROBER=false
+
+<img width="700" height="583" alt="image" src="https://github.com/user-attachments/assets/d4bf452a-b394-4815-9b36-89a5222e3bc6" />
 
 
 Guardar l’arxiu i actualitzar la configuració de GRUB:
