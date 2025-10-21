@@ -3,7 +3,7 @@ layout: default
 title: "Sprint 1: Instal·lació, Configuració Inicial i Programari de Base"
 ---
 
-## Llicenciament
+## LLICENCIAMENT
 Ubuntu té aquestes llicencies:
 - **Nucli Linux:** GPLv2, permet usar, modificar i redistribuir el kernel.  
 - **Eines del sistema:** GPL/LGPL, inclou utilitats bàsiques com bash i coreutils.  
@@ -12,7 +12,7 @@ Ubuntu té aquestes llicencies:
 
 ---
 
-## Virtualització i instal·lació del SO Ubuntu
+## VIRTUALITZACIÓ I INSTAL·LACIÓ DEL SO UBUNTU
 En primer lloc obrim VirtualBox per a començar a configurar la maquina virtual.
 <img width="877" height="472" alt="Captura de pantalla de 2025-09-30 13-32-49" src="https://github.com/user-attachments/assets/53540824-a77c-495a-aeec-34c4b0be8bc0" />
 
@@ -43,7 +43,7 @@ Pel que fa a l’emmagatzematge, he assignat 80 GB de disc: 40 GB per a Ubuntu i
 - Finalment, he afegit una partició swap de 4 GB. Tot i que no seria estrictament necessària, ja que el host disposa de 32 GB de RAM, pot resultar útil en casos puntuals.  
 - Un cop creades totes les particions, seleccionem la / (arrel) com a destinació d’instal·lació del sistema i procedim amb la instal·lació d’Ubuntu.
 
-## Instalació de Windows
+## INSTAL·LACIÓ DE WINDOWS
 
 A conitnuació carreguem la iso del windows 10 i iniciem la màquina per començar la instalacio
 <img width="991" height="778" alt="Captura de pantalla de 2025-10-02 15-01-19" src="https://github.com/user-attachments/assets/06e7044c-1c75-44be-a8e9-4f468417366e" />
@@ -179,6 +179,7 @@ Els punts de restauració ens permeten tornar el sistema a un estat anterior en 
 ### 🗂️ Emmagatzematge
 
 Abans de crear punts de restauració, afegim un disc addicional de 15 GB a la màquina virtual, que s’utilitzarà exclusivament per guardar les còpies del sistema.
+<img width="747" height="430" alt="Captura de pantalla de 2025-10-07 12-43-37" src="https://github.com/user-attachments/assets/5b0d7397-994a-4031-bcc2-7d780e8a015c" />
 
 ### ⚙️ Configuració inicial
 
@@ -192,13 +193,13 @@ sudo su
 Instal·lar Timeshift:
 
 apt install timeshift
+<img width="811" height="148" alt="image" src="https://github.com/user-attachments/assets/9fb4b301-4af9-4204-b48d-63787a14f85a" />
 
 
-Iniciar Timeshift (des de terminal o menú d’aplicacions).
-
+Iniciar Timeshift.
 Configurar la freqüència de les còpies segons preferència (diària, setmanal, etc.) i seleccionar el disc de 15 GB com a destinació.
 
-### 🧹 Verificació
+###  Verificació
 
 Per comprovar el funcionament, es poden crear o eliminar fitxers de prova.
 Per exemple, eliminem els fitxers hola i adeu:
@@ -215,7 +216,8 @@ A continuació es configura la xarxa de la màquina virtual per utilitzar una IP
 
 ⚙️ Paràmetres de xarxa
 
-Obrir la configuració de VirtualBox i establir l’adaptador de xarxa en mode Pont (Bridged Adapter).
+Obrir la configuració de VirtualBox i establir l’adaptador de xarxa en mode Pont
+<img width="861" height="498" alt="Captura de pantalla de 2025-10-07 12-44-02" src="https://github.com/user-attachments/assets/185352bd-4971-4576-9f73-2b4eeed1da01" />
 
 Iniciar la màquina virtual.
 
@@ -249,13 +251,5 @@ ping
 
 
 
-
-
-
-
-
-
-## Configuració de xarxa
-
-## Comandes generals i instal·lacions
+## COMANDES GENERALS I INSTAL·LACIONS
 
