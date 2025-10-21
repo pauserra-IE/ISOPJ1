@@ -127,6 +127,7 @@ Guardar l’arxiu i actualitzar la configuració de GRUB:
 
 
 sudo update-grub
+<img width="718" height="182" alt="image" src="https://github.com/user-attachments/assets/df1e83c2-f0af-4990-b9df-fbcd88147f42" />
 
 
 ---
@@ -135,14 +136,11 @@ sudo update-grub
 
 Instal·lar l’eina **efibootmgr** per gestionar l’ordre d’arrencada:
 
-
 sudo apt-get install efibootmgr
 
-
-Comprovar l’ordre actual:
-
-
+Comprovar l’ordre actual amb la comanda:
 sudo efibootmgr
+<img width="1208" height="237" alt="image" src="https://github.com/user-attachments/assets/39cd956d-57d0-47fa-b50a-0e7f984497aa" />
 
 Verificar que **Ubuntu** sigui el primer i **Windows** el segon.
 En aquest cas, l’ordre és **0006,0004**.
@@ -162,6 +160,7 @@ Apagar la màquina i comprovar que:
 * El **GRUB** apareix correctament en iniciar.
 * Tant **Ubuntu** com **Windows** es poden iniciar des del menú del GRUB sense errors.
 
+<img width="999" height="399" alt="image" src="https://github.com/user-attachments/assets/e3f72ed2-bee3-4eae-8aae-e2891e248b5c" />
 
 
 
