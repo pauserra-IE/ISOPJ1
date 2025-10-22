@@ -42,7 +42,8 @@ Pel que fa a l’emmagatzematge, he assignat 80 GB de disc: 40 GB per a Ubuntu i
 - La partició /home ocupa la resta de l’espai disponible per emmagatzemar documents i configuracions personals.  
 - Finalment, he afegit una partició swap de 4 GB. Tot i que no seria estrictament necessària, ja que el host disposa de 32 GB de RAM, pot resultar útil en casos puntuals.  
 - Un cop creades totes les particions, seleccionem la / (arrel) com a destinació d’instal·lació del sistema i procedim amb la instal·lació d’Ubuntu.
-
+  
+---
 ## INSTAL·LACIÓ DE WINDOWS
 
 A conitnuació carreguem la iso del windows 10 i iniciem la màquina per començar la instalacio
@@ -53,13 +54,15 @@ Quan arribessim a la pantalla de la ubicació d'instalació del windows em de tr
 
 Una vegada acabi la instalació, al següent apartat procedirem a recuperar el grub.
 
-## Gestors d'arrencada per a instal·lacions DUALS
+---
+## GESTORS D'ARRENCADA PER A INSTAL·LACIONS DUALS
 En una instal·lació dual boot amb Ubuntu i Windows, el gestor d’arrencada s’encarrega de permetre escollir quin sistema operatiu iniciar.
 Ubuntu utilitza GRUB (GRand Unified Bootloader) com a gestor d’arrencada principal, mentre que Windows fa servir el seu propi gestor (Windows Boot Manager).
 
 Quan s’instal·la Windows després d’Ubuntu, el seu instal·lador sobreescriu el sector d’arrencada (MBR o EFI), i això fa que el GRUB quedi eliminat o inactiu.
 A conseqüència d’això, el sistema arrenca directament a Windows i no mostra el menú per escollir Ubuntu.
 
+---
 ###  Arrencar amb Super Grub Disk
 
 Primer accedim als paràmetres de la màquina a l'apartat d'emmagatzematge i sel·leccionem la iso de Super Grub Disk
@@ -74,7 +77,7 @@ Triem la opció de detect and show boot methods
 I per ultim seleccionem el kernel de linux
 <img width="641" height="570" alt="image" src="https://github.com/user-attachments/assets/0258d2f4-a58f-4991-9220-c84683fd059b" />
 
-
+---
 ### Iniciar Ubuntu 
 
 Una vegada ha iniciat Ubuntu fem el següent:
@@ -104,7 +107,7 @@ Muntar la partició EFI:
 sudo mount /dev/sda7 /boot/efi
 <img width="590" height="60" alt="image" src="https://github.com/user-attachments/assets/821ed4d8-532c-4091-9a53-c55ba474a0d8" />
 
-
+---
 ###  Reinstal·lar GRUB en mode UEFI
 
 Un cop muntada la partició EFI, executar la comanda següent per reinstal·lar GRUB en mode UEFI:
@@ -112,7 +115,7 @@ Un cop muntada la partició EFI, executar la comanda següent per reinstal·lar 
 sudo grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=Ubuntu
 <img width="853" height="85" alt="image" src="https://github.com/user-attachments/assets/f4dab4c3-1b5e-49ea-b106-86e09b93a35f" />
 
-
+---
 ### 📝 Editar la configuració de GRUB
 
 Obrir l’arxiu de configuració de GRUB:
@@ -169,8 +172,7 @@ Apagar la màquina i comprovar que:
 
 <img width="999" height="399" alt="image" src="https://github.com/user-attachments/assets/e3f72ed2-bee3-4eae-8aae-e2891e248b5c" />
 
-
-:
+---
 
 ## 💾 PUNTS DE RESTAURACIÓ
 
@@ -179,36 +181,86 @@ Els punts de restauració ens permeten tornar el sistema a un estat anterior en 
 ### 🗂️ Emmagatzematge
 
 Abans de crear punts de restauració, afegim un disc addicional de 15 GB a la màquina virtual, que s’utilitzarà exclusivament per guardar les còpies del sistema.
+Obrir la configuració de la màquina virtual a VirtualBox.
+
+🔹 Pas 1: Afegir el disc a VirtualBox
+Anar a la secció Emmagatzematge i afegim un nou disc virtual de 15GB com a disc secundari
 <img width="747" height="430" alt="Captura de pantalla de 2025-10-07 12-43-37" src="https://github.com/user-attachments/assets/5b0d7397-994a-4031-bcc2-7d780e8a015c" />
 
-### ⚙️ Configuració inicial
+Guardar els canvis i iniciar la màquina virtual.
 
-Iniciar la màquina virtual.
+🔹 Pas 2: Crear la partició al nou disc
 
-Obrir el terminal i obtenir permisos d’administrador:
+Un cop Ubuntu ha iniciat, obrim un terminal i fem el següent:
 
+sudo fdisk /dev/sdb
+
+
+Per veure l’ajuda dins fdisk, premer m.
+
+Crear una nova partició:
+
+Premer n per a crear una nova partició.
+
+Tipus de partició:
+
+p → Primary (partició principal)
+
+e → Extended (contenidor per a particions lògiques)
+Seleccionem p.
+
+Número de partició: 1 (per defecte).
+
+Acceptar la mida per defecte (tota la capacitat disponible, 15 GB).
+
+Finalment, escriure els canvis i sortir (w).
+
+🔹 Pas 3: Formatejar la partició
+
+Després de crear la partició, cal formatar-la amb sistema de fitxers ext4:
+
+sudo mkfs.ext4 /dev/sdb1
+<img width="806" height="276" alt="image" src="https://github.com/user-attachments/assets/4e5e0943-14f6-4f4a-b0fa-adeadc17b625" />
+
+
+------------
+### 🗂️ Creació de fitxers de prova
+Per després comprovar que els punts de restauració funcionen crearem un fitxer i un directori al Escriptori mateix.
+Per exemple:
+sudo touch hola
+sudo mkdir adeu
+
+### ⚙️ Instal·lació del Timeshift
+
+Obrir la terminal i obtenim permisos d’administrador:
 sudo su
 
-
-Instal·lar Timeshift:
-
+Instal·lar Timeshift amb la comanda:
 apt install timeshift
 <img width="811" height="148" alt="image" src="https://github.com/user-attachments/assets/9fb4b301-4af9-4204-b48d-63787a14f85a" />
 
 
 Iniciar Timeshift.
-Configurar la freqüència de les còpies segons preferència (diària, setmanal, etc.) i seleccionar el disc de 15 GB com a destinació.
+Triem el tipus d'instància
+<img width="1312" height="853" alt="Captura de pantalla de 2025-10-07 12-57-26" src="https://github.com/user-attachments/assets/a6eca57b-05ce-4dc7-9267-0bf53b558d07" />
+
+Seleccionem la ubicacó de la instància. En aquest cas he seleccionat el disc sdb1 que hem creat abans.
+<img width="1312" height="853" alt="Captura de pantalla de 2025-10-07 12-57-55" src="https://github.com/user-attachments/assets/3bdb4478-26d0-41aa-9d69-7d7647edd474" />
+
+Seleccionem els nivells de les instantànies segons preferència (a l'arrencada, diària, setmanal, etc.)
+<img width="1312" height="853" alt="Captura de pantalla de 2025-10-07 12-59-02" src="https://github.com/user-attachments/assets/c48fa450-5902-4a5e-885f-b87f9e8c5774" />
+
+Configurem quins directoris volem incloure o excloure de la instanània. En aquest cas he exclos el directori root i he inclos tots els arxius del directori home.
+<img width="1312" height="853" alt="Captura de pantalla de 2025-10-07 12-59-44" src="https://github.com/user-attachments/assets/f78a7938-d0db-4f35-8a0b-e6365d5d197c" />
 
 ###  Verificació
 
-Per comprovar el funcionament, es poden crear o eliminar fitxers de prova.
-Per exemple, eliminem els fitxers hola i adeu:
-
-sudo rm hola
-sudo rm -r adeu
+Un cop acabada de configurar reinciem el sistema per comprovar que la instanània s'ha configurat bé. Les instanànies d'arrencada es creen 10 minuts després d'inicar el sistema per tant ens es
 
 
-Després, podem utilitzar Timeshift per restaurar el sistema i verificar que els fitxers tornen a aparèixer.
+
+
+
 
 ## 🌐 CONFIGURACIÓ DE XARXA
 
