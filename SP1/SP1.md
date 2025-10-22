@@ -225,10 +225,12 @@ sudo mkfs.ext4 /dev/sdb1
 
 ------------
 ### 🗂️ Creació de fitxers de prova
-Per després comprovar que els punts de restauració funcionen crearem un fitxer i un directori al Escriptori mateix.
+Per a després comprovar que els punts de restauració funcionen crearem un fitxer i un directori al Escriptori mateix.
 Per exemple:
 sudo touch hola
 sudo mkdir adeu
+<img width="600" height="120" alt="image" src="https://github.com/user-attachments/assets/6a4f0f3d-669b-4d5f-8859-61bf2a8af957" />
+
 
 ### ⚙️ Instal·lació del Timeshift
 
@@ -255,9 +257,17 @@ Configurem quins directoris volem incloure o excloure de la instanània. En aque
 
 ###  Verificació
 
-Un cop acabada de configurar reinciem el sistema per comprovar que la instanània s'ha configurat bé. Les instanànies d'arrencada es creen 10 minuts després d'inicar el sistema per tant ens es
+Un cop acabada de configurar reinciem el sistema per comprovar que la instanània s'ha configurat bé. Les instanànies d'arrencada es creen 10 minuts després d'inicar el sistema per tant ens esperem a que la faci.
+Obrim el timeshift i comprovem que s'hagi creat la instantània
+<img width="1312" height="853" alt="Captura de pantalla de 2025-10-07 13-04-26" src="https://github.com/user-attachments/assets/9bfaedd9-e4db-4eea-a801-010a925d21b7" />
 
 
+Després eliminem el fitxer i directori de prova que hem creat abans a l'Escriptori
+sudo rm hola 
+sudo rm -r adeu
+
+Restaurem la instanània i comprovem que l'arxiu i el directori de prova s'han restaurat
+<img width="1240" height="825" alt="Captura de pantalla de 2025-10-07 13-10-25" src="https://github.com/user-attachments/assets/533a916c-7128-4f55-aafa-50e2e0c5a60e" />
 
 
 
