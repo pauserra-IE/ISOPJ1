@@ -270,11 +270,11 @@ Restaurem la instanània i comprovem que l'arxiu i el directori de prova s'han r
 <img width="1240" height="825" alt="Captura de pantalla de 2025-10-07 13-10-25" src="https://github.com/user-attachments/assets/533a916c-7128-4f55-aafa-50e2e0c5a60e" />
 
 
-
+------------
 
 ## 🌐 CONFIGURACIÓ DE XARXA
 
-A continuació es configura la xarxa de la màquina virtual per utilitzar una IP manual mitjançant Netplan.
+A continuació es configura la xarxa de la màquina virtual per utilitzar una IP manual.
 
 ⚙️ Paràmetres de xarxa
 
@@ -283,35 +283,52 @@ Obrir la configuració de VirtualBox i establir l’adaptador de xarxa en mode P
 
 Iniciar la màquina virtual.
 
-Configurar una IP manual editant el fitxer de configuració de Netplan.
+### 🌐 Opció 1: Configuració d’una IP manual des de la interfície gràfica d’Ubuntu
 
-📄 Editar Netplan
+A més de fer-ho per terminal amb Netplan, també és possible configurar una IP estàtica des dels paràmetres de xarxa d’Ubuntu mitjançant la interfície gràfica.
 
-Obrir el fitxer de configuració (pot variar segons la versió, per exemple: /etc/netplan/01-network-manager-all.yaml):
+
+Anem a Paràmetres i a la barra lateral, seleccionem Xarxa
+
+Si estem connectats per cable, fem clic a la icona ⚙️ de cablejat
+
+Si és una connexió Wi-Fi, fem el mateix sobre la xarxa sense fils activa.
+
+A la pestanya IPv4, canviem el mode de Automàtic (DHCP) a Manual.
+
+Omplim els camps següents amb la configuració desitjada:
+
+<img width="1275" height="806" alt="Captura de pantalla de 2025-10-07 13-42-34" src="https://github.com/user-attachments/assets/9f2b5e17-c940-432a-bfef-bef884a74c3c" />
+
+
+Seleccionem Aplica per desar la configuració.
+
+Provem amb un ping 
+<img width="1241" height="788" alt="Captura de pantalla de 2025-10-07 13-43-31" src="https://github.com/user-attachments/assets/03e7d2fe-079f-4760-b09d-c85d6a45e5f2" />
+
+### 📄 Opció 2: Configurar una IP manual editant el fitxer de configuració de Netplan.
+
+Obrir el fitxer de configuració amb la comanda
 
 sudo nano /etc/netplan/01-network-manager-all.yaml
 
 
 Modificar el fitxer per definir una IP estàtica. Exemple:
-
+<img width="1121" height="729" alt="Captura de pantalla de 2025-10-07 13-59-48" src="https://github.com/user-attachments/assets/053d3f08-2867-4cae-ab95-a4fc8e2d510d" />
 
 Desar els canvis i aplicar la configuració:
 
 sudo netplan apply
 
-🖼️ Captures de comprovació
+Comprovem amb un ping
 
-Afegir una captura amb la configuració IP mostrant la nova adreça assignada.
+<img width="1121" height="729" alt="Captura de pantalla de 2025-10-07 14-07-07" src="https://github.com/user-attachments/assets/9cafa21a-c34b-4fbd-9217-0fc29600bf8d" />
 
-Afegir una captura de ping demostrant la connectivitat amb altres dispositius o amb Internet.
 
-✅ Verificació final
-
-Per comprovar que la xarxa funciona correctament, executar:
-
-ping
-
+------------
 
 
 ## COMANDES GENERALS I INSTAL·LACIONS
+
+
 
