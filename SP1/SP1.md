@@ -340,33 +340,30 @@ APT, Aptitude, DPKG i la gestió de repositoris.
 APT (Advanced Package Tool) és el gestor de paquets principal d’Ubuntu i permet instal·lar, actualitzar o eliminar programes des de la línia d’ordres.
 
 🔹 Actualitzar repositoris i sistema
-sudo apt update
-sudo apt upgrade
+sudo apt update (actualitza la llista de paquets disponibles segons el fitxer /etc/apt/sources.list.)
+<img width="816" height="230" alt="image" src="https://github.com/user-attachments/assets/c628b5d8-10c7-4486-b713-49ae7c82271e" />
 
-
-apt update actualitza la llista de paquets disponibles segons el fitxer /etc/apt/sources.list.
-<img width="805" height="170" alt="image" src="https://github.com/user-attachments/assets/b608795d-13f8-490e-b80f-988a4defeb33" />
-
-apt upgrade instal·la les noves versions disponibles sense afegir nous paquets.
+sudo apt upgrade (instal·la les noves versions disponibles sense afegir nous paquets)
+<img width="827" height="130" alt="image" src="https://github.com/user-attachments/assets/70687aeb-b1c4-466a-b452-bb5a11d2faee" />cclear
 
 🔹 Instal·lar Audacity
 sudo apt install audacity
-<img width="1105" height="908" alt="image" src="https://github.com/user-attachments/assets/1b682fe5-a07b-439e-96a7-6fb612bc92f4" />
+<img width="1041" height="669" alt="image" src="https://github.com/user-attachments/assets/2c26665f-bf17-4f1a-8bac-3806c1c4f51b" />
 
 🔹 Verificar dependències
 apt-cache depends audacity
-<img width="490" height="811" alt="image" src="https://github.com/user-attachments/assets/a574ac14-2e1b-445c-b4a4-9b89b1c0bf2f" />
+<img width="820" height="587" alt="image" src="https://github.com/user-attachments/assets/3a1aab20-e472-4084-bdc1-ffc12dcba73a" />
 
 🔹 Desinstal·lar Audacity
 sudo apt remove audacity
-<img width="1106" height="402" alt="image" src="https://github.com/user-attachments/assets/a1c0eff8-c21e-4b7a-b153-6d67d72e9893" />
 
 🔹 Eliminar completament (fitxers de configuració inclosos)
 sudo apt purge audacity
+<img width="820" height="587" alt="image" src="https://github.com/user-attachments/assets/ecdea8aa-442a-49a9-adcc-a02ac4a828b9" />
 
 🔹 Netejar el sistema
 sudo apt autoremove
-<img width="922" height="206" alt="image" src="https://github.com/user-attachments/assets/5fa7bbb2-929e-4422-92f5-5126916df9e6" />
+<img width="815" height="145" alt="image" src="https://github.com/user-attachments/assets/72833c21-86da-45bb-84af-2dc683df0146" />
 
 sudo apt clean
 Això elimina paquets que ja no s’utilitzen i fitxers descarregats.
@@ -377,16 +374,19 @@ Aptitude és una interfície avançada (en mode text o gràfic) que utilitza APT
 
 🔹 Instal·lar Aptitude
 sudo apt install aptitude
+<img width="804" height="317" alt="image" src="https://github.com/user-attachments/assets/af8dfced-76f5-46a4-aa86-b0bf1ecdac91" />
 
 🔹 Instal·lar Audacity amb Aptitude
 sudo aptitude install audacity
+<img width="801" height="454" alt="image" src="https://github.com/user-attachments/assets/7b39bef1-62bd-4d1a-a7a4-318323b30724" />
 
 🔹 Desinstal·lar Audacity
 sudo aptitude remove audacity
 
+
 🔹 Eliminar completament Audacity i configuracions
 sudo aptitude purge audacity
-
+<img width="810" height="221" alt="image" src="https://github.com/user-attachments/assets/2ff90393-b45f-4ced-b803-227c906a9fbf" />
 
 Aptitude recorda les dependències instal·lades i pot eliminar-les automàticament si ja no són necessàries.
 
@@ -397,53 +397,73 @@ Permet instal·lar paquets .deb de manera directa, sense necessitat d’Internet
 
 🔹 Instal·lar un paquet .deb
 
-Primer cal descarregar el paquet manualment:
+Primer cal descarregar el paquet
 
+Després anem al directori on ens em baixat el paquet i executem aquesta comanda
 sudo dpkg -i audacity_*.deb
+<img width="949" height="137" alt="image" src="https://github.com/user-attachments/assets/b400756a-ec14-4835-aa59-96aced03ebe6" />
+
+Si es produeix un error per dependències trencades com ha passat amb l'audacity, podem arreglar-ho amb
+sudo apt --fix-broken install
+<img width="810" height="221" alt="image" src="https://github.com/user-attachments/assets/2ff90393-b45f-4ced-b803-227c906a9fbf" />
 
 🔹 Consultar informació del paquet
 dpkg -s audacity
+<img width="978" height="321" alt="image" src="https://github.com/user-attachments/assets/fdb8f097-1a52-464f-90b5-0d9a2eecda84" />
 
 🔹 Desinstal·lar el paquet
 sudo dpkg -r audacity
 
 🔹 Eliminar completament (incloent configuració)
 sudo dpkg -P audacity
+<img width="804" height="175" alt="image" src="https://github.com/user-attachments/assets/a76047be-cee4-46dc-a08d-30c77b7b6128" />
 
 
-Si es produeix un error per dependències trencades, podem arreglar-ho amb:
 
-sudo apt --fix-broken install
+
 
 🌍 4. Gestió de repositoris
 
-Els repositoris són els llocs d’on APT descarrega els paquets. Ubuntu utilitza diferents tipus:
+A Ubuntu, els repositoris són les fonts oficials o externes des d’on es poden descarregar i instal·lar paquets.
+Aquests repositoris estan definits al seguent arxiu i permeten afegir tant fonts oficials com repositoris personalitzats.
 
-Tipus	Descripció
-main	Programari lliure mantingut oficialment per Canonical
-restricted	Programari propietari suportat per Canonical
-universe	Programari lliure mantingut per la comunitat
-multiverse	Programari no lliure (pot tenir restriccions legals o de llicència)
-🔹 Afegir un nou repositori manualment
-
-Obrim el fitxer de repositoris:
-
-sudo nano /etc/apt/sources.list
+sudo nano /etc/apt/sources.list.d/ubuntu.sources
 
 
-Afegim una línia similar (segons la versió d’Ubuntu):
+Afegim una nova entrada amb el següent format:
 
-deb http://archive.ubuntu.com/ubuntu noble universe
+Types: deb
+URIs: http://archive.ubuntu.com/ubuntu/
+Suites: noble noble-updates noble-backports
+Components: main restricted universe multiverse
+Architectures: amd64
+<img width="816" height="325" alt="image" src="https://github.com/user-attachments/assets/9b6f5629-9460-46f9-a719-ebfb2d59f589" />
 
 
-Guardem, tanquem i actualitzem:
+🔸 Aquesta línia exemplifica com podríem afegir un repositori personalitzat, però en aquest cas utilitzarem els repositoris oficials per instal·lar el paquet audacity.
 
-sudo apt-get update
+Guardem els canvis (Ctrl + O, Enter, Ctrl + X) i actualitzem la llista de paquets:
 
+sudo apt update
 
-Instal·lem el paquet:
+🔹 Instal·lació d’Audacity des dels repositoris oficials
 
-sudo apt-get install audacity
+Un cop actualitzada la informació dels repositoris, podem instal·lar Audacity directament utilitzant el repositori oficial d’Ubuntu (que ja inclou el component universe).
+
+sudo apt install audacity
+<img width="816" height="325" alt="image" src="https://github.com/user-attachments/assets/f300f8e4-38c9-45e5-a620-270cfe441e9f" />
+
+🔹 Eliminació del paquet
+
+Només el programa:
+
+sudo apt remove audacity
+
+Programa i fitxers de configuració:
+
+sudo apt purge audacity
+<img width="949" height="138" alt="image" src="https://github.com/user-attachments/assets/e3a990a1-7abf-408e-a2db-5f7181ff6664" />
+
 
 ✅ Conclusió
 
