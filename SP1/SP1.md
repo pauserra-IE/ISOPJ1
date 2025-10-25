@@ -328,7 +328,133 @@ Comprovem amb un ping
 ------------
 
 
+
+
 ## COMANDES GENERALS I INSTAL·LACIONS
 
+En aquest apartat veurem com instal·lar i desinstalar un paquet (per exemple Audacity) utilitzant diferents eines disponibles al sistema:
+APT, Aptitude, DPKG i la gestió de repositoris.
+
+### 1. Instal·lació i desinstal·lació amb APT
+
+APT (Advanced Package Tool) és el gestor de paquets principal d’Ubuntu i permet instal·lar, actualitzar o eliminar programes des de la línia d’ordres.
+
+🔹 Actualitzar repositoris i sistema
+sudo apt update
+sudo apt upgrade
+
+
+apt update actualitza la llista de paquets disponibles segons el fitxer /etc/apt/sources.list.
+<img width="805" height="170" alt="image" src="https://github.com/user-attachments/assets/b608795d-13f8-490e-b80f-988a4defeb33" />
+
+apt upgrade instal·la les noves versions disponibles sense afegir nous paquets.
+
+🔹 Instal·lar Audacity
+sudo apt install audacity
+<img width="1105" height="908" alt="image" src="https://github.com/user-attachments/assets/1b682fe5-a07b-439e-96a7-6fb612bc92f4" />
+
+🔹 Verificar dependències
+apt-cache depends audacity
+<img width="490" height="811" alt="image" src="https://github.com/user-attachments/assets/a574ac14-2e1b-445c-b4a4-9b89b1c0bf2f" />
+
+🔹 Desinstal·lar Audacity
+sudo apt remove audacity
+<img width="1106" height="402" alt="image" src="https://github.com/user-attachments/assets/a1c0eff8-c21e-4b7a-b153-6d67d72e9893" />
+
+🔹 Eliminar completament (fitxers de configuració inclosos)
+sudo apt purge audacity
+
+🔹 Netejar el sistema
+sudo apt autoremove
+<img width="922" height="206" alt="image" src="https://github.com/user-attachments/assets/5fa7bbb2-929e-4422-92f5-5126916df9e6" />
+
+sudo apt clean
+Això elimina paquets que ja no s’utilitzen i fitxers descarregats.
+
+🧮 2. Instal·lació i desinstal·lació amb APTITUDE
+
+Aptitude és una interfície avançada (en mode text o gràfic) que utilitza APT, però gestiona millor les dependències.
+
+🔹 Instal·lar Aptitude
+sudo apt install aptitude
+
+🔹 Instal·lar Audacity amb Aptitude
+sudo aptitude install audacity
+
+🔹 Desinstal·lar Audacity
+sudo aptitude remove audacity
+
+🔹 Eliminar completament Audacity i configuracions
+sudo aptitude purge audacity
+
+
+Aptitude recorda les dependències instal·lades i pot eliminar-les automàticament si ja no són necessàries.
+
+📦 3. Instal·lació i desinstal·lació amb DPKG
+
+DPKG és el gestor de paquets de baix nivell utilitzat per APT.
+Permet instal·lar paquets .deb de manera directa, sense necessitat d’Internet.
+
+🔹 Instal·lar un paquet .deb
+
+Primer cal descarregar el paquet manualment:
+
+sudo dpkg -i audacity_*.deb
+
+🔹 Consultar informació del paquet
+dpkg -s audacity
+
+🔹 Desinstal·lar el paquet
+sudo dpkg -r audacity
+
+🔹 Eliminar completament (incloent configuració)
+sudo dpkg -P audacity
+
+
+Si es produeix un error per dependències trencades, podem arreglar-ho amb:
+
+sudo apt --fix-broken install
+
+🌍 4. Gestió de repositoris
+
+Els repositoris són els llocs d’on APT descarrega els paquets. Ubuntu utilitza diferents tipus:
+
+Tipus	Descripció
+main	Programari lliure mantingut oficialment per Canonical
+restricted	Programari propietari suportat per Canonical
+universe	Programari lliure mantingut per la comunitat
+multiverse	Programari no lliure (pot tenir restriccions legals o de llicència)
+🔹 Afegir un nou repositori manualment
+
+Obrim el fitxer de repositoris:
+
+sudo nano /etc/apt/sources.list
+
+
+Afegim una línia similar (segons la versió d’Ubuntu):
+
+deb http://archive.ubuntu.com/ubuntu noble universe
+
+
+Guardem, tanquem i actualitzem:
+
+sudo apt-get update
+
+
+Instal·lem el paquet:
+
+sudo apt-get install audacity
+
+✅ Conclusió
+
+Cada eina (APT, Aptitude, DPKG i Repositoris) permet gestionar el programari d’Ubuntu amb diferents nivells de control:
+
+APT és el més comú i pràctic per ús diari.
+
+Aptitude ofereix una millor gestió automàtica de dependències.
+
+DPKG s’utilitza per instal·lacions manuals de fitxers .deb.
+
+Repositoris determinen d’on provenen els paquets i quin programari està disponible.
 
 
