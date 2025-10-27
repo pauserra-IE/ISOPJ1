@@ -97,10 +97,12 @@ ls /mnt/p1
 e4defrag -c /home
 esta eina et diu si necessita desfragmentar
 
+<img width="1217" height="624" alt="image" src="https://github.com/user-attachments/assets/6ff20bcb-24fb-4a17-81fa-cc19cb2c927c" />
 
 
 si cal fragmentar es la comanda
 e4defrag /home
+<img width="1192" height="678" alt="image" src="https://github.com/user-attachments/assets/36d4caba-d735-47c3-bab4-9add5dc3606f" />
 
 
 
