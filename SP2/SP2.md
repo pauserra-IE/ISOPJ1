@@ -68,12 +68,154 @@ estan totes les contrasenyes dels usuaris i tot el que fa referència a la caduc
 tot el que fa referencia als passwords dels grups. 
 <img width="872" height="768" alt="image" src="https://github.com/user-attachments/assets/5287c296-fb08-4f95-ba1e-c3285f4699bb" />
 
+4t fitxers
 i tambe podem veure els usuaris que formen part d'un grup 
 
 pero a diferencia del /etc/group , aqui es l'unic lloc on veurem qui es l'usuari administrador d'un grup
 <img width="863" height="693" alt="image" src="https://github.com/user-attachments/assets/738696e1-202e-4ad4-8e82-f538ec734585" />
 
-<img width="863" height="693" alt="image" src="https://github.com/user-attachments/assets/13cec16f-689f-4223-bfdc-ec23868ea5d2" />
+
+
+
+COMANDES BASIQUES 
+COMANDA
+adduser
+
+<img width="810" height="642" alt="image" src="https://github.com/user-attachments/assets/1a5fccc3-0752-4e28-9b39-65e79d7ba25b" />
+
+les carpetes del home es creen una vegada l'usuari inicia sessio amb la interficie gràfica
+<img width="605" height="118" alt="image" src="https://github.com/user-attachments/assets/8b7dac62-21f7-43b3-a7ae-93543b8dab8b" />
+
+COMANDA 2
+useradd gina 2
+passwd 
+
+
+<img width="613" height="144" alt="image" src="https://github.com/user-attachments/assets/40d3752c-9dff-464d-8c10-0113bcdbf202" />
+
+
+usermod -s /bin/bash gina2
+
+ls
+
+
+mkdir gina2
+ls -l
+
+
+
+<img width="716" height="396" alt="image" src="https://github.com/user-attachments/assets/a6de74cb-c9ba-48d6-99bb-1d5f751de42b" />
+
+chown gina2:gina2 gina2
+<img width="667" height="24" alt="image" src="https://github.com/user-attachments/assets/8c18b30f-9526-4369-973b-dd316509ff68" />
+
+
+
+
+
+<img width="616" height="117" alt="image" src="https://github.com/user-attachments/assets/c06b4626-50d9-4a0a-a0c8-d028624c5b1e" />
+
+
+<img width="810" height="228" alt="image" src="https://github.com/user-attachments/assets/84c32c7b-699b-4844-9e2d-7808725db6da" />
+
+comanda deluser i userdel (arreglar)
+<img width="625" height="146" alt="image" src="https://github.com/user-attachments/assets/a327b10f-517b-4133-bee0-a7922bcb9a85" />
+
+
+
+comanda bloquejar i desbloquejar l'usuari
+cat /etc/shadow | grep gina
+
+
+
+
+
+
+
+
+
+afegim 4 usuaris ivan,pau,iker,aaron
+<img width="781" height="184" alt="image" src="https://github.com/user-attachments/assets/0d42870a-b58e-48b0-9f32-52ac603812c8" />
+
+
+groupmod -n asix asixb
+cat /etc/group | grep asix
+
+
+groupdel asix
+cat /etc/group | grep asix
+
+
+
+
+addgroup asix1r
+
+
+
+3 mnaeres d'afegir usuaris a un grup
+
+metode 1:
+adduser ivan asix1r
+
+
+metode 2
+
+gpasswd -a pau asix1r
+
+
+
+metode 3:
+usermod -a -G asix1r iker
+
+
+
+per comprovar que els hem afegit fem:
+cat /etc/group |grep asix1r
+
+
+
+gpasswd -A aaron asix1r
+cat /etc/group cat /etc/group |grep asix1r
+
+
+cat /etc/gshadow |grep asix1r
+
+surt pero entre dos punts pq esta com a administrador : aaron :
+
+
+per a eliminarlo 
+gpasswd -d aaron 
+
+
+
+
+podem borrar un grup encara que el grup tingui usuaris amb 
+groupdel  asix1r
+cat /etc/group | grep asix1r
+
+pero els usuaris no s'eliminen
+
+
+
+
+addgroup hola
+
+
+
+usermod -g hola ivan
+
+cat /etc/group | grep hola
+no esta
+cat /etc/gshadow | grep asix1r
+tampoc esta
+
+per tant amb aquesta comanda estem canviant el grup principal 
+
+modifica el grup principal de l'usuari
+
+comprovar amb un cat /etc/passed
+
+
 
 
 -----------
