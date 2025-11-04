@@ -38,7 +38,45 @@ title: "Sprint 2: Instal·lació, Configuració de Programari de Base i Gestió 
     
     
 ## Gestió de processos
+-----------
 ## Gestió d’usuaris i grups i permisos
+Obrim una terminal en sudo su
+04/11/25
+sudo apt install gnome-system-tools
+
+busquem usuaris al menu de cerca d'ubuntu
+
+Es una alternativa per poder gestionar gràficament els usuaris i grups
+<img width="909" height="725" alt="image" src="https://github.com/user-attachments/assets/a078a584-dc04-4966-8ba8-667e930d5ea5" />
+
+Fixers implicats:
+1r fitxer  /etc/passwd
+<img width="872" height="768" alt="image" src="https://github.com/user-attachments/assets/33919886-e31d-4d61-a025-799319b8e33d" />
+
+explicar cada camp de la linia de usuari pauserra  (com ara que el numero 1000 que va canviant segons l'usuari  etc) 
+
+explicar que es l'interpret
+
+2n fitxer /etc/group
+<img width="872" height="768" alt="image" src="https://github.com/user-attachments/assets/5c6bfb4f-8955-44c5-a82b-d23e47d9ab13" />
+
+
+3r fitxer
+
+estan totes les contrasenyes dels usuaris i tot el que fa referència a la caducitat de les contrasenyes
+
+tot el que fa referencia als passwords dels grups. 
+<img width="872" height="768" alt="image" src="https://github.com/user-attachments/assets/5287c296-fb08-4f95-ba1e-c3285f4699bb" />
+
+i tambe podem veure els usuaris que formen part d'un grup 
+
+pero a diferencia del /etc/group , aqui es l'unic lloc on veurem qui es l'usuari administrador d'un grup
+<img width="863" height="693" alt="image" src="https://github.com/user-attachments/assets/738696e1-202e-4ad4-8e82-f538ec734585" />
+
+<img width="863" height="693" alt="image" src="https://github.com/user-attachments/assets/13cec16f-689f-4223-bfdc-ec23868ea5d2" />
+
+
+-----------
 ## Còpies de seguretat i automatització de tasques
 ## Quotes d’usuari
 -----------
@@ -80,6 +118,7 @@ comanda  tune + (FALTA obrir el gparted)
 <img width="821" height="212" alt="image" src="https://github.com/user-attachments/assets/1b72434c-b3f1-480d-9344-ef6f46b1b725" />
 
 
+
 aqui explicar que hem creat l'enllaç  que apunta a un altre disco i explicar perque surt el lost+found
 <img width="963" height="602" alt="image" src="https://github.com/user-attachments/assets/f31800c3-f077-43ad-b2e9-f0defb2cf26b" />
 
@@ -103,6 +142,7 @@ esta eina et diu si necessita desfragmentar
 si cal fragmentar es la comanda
 e4defrag /home
 <img width="1192" height="678" alt="image" src="https://github.com/user-attachments/assets/36d4caba-d735-47c3-bab4-9add5dc3606f" />
+
 
 
 
