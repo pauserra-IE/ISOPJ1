@@ -306,7 +306,7 @@ e4defrag /home
 17/11/25
 
 
-
+Afegim aquests 4 usuaris
 adduser blau
 adduser roig
 adduser groc
@@ -314,55 +314,57 @@ adduser verd
 
 
 cat /etc/shadow | tail -4
-addgroup dames
+<img width="809" height="137" alt="image" src="https://github.com/user-attachments/assets/bafb8fa9-2604-45ff-b94d-9eb2cd46c335" />
+Serveix per mostrar les últimes 4 línies del fitxer /etc/shadow. Aquest fitxer conté informació sensible sobre les contrasenyes dels usuaris del sistema, com ara les contrasenyes encriptades, les dates d'expiració, etc.
+
+Creem un grup
+<img width="634" height="81" alt="image" src="https://github.com/user-attachments/assets/0543e25a-d1b4-4c26-b1b6-c059736318c6" />
+Si ens hem equivocat de nom podem modificar-lo amb la comanda:
 groupmod -n parchis dames
 
-CAPTURA
 
-
+Afegim els usuaris al grup parchis. Podem utilitzar les seguents comandes:
 gpasswd -a roig parchis
 usermod -a -G parchis verd
 adduser groc parchis
-cat /etc/group | grep parchis
+<img width="752" height="158" alt="image" src="https://github.com/user-attachments/assets/d5bbd7cb-577f-46ed-b50b-e7c058f4d939" />
+
+Ara provarem d'eliminar alguns usuaris del grup. Podem utilitzar les seguents comandes:
 gpasswd -d roig parchis
-delyser verd parchis
-cat /etc/group |grep parchis
-CAPTURA
+deluser verd parchis
+<img width="709" height="155" alt="image" src="https://github.com/user-attachments/assets/aeea39ce-2232-4f23-8344-a2632219267b" />
 
-cat /etc/group | grep parchis
+<img width="742" height="70" alt="image" src="https://github.com/user-attachments/assets/d8572704-9b7b-4e17-8a30-9206b065f49e" />
+
+Ara executarem la comanda
 usermod -g parchis roig
-cat /etc/group | grep parchis (nomes ens surt groc ja que 
-
-CAPTURA
-EXPLCICACIÓ:la comanda -g serveix per modificar el grup prinicipal de l'usuari. Un usuari nomes té un grup principal pero pot formar part de molts de grups 
+<img width="742" height="70" alt="2025-11-17_13-02" src="https://github.com/user-attachments/assets/55123161-054f-4db2-abad-e65e7856a07a" />
+EXPLCICACIÓ: usermod -g serveix per modificar el grup prinicipal de l'usuari. Un usuari nomes té un grup principal pero pot formar part de molts de grups 
 El grup principal es pot establir de manera fixa com aquesta comanda o de manera temporal.
 
 
+Ara provarem d'eliminar el grup amb la comanda
 groupdel parchis
-CAPTURA
-EXPLICACIÓ: sempre es pot eliminar un grup pero si el grup es el grup principal de l'usuari no es pot esborrar
+<img width="684" height="74" alt="image" src="https://github.com/user-attachments/assets/284b726f-e888-4c3d-9f12-27cb7938e2e7" />
+
+EXPLICACIÓ: Sempre es pot eliminar un grup pero si el grup es el grup principal de l'usuari no es pot esborrar, per aixo ens salta l'error.
 
 
-
-EXPLICACIÓ PISSARRA
-/etc/skel                     (AFECTA adduser)
-/etc/adduser.cont             (AFECTA adduser)
-/etc/login.defs               (AFECTA adduser,useradd)
-/etc/default/useradd          (AFECTA useradd)
-
+#### Prova de Comandes per a la Creació i Configuració d'Usuaris amb adduser i useradd
+/etc/skel: Conté els arxius predeterminats per als nous usuaris (afecta adduser).
+/etc/adduser.conf: Configura el comportament de adduser per a la creació d'usuaris (afecta adduser).
+/etc/login.defs: Estableix paràmetres globals per a la creació d'usuaris i gestió de contrasenyes (afecta adduser i useradd).
+/etc/default/useradd: Configura els valors per defecte en crear usuaris amb useradd (afecta useradd).
 
 
 
 cd /etc/skel/
 ls -la
-
 mkdir prova
 touch hola
 ls -la
-CAPTURA
-EXPLICACIÓ:Tot el que possesim aquest directori es posara a la carpeta home amb la comanda add user 
-
-
+<img width="627" height="420" alt="image" src="https://github.com/user-attachments/assets/701b7d3a-d73d-4917-8649-c8796d2821b4" />
+EXPLICACIÓ:Tot el que es troba dins del directori /etc/skel/ es copiarà automàticament al directori personal de qualsevol nou usuari creat mitjançant la comanda adduser. Això inclou fitxers i subdirectoris com el que acabem de crear. Per exemple, si creem un nou usuari, el directori prova i el fitxer hola es copiaran al directori home d'aquest usuari.
 
 
 nano/etc/adduser.conf
@@ -445,6 +447,8 @@ EXPLICACIÓ
 
 
 adduser rosa
+<img width="817" height="279" alt="image" src="https://github.com/user-attachments/assets/b1bc51c7-1cca-47a9-8dc3-47d1845daabc" />
+
 
 ctrl+f5
 mos logegem en rosa
