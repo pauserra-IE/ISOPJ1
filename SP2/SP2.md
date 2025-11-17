@@ -368,8 +368,9 @@ EXPLICACIÓ:Tot el que es troba dins del directori /etc/skel/ es copiarà autom�
 
 
 nano/etc/adduser.conf
-
+<img width="821" height="581" alt="image" src="https://github.com/user-attachments/assets/dcfd72ce-4de2-4f2e-ad81-7392dee2ef37" />
 afegir /var i uid 3000 5000 o algo aixi
+
 CAPTURA
 
 
