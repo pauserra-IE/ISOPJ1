@@ -288,3 +288,179 @@ e4defrag /home
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+17/11/25
+
+
+
+adduser blau
+adduser roig
+adduser groc
+adduser verd
+
+
+cat /etc/shadow | tail -4
+addgroup dames
+groupmod -n parchis dames
+
+CAPTURA
+
+
+gpasswd -a roig parchis
+usermod -a -G parchis verd
+adduser groc parchis
+cat /etc/group | grep parchis
+gpasswd -d roig parchis
+delyser verd parchis
+cat /etc/group |grep parchis
+CAPTURA
+
+cat /etc/group | grep parchis
+usermod -g parchis roig
+cat /etc/group | grep parchis (nomes ens surt groc ja que 
+
+CAPTURA
+EXPLCICACIÓ:la comanda -g serveix per modificar el grup prinicipal de l'usuari. Un usuari nomes té un grup principal pero pot formar part de molts de grups 
+El grup principal es pot establir de manera fixa com aquesta comanda o de manera temporal.
+
+
+groupdel parchis
+CAPTURA
+EXPLICACIÓ: sempre es pot eliminar un grup pero si el grup es el grup principal de l'usuari no es pot esborrar
+
+
+
+EXPLICACIÓ PISSARRA
+/etc/skel                     (AFECTA adduser)
+/etc/adduser.cont             (AFECTA adduser)
+/etc/login.defs               (AFECTA adduser,useradd)
+/etc/default/useradd          (AFECTA useradd)
+
+
+
+
+cd /etc/skel/
+ls -la
+
+mkdir prova
+touch hola
+ls -la
+CAPTURA
+EXPLICACIÓ:Tot el que possesim aquest directori es posara a la carpeta home amb la comanda add user 
+
+
+
+
+nano/etc/adduser.conf
+
+afegir /var i uid 3000 5000 o algo aixi
+CAPTURA
+
+
+
+
+/etc/login.defs 
+canviar pass_max-days i tot aixo
+<img width="816" height="598" alt="image" src="https://github.com/user-attachments/assets/2342a2a4-ddec-402b-9b97-28fb46b7ca1b" />
+CAPTURA
+
+
+
+
+
+cd /home/
+ls
+
+ls /var
+cat /etc/passwd | grep gris
+CAPTURA
+EXPLICACIÓ: ha funcionat correctament la comanda de que la home esta alli i tenim 3000:3000
+
+cat /etc/shadow | grep gris
+CAPTURA
+EXPLICACIÓ: que ha funcionat la comanda de 
+
+
+
+ls -la /var/gris/
+CAPTURA
+EXPLICACIÓ: 
+
+
+
+
+nano /etc/default/useradd
+
+<img width="814" height="554" alt="image" src="https://github.com/user-attachments/assets/691e61ec-c6ee-4774-b405-3406f1b29bbd" />
+
+
+nano /etc/default/useradd
+useradd negre
+cat /etc/passwd | grep negre
+cat /etc/shadow | grep negre
+CAPTURA
+EXPLCIACIÓ
+
+
+
+clear
+ls -la /etc/skel/
+ls -la /home/groc
+ls -la /home/verd
+
+
+
+cd /etc/skel/
+nano .profile
+<img width="818" height="586" alt="image" src="https://github.com/user-attachments/assets/688ef91d-f479-4a86-a4c2-43850cc2ce0a" />
+CAPTURA
+EXPLICACIÓ: hem afegir PWD="/var/$USER"
+
+
+
+
+
+nano .bashr
+<img width="824" height="571" alt="image" src="https://github.com/user-attachments/assets/af184873-77f8-4f6c-ad62-4619e2b7b09f" />
+EXPLICACIÓ:hem afegit alias connexió="ls -la"
+
+
+nano .bash_logout
+<img width="812" height="301" alt="image" src="https://github.com/user-attachments/assets/dea060a4-53b8-4b28-831a-b81934964c9c" />
+EXPLICACIÓ
+
+
+adduser rosa
+
+ctrl+f5
+mos logegem en rosa
+i fem la comanda pwd
+hauria de mostrar /var/rosa
+
+ara fem un ls
+hauria de sortir snap
+
+
+
+TASQUES:
+
+prova definir algo al bashrf,al bash logout i al .profile
+i crear un nou usuari per comrpovar que s'ha afegit
+(per exemple algun dibuix en ascii o algo xulo que es mostri)
+
+
+
