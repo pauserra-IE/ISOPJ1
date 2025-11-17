@@ -367,36 +367,25 @@ ls -la
 EXPLICACIÓ:Tot el que es troba dins del directori /etc/skel/ es copiarà automàticament al directori personal de qualsevol nou usuari creat mitjançant la comanda adduser. Això inclou fitxers i subdirectoris com el que acabem de crear. Per exemple, si creem un nou usuari, el directori prova i el fitxer hola es copiaran al directori home d'aquest usuari.
 
 
-nano/etc/adduser.conf
+Ara procedim a editar el fitxer de configuració principal de adduser amb la comanda nano /etc/adduser.conf.
+
+Un cop a dins, aquí establim un nou rang per als identificadors d'usuari (UID) i de grup (GID) del sistema. L'objectiu és que els nous usuaris no comencin a comptar des del 1000, sinó des del 3000.
 <img width="821" height="581" alt="image" src="https://github.com/user-attachments/assets/dcfd72ce-4de2-4f2e-ad81-7392dee2ef37" />
-afegir /var i uid 3000 5000 o algo aixi
-
-CAPTURA
-
 
 
 
 /etc/login.defs 
-canviar pass_max-days i tot aixo
+Aqui establim cada quant volem que expire la contrasenya
 <img width="816" height="598" alt="image" src="https://github.com/user-attachments/assets/2342a2a4-ddec-402b-9b97-28fb46b7ca1b" />
-CAPTURA
 
 
 
-
-
-cd /home/
-ls
 
 ls /var
 cat /etc/passwd | grep gris
-CAPTURA
-EXPLICACIÓ: ha funcionat correctament la comanda de que la home esta alli i tenim 3000:3000
+<img width="624" height="111" alt="image" src="https://github.com/user-attachments/assets/3af92494-b3bb-4159-af26-53cb4ef0e2e9" />
 
-cat /etc/shadow | grep gris
-CAPTURA
-EXPLICACIÓ: que ha funcionat la comanda de 
-
+EXPLICACIÓ: Ha funcionat el canvi d'ID: Els números 3000:3000 demostren que l'usuari gris ha agafat correctament la nova configuració (FIRST_UID=3000 i FIRST_GID=3000) que havíem establert al fitxer.
 
 
 ls -la /var/gris/
