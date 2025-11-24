@@ -67,7 +67,7 @@ estan totes les contrasenyes dels usuaris i tot el que fa referència a la caduc
 
 tot el que fa referencia als passwords dels grups. 
 <img width="872" height="768" alt="image" src="https://github.com/user-attachments/assets/5287c296-fb08-4f95-ba1e-c3285f4699bb" />
-
+º
 4t fitxers
 i tambe podem veure els usuaris que formen part d'un grup 
 
@@ -76,7 +76,7 @@ pero a diferencia del /etc/group , aqui es l'unic lloc on veurem qui es l'usuari
 
 
 
-
+11/11/25
 COMANDES BASIQUES 
 COMANDA
 adduser
@@ -123,7 +123,7 @@ comanda deluser i userdel (arreglar)
 
 
 
-comanda bloquejar i desbloquejar l'usuari
+comanda per a bloquejar i desbloquejar l'usuari
 cat /etc/shadow | grep gina
 
 
