@@ -458,3 +458,34 @@ i crear un nou usuari per comrpovar que s'ha afegit
 
 
 
+
+
+
+
+
+
+
+
+24/11/25
+
+
+<img width="628" height="115" alt="image" src="https://github.com/user-attachments/assets/856cca9e-9bbb-4666-9bca-a6d4692dac0c" />
+volem que others no puguin llegir ni modificarlo
+per tant farem els seguents canvis:
+<img width="628" height="115" alt="image" src="https://github.com/user-attachments/assets/c2ab4c30-b2e5-41a7-8ded-5e122248a16c" />
+I fem getfacl per a comprovar
+<img width="580" height="358" alt="image" src="https://github.com/user-attachments/assets/b888da8c-915d-4693-bdf7-8747550bc268" />
+
+Si de others necessitem que nomes 1 usuari pugui  llegir, escrirue i tot (per exemple l'usuari blau) fem:
+Es pot fer per usuari o per grup. ho farem per a l'usuari Roig
+<img width="645" height="242" alt="image" src="https://github.com/user-attachments/assets/37296eb8-e2b1-4321-9b00-969a6077bf23" />
+
+Creem una directori anomenat compartida
+
+<img width="720" height="445" alt="image" src="https://github.com/user-attachments/assets/54f7c174-aee3-44a3-95ba-88a4bca210b9" />
+
+Com que blau no te permisos ens surt el seguent error:
+<img width="790" height="61" alt="image" src="https://github.com/user-attachments/assets/031b3bda-9cbc-4c92-8c3b-c8463adbf38b" />
+En canvi Roig si que te permisos:
+<img width="720" height="445" alt="image" src="https://github.com/user-attachments/assets/e906fd02-e3cf-4e12-acb1-48d65c032379" />
+
