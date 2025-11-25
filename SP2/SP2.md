@@ -462,7 +462,8 @@ I fem getfacl per a comprovar
 
 Si de others necessitem que nomes 1 usuari pugui  llegir, escrirue i tot (per exemple l'usuari blau) fem:
 Es pot fer per usuari o per grup. ho farem per a l'usuari Roig
-<img width="645" height="242" alt="image" src="https://github.com/user-attachments/assets/37296eb8-e2b1-4321-9b00-969a6077bf23" />
+<img width="645" height="242" alt="image" src="https://github.com/user-attachments/assets/37296eb8-e2b1-4321-9b00-969a6077bm'he canviat la mascara temoralment
+f23" />
 
 Creem una directori anomenat compartida
 
@@ -472,4 +473,75 @@ Com que blau no te permisos ens surt el seguent error:
 <img width="790" height="61" alt="image" src="https://github.com/user-attachments/assets/031b3bda-9cbc-4c92-8c3b-c8463adbf38b" />
 En canvi Roig si que te permisos:
 <img width="720" height="445" alt="image" src="https://github.com/user-attachments/assets/e906fd02-e3cf-4e12-acb1-48d65c032379" />
+
+---------------------------------------------------------
+
+25/11/25
+
+## Permisos en Umask
+
+  - ### Valors dels Permisos
+
+    Cada permís té un valor numèric (octal) i una representació en lletra:
+
+      * **r (Read/Llegir):** 4
+      * **w (Write/Escriure):** 2
+      * **x (Execute/Executar):** 1
+      * **- (Sense permís):** 0
+
+  - ### Permisos Base (Per defecte)
+
+    El sistema assigna uns permisos màxims inicials abans d'aplicar cap filtre (umask):
+
+      * **Directoris:** `777` (`rwxrwxrwx`) -\> Necessiten la `x` per accedir-hi.
+      * **Arxius:** `666` (`rw-rw-rw-`) -\> No tenen `x` per seguretat.
+
+  - ### Què és l'Umask
+
+    És una màscara que **resta** permisos als valors base. Determina quins permisos es prohibeixen per defecte.
+    Amb la comanda `umask` podem veure la màscara actual:
+
+      * **Usuari normal:** `0002` (Permet escriptura al grup).
+      * **Root:** `0022` (Més restrictiu, prohibeix escriptura a grup i altres).
+
+    \<img width="485" height="154" alt="image" src="[https://github.com/user-attachments/assets/677e3eda-51da-4f6d-87a1-39fb35a08f26](https://github.com/user-attachments/assets/677e3eda-51da-4f6d-87a1-39fb35a08f26)" /\>
+
+  - ### Càlcul dels Permisos Finals
+
+    La fórmula és: `Permís Final = Base - Umask`.
+    *Exemple (Arxiu amb umask 002):* `666 - 002 = 664` (`rw-rw-r--`).
+    *Exemple (Carpeta amb umask 022):* `777 - 022 = 755` (`rwxr-xr-x`).
+
+  - ### Configuració Global
+
+    Si volem canviar l'umask per a **tots els usuaris**, modifiquem el fitxer `/etc/login.defs`.
+
+    \<img width="811" height="579" alt="image" src="[https://github.com/user-attachments/assets/7f0318de-c1ce-47bc-958a-34453b1b62d1](https://github.com/user-attachments/assets/7f0318de-c1ce-47bc-958a-34453b1b62d1)" /\>
+
+  - ### Configuració per Usuari
+
+    Si volem canviar-ho només per a un usuari concret, modifiquem el fitxer `.profile` (o `.bashrc`) al seu directori personal.
+
+    \<img width="811" height="579" alt="image" src="[https://github.com/user-attachments/assets/9ad49a0a-de5e-4da2-b6e5-c0c4b14ebb0e](https://github.com/user-attachments/assets/9ad49a0a-de5e-4da2-b6e5-c0c4b14ebb0e)" /\>
+
+  - ### Configuració Temporal i Prova Pràctica
+
+    Podem canviar la màscara temporalment a la sessió actual amb la comanda `umask`.
+
+    1.  **Estat inicial:** Creem directori `proves` i arxiu `proves2`. Amb `ls -l` veiem els permisos estàndard.
+
+    \<img width="664" height="267" alt="image" src="[https://github.com/user-attachments/assets/8178edd7-abb5-4416-989c-e18a725502bc](https://github.com/user-attachments/assets/8178edd7-abb5-4416-989c-e18a725502bc)" /\>
+
+    2.  **Canvi de màscara:** Executem `umask 033` (treu escriptura i execució a grup i altres).
+
+    \<img width="576" height="465" alt="image" src="[https://github.com/user-attachments/assets/e5bb9b6a-8fa8-42c0-a77a-6ade58e68aad](https://github.com/user-attachments/assets/e5bb9b6a-8fa8-42c0-a77a-6ade58e68aad)" /\>
+
+    3.  **Resultat:** En crear nous elements (amb l'usuari `prova`), veiem que s'aplica la nova restricció.
+
+    \<img width="556" height="167" alt="image" src="[https://github.com/user-attachments/assets/cc54e340-29cf-4c66-a1fc-947515a7e250](https://github.com/user-attachments/assets/cc54e340-29cf-4c66-a1fc-947515a7e250)" /\>
+
+
+
+
+
 
