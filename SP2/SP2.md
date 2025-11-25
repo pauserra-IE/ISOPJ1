@@ -478,7 +478,9 @@ En canvi Roig si que te permisos:
 
 25/11/25
 
-## Permisos en Umask
+Entesos, aquí tens el codi Markdown exacte amb les etiquetes d'imatge tal com me les has passat, sense modificar res, preparat per copiar i enganxar:
+
+## Permisos Umask
 
   - ### Valors dels Permisos
 
@@ -504,7 +506,7 @@ En canvi Roig si que te permisos:
       * **Usuari normal:** `0002` (Permet escriptura al grup).
       * **Root:** `0022` (Més restrictiu, prohibeix escriptura a grup i altres).
 
-<img width="485" height="154" alt="image" src="[https://github.com/user-attachments/assets/677e3eda-51da-4f6d-87a1-39fb35a08f26](https://github.com/user-attachments/assets/677e3eda-51da-4f6d-87a1-39fb35a08f26)" />
+    \<img width="485" height="154" alt="image" src="[https://github.com/user-attachments/assets/677e3eda-51da-4f6d-87a1-39fb35a08f26](https://github.com/user-attachments/assets/677e3eda-51da-4f6d-87a1-39fb35a08f26)" /\>
 
   - ### Càlcul dels Permisos Finals
 
@@ -515,14 +517,12 @@ En canvi Roig si que te permisos:
   - ### Configuració Global
 
     Si volem canviar l'umask per a **tots els usuaris**, modifiquem el fitxer `/etc/login.defs`.
-
-<img width="811" height="579" alt="image" src="[https://github.com/user-attachments/assets/7f0318de-c1ce-47bc-958a-34453b1b62d1](https://github.com/user-attachments/assets/7f0318de-c1ce-47bc-958a-34453b1b62d1)" />
+    \<img width="811" height="579" alt="image" src="[https://github.com/user-attachments/assets/7f0318de-c1ce-47bc-958a-34453b1b62d1](https://github.com/user-attachments/assets/7f0318de-c1ce-47bc-958a-34453b1b62d1)" /\>
 
   - ### Configuració per Usuari
 
     Si volem canviar-ho només per a un usuari concret, modifiquem el fitxer `.profile` (o `.bashrc`) al seu directori personal.
-
-<img width="811" height="579" alt="image" src="[https://github.com/user-attachments/assets/9ad49a0a-de5e-4da2-b6e5-c0c4b14ebb0e](https://github.com/user-attachments/assets/9ad49a0a-de5e-4da2-b6e5-c0c4b14ebb0e)" />
+    \<img width="811" height="579" alt="image" src="[https://github.com/user-attachments/assets/9ad49a0a-de5e-4da2-b6e5-c0c4b14ebb0e](https://github.com/user-attachments/assets/9ad49a0a-de5e-4da2-b6e5-c0c4b14ebb0e)" /\>
 
   - ### Configuració Temporal i Prova Pràctica
 
@@ -530,17 +530,15 @@ En canvi Roig si que te permisos:
 
     1.  **Estat inicial:** Creem directori `proves` i arxiu `proves2`. Amb `ls -l` veiem els permisos estàndard.
 
-<img width="664" height="267" alt="image" src="[https://github.com/user-attachments/assets/8178edd7-abb5-4416-989c-e18a725502bc](https://github.com/user-attachments/assets/8178edd7-abb5-4416-989c-e18a725502bc)" />
+    \<img width="664" height="267" alt="image" src="[https://github.com/user-attachments/assets/8178edd7-abb5-4416-989c-e18a725502bc](https://github.com/user-attachments/assets/8178edd7-abb5-4416-989c-e18a725502bc)" /\>
 
     2.  **Canvi de màscara:** Executem `umask 033` (treu escriptura i execució a grup i altres).
 
-<img width="576" height="465" alt="image" src="[https://github.com/user-attachments/assets/e5bb9b6a-8fa8-42c0-a77a-6ade58e68aad](https://github.com/user-attachments/assets/e5bb9b6a-8fa8-42c0-a77a-6ade58e68aad)" />
+    \<img width="576" height="465" alt="image" src="[https://github.com/user-attachments/assets/e5bb9b6a-8fa8-42c0-a77a-6ade58e68aad](https://github.com/user-attachments/assets/e5bb9b6a-8fa8-42c0-a77a-6ade58e68aad)" /\>
 
     3.  **Resultat:** En crear nous elements (amb l'usuari `prova`), veiem que s'aplica la nova restricció.
 
-<img width="556" height="167" alt="image" src="[https://github.com/user-attachments/assets/cc54e340-29cf-4c66-a1fc-947515a7e250](https://github.com/user-attachments/assets/cc54e340-29cf-4c66-a1fc-947515a7e250)" />
-
-
+    \<img width="556" height="167" alt="image" src="[https://github.com/user-attachments/assets/cc54e340-29cf-4c66-a1fc-947515a7e250](https://github.com/user-attachments/assets/cc54e340-29cf-4c66-a1fc-947515a7e250)" /\>
 
 
 
