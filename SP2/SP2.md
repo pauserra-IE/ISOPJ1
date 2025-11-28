@@ -453,26 +453,35 @@ i crear un nou usuari per comrpovar que s'ha afegit
 24/11/25
 
 
-<img width="628" height="115" alt="image" src="https://github.com/user-attachments/assets/856cca9e-9bbb-4666-9bca-a6d4692dac0c" />
-volem que others no puguin llegir ni modificarlo
-per tant farem els seguents canvis:
-<img width="628" height="115" alt="image" src="https://github.com/user-attachments/assets/c2ab4c30-b2e5-41a7-8ded-5e122248a16c" />
-I fem getfacl per a comprovar
-<img width="580" height="358" alt="image" src="https://github.com/user-attachments/assets/b888da8c-915d-4693-bdf7-8747550bc268" />
+Permisos estàndard i restriccions (chmod)
+En Linux, els permisos es divideixen en tres nivells: Usuari (propietari), Grup i Altres (others).
 
-Si de others necessitem que nomes 1 usuari pugui  llegir, escrirue i tot (per exemple l'usuari blau) fem:
-Es pot fer per usuari o per grup. ho farem per a l'usuari Roig
-<img width="645" height="242" alt="image" src="https://github.com/user-attachments/assets/37296eb8-e2b1-4321-9b00-969a6077bm'he canviat la mascara temoralment
-f23" />
+En aquest exemple, primer creem un directori proves i un fitxer proves2. Per defecte, el sistema assigna uns permisos on "Altres" (usuaris que no són el propietari ni del grup) poden tenir accés de lectura. 
+<img width="628" height="115" alt="Creació fitxers" src="https://github.com/user-attachments/assets/856cca9e-9bbb-4666-9bca-a6d4692dac0c" />
 
-Creem una directori anomenat compartida
+Objectiu: Volem que others (la resta d'usuaris del sistema) no puguin llegir ni modificar aquests fitxers per seguretat.
 
-<img width="720" height="445" alt="image" src="https://github.com/user-attachments/assets/54f7c174-aee3-44a3-95ba-88a4bca210b9" />
+Utilitzem la comanda chmod per modificar els permisos:
+750 per al directori (Tots els permisos per al propietari, lectura/execució per al grup, cap per a altres).
+640 per al fitxer (Lectura/escriptura per al propietari, lectura per al grup, cap per a altres).
+<img width="628" height="115" alt="Restricció chmod" src="https://github.com/user-attachments/assets/c2ab4c30-b2e5-41a7-8ded-5e122248a16c" />
 
-Com que blau no te permisos ens surt el seguent error:
-<img width="790" height="61" alt="image" src="https://github.com/user-attachments/assets/031b3bda-9cbc-4c92-8c3b-c8463adbf38b" />
-En canvi Roig si que te permisos:
-<img width="720" height="445" alt="image" src="https://github.com/user-attachments/assets/e906fd02-e3cf-4e12-acb1-48d65c032379" />
+Llistes de Control d'Accés (ACL)
+Els permisos estàndard són rígids: o dones permís a tots els "altres" o a cap. Què passa si volem que ningú entri, excepte un usuari concret (ex: l'usuari 'roig')? Aquí entren en joc les ACL (Access Control Lists).
+
+Primer, comprovem l'estat actual dels permisos amb la comanda getfacl. Veiem que "other" està buit (---), tal com hem configurat abans. 
+<img width="580" height="358" alt="Comprovació getfacl" src="https://github.com/user-attachments/assets/b888da8c-915d-4693-bdf7-8747550bc268" />
+
+Assignació de permisos específics (setfacl): Per donar permisos només a l'usuari roig sense obrir el fitxer a tothom, utilitzem setfacl.
+La sintaxi és: setfacl -m u:nom_usuari:permisos fitxer
+-m: modificar.
+u:roig:rw-: donem permisos de lectura i escriptura a l'usuari 'roig'.
+<img width="680" height="354" alt="Assignació setfacl roig" src="https://github.com/user-attachments/assets/3675629a-0d7c-4903-a535-02b6aa011c3a" /> (Nota: En aplicar ACLs, apareix un símbol + al final dels permisos quan fem un ls -l, indicant que hi ha permisos estesos).
+Comprovació d'accés
+Per verificar que la configuració funciona, creem un directori anomenat compartida i fem proves d'accés real amb diferents usuaris.
+<img width="720" height="445" alt="Creació directori compartit" src="https://github.com/user-attachments/assets/54f7c174-aee3-44a3-95ba-88a4bca210b9" />
+Prova 1: Accés denegat (Usuari Blau) L'usuari blau forma part de "altres" i no té cap ACL específica. Com que hem restringit l'accés a "altres", quan intenta accedir-hi, el sistema li denega el permís. <img width="790" height="61" alt="Error permís denegat blau" src="https://github.com/user-attachments/assets/031b3bda-9cbc-4c92-8c3b-c8463adbf38b" />
+Prova 2: Accés permès (Usuari Roig) En canvi, l'usuari roig, gràcies a la ACL que hem configurat anteriorment, sí que té permisos per entrar i treballar, tot i que la resta d'usuaris (others) no poden. <img width="720" height="445" alt="Accés correcte roig" src="https://github.com/user-attachments/assets/e906fd02-e3cf-4e12-acb1-48d65c032379" />
 
 ---------------------------------------------------------
 
