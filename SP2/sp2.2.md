@@ -307,5 +307,21 @@ i crear un nou usuari per comrpovar que s'ha afegit
 
 
 
+11/11/25
+COMANDES BASIQUES 
+afegir usuari adduser
+<img width="902" height="452" alt="image" src="https://github.com/user-attachments/assets/1c62e41f-66ad-4f53-9d28-e294b55b814d" />
 
+Les carpetes apareixen un cop hem iniciat sessió amb l'usuari que hem creat.
+<img width="548" height="112" alt="image" src="https://github.com/user-attachments/assets/0ca9c0cb-4f8b-4d36-a6fb-78964072cb04" />
 
+afegim usuari gina2 amb la comanda useradd
+<img width="711" height="575" alt="image" src="https://github.com/user-attachments/assets/03911c44-b5d2-45cb-a479-3cbf9c94696e" />
+
+grups
+<img width="901" height="703" alt="image" src="https://github.com/user-attachments/assets/8ac8ae4a-5ba6-4738-9c16-35f59c68e4a7" />
+
+al borrar el usuari no se borra el home, se ti que fer d'una altra manera
+<img width="707" height="338" alt="image" src="https://github.com/user-attachments/assets/0b08f07b-96e4-477f-afab-f9428ad5dff1" />
+
+bloquejar i desbloquejar un usuari
