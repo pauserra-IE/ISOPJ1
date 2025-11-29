@@ -324,4 +324,26 @@ grups
 al borrar el usuari no se borra el home, se ti que fer d'una altra manera
 <img width="707" height="338" alt="image" src="https://github.com/user-attachments/assets/0b08f07b-96e4-477f-afab-f9428ad5dff1" />
 
-bloquejar i desbloquejar un usuari
+# Bloqueig i Desbloqueig Temporal d'un Compte d'Usuari
+
+## Estat Inicial
+- **Comanda:** `cat /etc/shadow | grep gina`
+- **Observació:** L'entrada de l'usuari gina comença amb el hash de la contrasenya normal (ex. `$`). Això indica que el compte està desbloquejat.
+
+## Bloqueig del Compte
+- **Comanda:** `usermod -L gina`
+- **Acció:** L'opció `-L` bloqueja el compte.
+- **Efecte al Fitxer:** El hash de la contrasenya a `/etc/shadow` es prefixa amb un signe d'exclamació (`!`), impedint els intents d'inici de sessió. Exemple: `gina:!$y$j9T...`
+
+## Desbloqueig del Compte
+- **Comanda:** `usermod -U gina`
+- **Acció:** L'opció `-U` desbloqueja el compte.
+- **Efecte al Fitxer:** El signe d'exclamació (`!`) es treu, restaurant l'estat desbloquejat del compte i permetent a l'usuari iniciar sessió de nou.
+
+<img width="818" height="306" alt="image" src="https://github.com/user-attachments/assets/4897df7e-dfea-45a7-a59a-cbbf0efd322c" />
+creem el grup asixb i tres usuaris ivan pau iker aaron modifiquem el nom del grup i l'eliminem
+<img width="638" height="142" alt="image" src="https://github.com/user-attachments/assets/9dfc268a-e9b6-4abe-9f1a-ba8351aff799" />
+
+
+tres maneres d'afegir un usuari a un grup
+<img width="622" height="164" alt="image" src="https://github.com/user-attachments/assets/e49f24f4-cfe7-4184-80f9-e45eec0d8013" />
