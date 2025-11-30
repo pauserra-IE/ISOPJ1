@@ -186,3 +186,111 @@ Valor per defecte root: 0022
 Es pot configurar globalment a /etc/login.defs o per usuari al .profile: <img width="811" height="579" alt="image" src="https://github.com/user-attachments/assets/7f0318de-c1ce-47bc-958a-34453b1b62d1" /> <img width="811" height="579" alt="image" src="https://github.com/user-attachments/assets/9ad49a0a-de5e-4da2-b6e5-c0c4b14ebb0e" />
 
 Prova pràctica canviant l'umask a 033 (més restrictiu) en la sessió actual: <img width="664" height="267" alt="image" src="https://github.com/user-attachments/assets/8178edd7-abb5-4416-989c-e18a725502bc" /> <img width="576" height="465" alt="image" src="https://github.com/user-attachments/assets/e5bb9b6a-8fa8-42c0-a77a-6ade58e68aad" /> <img width="556" height="167" alt="image" src="https://github.com/user-attachments/assets/cc54e340-29cf-4c66-a1fc-947515a7e250" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----------------------------------------------
+Aquí tens la secció redacactada de nou, amb les explicacions tècniques ampliades, clara i llesta per copiar al teu fitxer Markdown.
+
+Markdown
+
+## Gestió d’usuaris i grups i permisos
+
+Per a la gestió d'usuaris en entorns d'escriptori, tot i que la terminal és l'eina més potent, podem instal·lar eines gràfiques clàssiques.
+
+**Instal·lació d'eines gràfiques:**
+Obrim una terminal amb permisos d'administrador (`sudo su`) i executem:
+```bash
+sudo apt install gnome-system-tools
+Un cop instal·lat, podem buscar "Usuaris i grups" al menú d'aplicacions d'Ubuntu. És una alternativa visual per gestionar usuaris, grups i els seus paràmetres bàsics.
+
+<img width="909" height="725" alt="image" src="https://github.com/user-attachments/assets/a078a584-dc04-4966-8ba8-667e930d5ea5" />
+
+Fitxers de configuració implicats
+El sistema operatiu Linux guarda la informació dels usuaris i grups en fitxers de text pla situats al directori /etc. És fonamental entendre l'estructura d'aquests quatre fitxers.
+
+1. Fitxer /etc/passwd
+Aquest fitxer conté la informació bàsica de tots els comptes d'usuari del sistema. Tothom té permisos per llegir aquest fitxer, per la qual cosa no s'hi guarden dades sensibles com les contrasenyes reals.
+
+<img width="872" height="768" alt="image" src="https://github.com/user-attachments/assets/33919886-e31d-4d61-a025-799319b8e33d" />
+
+Anàlisi d'una línia d'usuari (Exemple pauserra): Cada línia es divideix en 7 camps separats per dos punts (:):
+
+Nom d'usuari (pauserra): El nom que s'utilitza per iniciar sessió.
+
+Contrasenya (x): La x indica que la contrasenya no està aquí, sinó xifrada al fitxer /etc/shadow per seguretat.
+
+UID (User ID - 1000): És l'identificador numèric únic de l'usuari.
+
+El 0 és sempre el root (administrador).
+
+De l'1 al 999 són usuaris del sistema (serveis).
+
+A partir del 1000 són els usuaris normals. El primer usuari creat (pauserra) rep el 1000, el següent el 1001, i així successivament.
+
+GID (Group ID - 1000): És l'identificador del grup principal de l'usuari. Per defecte, es crea un grup amb el mateix nom i ID que l'usuari.
+
+GECOS / Comentaris: Camp de text lliure per posar el nom complet, número de telèfon, etc.
+
+Directori Home (/home/pauserra): La ruta de la carpeta personal on l'usuari guardarà els seus fitxers.
+
+Intèrpret de comandes o Shell (/bin/bash): És el programa que s'executa quan l'usuari inicia sessió i que permet introduir comandes.
+
+Si apareix /bin/bash o /bin/sh, l'usuari pot treballar amb la terminal.
+
+Si apareix /usr/sbin/nologin o /bin/false, l'usuari té prohibit l'accés al sistema (comú en usuaris de serveis).
+
+2. Fitxer /etc/group
+Aquest fitxer defineix els grups del sistema. Els grups serveixen per organitzar usuaris i assignar permisos de manera col·lectiva.
+
+<img width="872" height="768" alt="image" src="https://github.com/user-attachments/assets/5c6bfb4f-8955-44c5-a82b-d23e47d9ab13" />
+
+Els camps són: Nom del grup : Contrasenya (x) : GID : Llista de membres. Aquí podem veure quins usuaris pertanyen a un grup com a secundari (separats per comes).
+
+3. Fitxer /etc/shadow
+Aquest és un fitxer crític de seguretat. Només l'usuari root hi té accés de lectura. Conté les contrasenyes xifrades i la informació sobre la seva caducitat.
+
+<img width="872" height="768" alt="image" src="https://github.com/user-attachments/assets/5287c296-fb08-4f95-ba1e-c3285f4699bb" />
+
+Aquí es defineixen paràmetres com:
+
+El hash de la contrasenya (la cadena llarga de caràcters inintel·ligibles).
+
+Dies des de l'últim canvi de contrasenya.
+
+Dies mínims i màxims per canviar la contrasenya (caducitat).
+
+Dies d'avís abans que la contrasenya expiri.
+
+4. Fitxer /etc/gshadow
+Aquest fitxer és l'equivalent segur del fitxer de grups. Conté informació sensible dels grups.
+
+<img width="863" height="693" alt="image" src="https://github.com/user-attachments/assets/738696e1-202e-4ad4-8e82-f538ec734585" />
+
+La característica més important d'aquest fitxer, a diferència del /etc/group, és que permet definir administradors de grup. Un administrador de grup (que apareix en el tercer camp d'una línia) és un usuari que té permís per afegir o eliminar membres d'aquell grup específic, utilitzant la comanda gpasswd, sense necessitat de tenir permisos de superusuari (root).
