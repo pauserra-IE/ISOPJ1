@@ -18,9 +18,9 @@ title: "Sprint 2: Instal·lació, Configuració de Programari de Base i Gestió 
   - GPARTED
   - Comandes i muntatge (fstab)
 ## Gestió d’usuaris i grups i permisos
-## Gestió de processos (PENDENT)
-## Còpies de seguretat i automatització de tasques (PENDENT)
-## Quotes d’usuari (PENDENT)
+## Gestió de processos 
+## Còpies de seguretat i automatització de tasques
+## Quotes d’usuari
 
 
 -----------------------------------------------
@@ -107,39 +107,65 @@ title: "Sprint 2: Instal·lació, Configuració de Programari de Base i Gestió 
 -----------------------------------------------------------------------------------------------
 
 ## Gestió d’usuaris i grups i permisos
-Obrim una terminal en sudo su
-04/11/25
+
+04/11/2025
+Per començar la gestió, obrim una terminal i accedim com a superusuari amb sudo su.
+
+Gestió gràfica d'usuaris
+Tot i que la gestió es fa principalment per terminal, Ubuntu disposa d'una eina gràfica clàssica per gestionar usuaris i grups. Per instal·lar-la executem:
+
 sudo apt install gnome-system-tools
 
-busquem usuaris al menu de cerca d'ubuntu
+Un cop instal·lada, la podem trobar al menú d'aplicacions cercant "Usuaris i grups". Aquesta eina permet crear usuaris, assignar-los a grups i gestionar privilegis de manera visual. <img width="909" height="725" alt="image" src="https://github.com/user-attachments/assets/a078a584-dc04-4966-8ba8-667e930d5ea5" />
 
-Es una alternativa per poder gestionar gràficament els usuaris i grups
-<img width="909" height="725" alt="image" src="https://github.com/user-attachments/assets/a078a584-dc04-4966-8ba8-667e930d5ea5" />
+Fitxers de configuració essencials
+Tota la informació dels usuaris i grups es guarda en quatre fitxers de text pla situats al directori /etc.
 
-Fixers implicats:
-1r fitxer  /etc/passwd
-<img width="872" height="768" alt="image" src="https://github.com/user-attachments/assets/33919886-e31d-4d61-a025-799319b8e33d" />
+1. Fitxer /etc/passwd Aquest fitxer conté la informació pública dels comptes d'usuari. Qualsevol usuari del sistema pot llegir aquest fitxer. <img width="872" height="768" alt="image" src="https://github.com/user-attachments/assets/33919886-e31d-4d61-a025-799319b8e33d" />
 
-explicar cada camp de la linia de usuari pauserra  (com ara que el numero 1000 que va canviant segons l'usuari  etc) 
+Analitzem la línia de l'usuari pauserra per entendre cada camp (separats per :): pauserra:x:1000:1000:pauserra,,,:/home/pauserra:/bin/bash
 
-explicar que es l'interpret
+pauserra: És el nom d'usuari (login name) que s'utilitza per iniciar sessió.
 
-2n fitxer /etc/group
-<img width="872" height="768" alt="image" src="https://github.com/user-attachments/assets/5c6bfb4f-8955-44c5-a82b-d23e47d9ab13" />
+x: Indica que la contrasenya està guardada de manera xifrada al fitxer /etc/shadow. Antigament es guardava aquí, però per seguretat es va moure.
 
+1000 (UID): És l'Identificador d'Usuari. El sistema operatiu identifica els usuaris per números, no per noms.
 
-3r fitxer
+El 0 és sempre el root.
 
-estan totes les contrasenyes dels usuaris i tot el que fa referència a la caducitat de les contrasenyes
+De l'1 al 999 són usuaris del sistema (dimonis i serveis).
 
-tot el que fa referencia als passwords dels grups. 
-<img width="872" height="768" alt="image" src="https://github.com/user-attachments/assets/5287c296-fb08-4f95-ba1e-c3285f4699bb" />
-º
-4t fitxers
-i tambe podem veure els usuaris que formen part d'un grup 
+A partir del 1000 comencen els usuaris normals. El primer usuari creat (pauserra) té el 1000, el següent el 1001, etc.
 
-pero a diferencia del /etc/group , aqui es l'unic lloc on veurem qui es l'usuari administrador d'un grup
-<img width="863" height="693" alt="image" src="https://github.com/user-attachments/assets/738696e1-202e-4ad4-8e82-f538ec734585" />
+1000 (GID): És l'Identificador de Grup principal. Per defecte, es crea un grup amb el mateix nom que l'usuari.
+
+pauserra,,, (GECOS): Camp de comentaris. Sol incloure el nom complet de l'usuari, número d'oficina o telèfon.
+
+/home/pauserra: És el directori personal (home). Quan l'usuari entra al sistema, apareixerà en aquesta carpeta.
+
+/bin/bash: És l'intèrpret de comandes (Shell).
+
+Què és l'intèrpret? És el programa que s'executa quan l'usuari inicia sessió. Fa d'intermediari entre l'usuari i el nucli (kernel) del sistema. Recull les comandes que escrivim, les processa i retorna el resultat. Si aquí poséssim /bin/false o /usr/sbin/nologin, l'usuari no podria entrar al sistema.
+
+2. Fitxer /etc/group Aquest fitxer defineix els grups del sistema i quins usuaris en formen part. <img width="872" height="768" alt="image" src="https://github.com/user-attachments/assets/5c6bfb4f-8955-44c5-a82b-d23e47d9ab13" />
+
+Cada línia indica: NomDelGrup : x : GID : LlistaUsuaris
+
+Nom del grup: Identificador textual.
+
+x: Contrasenya del grup (no s'utilitza habitualment).
+
+GID: Identificador numèric del grup.
+
+Membres: Llista d'usuaris que tenen aquest grup com a grup secundari.
+
+3. Fitxer /etc/shadow Aquest fitxer és crític per a la seguretat. Conté les contrasenyes dels usuaris de forma xifrada (hash) i informació sobre la seva caducitat. Només l'usuari root té permisos per llegir-lo. <img width="872" height="768" alt="image" src="https://github.com/user-attachments/assets/5287c296-fb08-4f95-ba1e-c3285f4699bb" />
+
+Aquí es defineix quant de temps pot durar una contrasenya, quants dies d'avís rep l'usuari abans que caduqui i si el compte està bloquejat (si el hash comença per !, l'accés està tancat).
+
+4. Fitxer /etc/gshadow Aquest fitxer és als grups el mateix que el shadow és als usuaris. Conté les contrasenyes xifrades dels grups. <img width="863" height="693" alt="image" src="https://github.com/user-attachments/assets/738696e1-202e-4ad4-8e82-f538ec734585" />
+
+La característica més important d'aquest fitxer, a diferència del /etc/group, és que l'últim camp permet definir els administradors del grup. Un administrador de grup pot afegir o eliminar membres d'aquell grup específic sense necessitat de tenir permisos de superusuari (root).
 
 
 -----------------------------------------------------------------------------------------------
@@ -197,7 +223,7 @@ amb la -g minuscula es modifica el grup principal d'un usuari però no s'afegeix
 
 
 
------------
+-----------------------------------------------------------------------------------------------
 
 17/11/25
 
@@ -380,7 +406,7 @@ Així, en iniciar sessió, qualsevol usuari veu el missatge personalitzat.
 
 
 
-
+-----------------------------------------------------------------------------------------------
 24/11/25
 
 
