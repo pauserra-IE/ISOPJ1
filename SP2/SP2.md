@@ -145,142 +145,54 @@ pero a diferencia del /etc/group , aqui es l'unic lloc on veurem qui es l'usuari
 -----------------------------------------------------------------------------------------------
 11/11/25
 COMANDES BASIQUES 
-COMANDA
-adduser
+afegir usuari adduser
+<img width="902" height="452" alt="image" src="https://github.com/user-attachments/assets/1c62e41f-66ad-4f53-9d28-e294b55b814d" />
 
-<img width="810" height="642" alt="image" src="https://github.com/user-attachments/assets/1a5fccc3-0752-4e28-9b39-65e79d7ba25b" />
+Les carpetes apareixen un cop hem iniciat sessió amb l'usuari que hem creat.
+<img width="548" height="112" alt="image" src="https://github.com/user-attachments/assets/0ca9c0cb-4f8b-4d36-a6fb-78964072cb04" />
 
-les carpetes del home es creen una vegada l'usuari inicia sessio amb la interficie gràfica
-<img width="605" height="118" alt="image" src="https://github.com/user-attachments/assets/8b7dac62-21f7-43b3-a7ae-93543b8dab8b" />
+afegim usuari gina2 amb la comanda useradd
+<img width="711" height="575" alt="image" src="https://github.com/user-attachments/assets/03911c44-b5d2-45cb-a479-3cbf9c94696e" />
 
-COMANDA 2
-useradd gina 2
-passwd 
+grups
+<img width="901" height="703" alt="image" src="https://github.com/user-attachments/assets/8ac8ae4a-5ba6-4738-9c16-35f59c68e4a7" />
 
+al borrar el usuari no se borra el home, se ti que fer d'una altra manera
+<img width="707" height="338" alt="image" src="https://github.com/user-attachments/assets/0b08f07b-96e4-477f-afab-f9428ad5dff1" />
 
-<img width="613" height="144" alt="image" src="https://github.com/user-attachments/assets/40d3752c-9dff-464d-8c10-0113bcdbf202" />
+# Bloqueig i Desbloqueig Temporal d'un Compte d'Usuari
 
+## Estat Inicial
+- **Comanda:** `cat /etc/shadow | grep gina`
+- **Observació:** L'entrada de l'usuari gina comença amb el hash de la contrasenya normal (ex. `$`). Això indica que el compte està desbloquejat.
 
-usermod -s /bin/bash gina2
+## Bloqueig del Compte
+- **Comanda:** `usermod -L gina`
+- **Acció:** L'opció `-L` bloqueja el compte.
+- **Efecte al Fitxer:** El hash de la contrasenya a `/etc/shadow` es prefixa amb un signe d'exclamació (`!`), impedint els intents d'inici de sessió. Exemple: `gina:!$y$j9T...`
 
-ls
+## Desbloqueig del Compte
+- **Comanda:** `usermod -U gina`
+- **Acció:** L'opció `-U` desbloqueja el compte.
+- **Efecte al Fitxer:** El signe d'exclamació (`!`) es treu, restaurant l'estat desbloquejat del compte i permetent a l'usuari iniciar sessió de nou.
 
+<img width="818" height="306" alt="image" src="https://github.com/user-attachments/assets/4897df7e-dfea-45a7-a59a-cbbf0efd322c" />
+creem el grup asixb i tres usuaris ivan pau iker aaron modifiquem el nom del grup i l'eliminem
+<img width="638" height="142" alt="image" src="https://github.com/user-attachments/assets/9dfc268a-e9b6-4abe-9f1a-ba8351aff799" />
 
-mkdir gina2
-ls -l
 
+tres maneres d'afegir un usuari a un grup
+<img width="622" height="164" alt="image" src="https://github.com/user-attachments/assets/e49f24f4-cfe7-4184-80f9-e45eec0d8013" />
 
 
-<img width="716" height="396" alt="image" src="https://github.com/user-attachments/assets/a6de74cb-c9ba-48d6-99bb-1d5f751de42b" />
+amb la segona comanda i el parametre -A en majuscula es el admin del grup
 
-chown gina2:gina2 gina2
-<img width="667" height="24" alt="image" src="https://github.com/user-attachments/assets/8c18b30f-9526-4369-973b-dd316509ff68" />
 
+<img width="653" height="139" alt="image" src="https://github.com/user-attachments/assets/ac83a8c3-c81c-42a9-845d-649cb2506969" />
 
 
-
-
-<img width="616" height="117" alt="image" src="https://github.com/user-attachments/assets/c06b4626-50d9-4a0a-a0c8-d028624c5b1e" />
-
-
-<img width="810" height="228" alt="image" src="https://github.com/user-attachments/assets/84c32c7b-699b-4844-9e2d-7808725db6da" />
-
-comanda deluser i userdel (arreglar)
-<img width="625" height="146" alt="image" src="https://github.com/user-attachments/assets/a327b10f-517b-4133-bee0-a7922bcb9a85" />
-
-
-
-comanda per a bloquejar i desbloquejar l'usuari
-cat /etc/shadow | grep gina
-
-
-
-
-
-
-
-
-
-afegim 4 usuaris ivan,pau,iker,aaron
-<img width="781" height="184" alt="image" src="https://github.com/user-attachments/assets/0d42870a-b58e-48b0-9f32-52ac603812c8" />
-
-
-groupmod -n asix asixb
-cat /etc/group | grep asix
-
-
-groupdel asix
-cat /etc/group | grep asix
-
-
-
-
-addgroup asix1r
-
-
-
-3 mnaeres d'afegir usuaris a un grup
-
-metode 1:
-adduser ivan asix1r
-
-
-metode 2
-
-gpasswd -a pau asix1r
-
-
-
-metode 3:
-usermod -a -G asix1r iker
-
-
-
-per comprovar que els hem afegit fem:
-cat /etc/group |grep asix1r
-
-
-
-gpasswd -A aaron asix1r
-cat /etc/group cat /etc/group |grep asix1r
-
-
-cat /etc/gshadow |grep asix1r
-
-surt pero entre dos punts pq esta com a administrador : aaron :
-
-
-per a eliminarlo 
-gpasswd -d aaron 
-
-
-
-
-podem borrar un grup encara que el grup tingui usuaris amb 
-groupdel  asix1r
-cat /etc/group | grep asix1r
-
-pero els usuaris no s'eliminen
-
-
-
-
-addgroup hola
-
-
-
-usermod -g hola ivan
-
-cat /etc/group | grep hola
-no esta
-cat /etc/gshadow | grep asix1r
-tampoc esta
-
-per tant amb aquesta comanda estem canviant el grup principal 
-
-modifica el grup principal de l'usuari
-
-comprovar amb un cat /etc/passed
+amb la -g minuscula es modifica el grup principal d'un usuari però no s'afegeix al grup
+<img width="632" height="252" alt="image" src="https://github.com/user-attachments/assets/94caf8d9-f800-44c1-947b-28e1b5dfc040" />
 
 
 
