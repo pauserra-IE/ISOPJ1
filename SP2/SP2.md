@@ -382,8 +382,8 @@ Quan inicio sessió com rosa i faig pwd, apareix:
 
 
 És el nou directori que vaig definir a .profile.
-
-Tasques realitzades sobre .bashrc, .bash_logout i .profile
+---------------------------------------------------------------------------
+TASQUES .bashrc, .bash_logout i .profile
 1. Afegir un dibuix ASCII al .bashrc
 <img width="750" height="656" alt="image" src="https://github.com/user-attachments/assets/61650095-dd07-441e-b7b4-c8e36045fcd5" />
 
@@ -398,7 +398,7 @@ Quan l’usuari tanca sessió, es mostra "adeu fins aviat".
 <img width="794" height="760" alt="image" src="https://github.com/user-attachments/assets/5cb7f7aa-e404-465a-8419-47b94e4709a6" />
 
 Així, en iniciar sessió, qualsevol usuari veu el missatge personalitzat.
-
+-----------------------------------------------------------------
 
 
 
