@@ -290,157 +290,176 @@ comprovar amb un cat /etc/passed
 17/11/25
 
 
-Afegim aquests 4 usuaris
+Creo quatre usuaris nous amb la comanda adduser:
+
 adduser blau
 adduser roig
 adduser groc
 adduser verd
 
 
-cat /etc/shadow | tail -4
-<img width="809" height="137" alt="image" src="https://github.com/user-attachments/assets/bafb8fa9-2604-45ff-b94d-9eb2cd46c335" />
-Serveix per mostrar les últimes 4 línies del fitxer /etc/shadow. Aquest fitxer conté informació sensible sobre les contrasenyes dels usuaris del sistema, com ara les contrasenyes encriptades, les dates d'expiració, etc.
+Per comprovar les últimes línies del fitxer /etc/shadow executo:
 
-Creem un grup
+cat /etc/shadow | tail -4
+
+<img width="809" height="137" alt="image" src="https://github.com/user-attachments/assets/bafb8fa9-2604-45ff-b94d-9eb2cd46c335" />
+
+Aquest fitxer guarda informació sensible, com les contrasenyes xifrades i les dates d’expiració. Només l’administrador el pot consultar.
+
+Creació d’un grup
+
+Creo un grup nou:
+
 <img width="634" height="81" alt="image" src="https://github.com/user-attachments/assets/0543e25a-d1b4-4c26-b1b6-c059736318c6" />
-Si ens hem equivocat de nom podem modificar-lo amb la comanda:
+
+Si m’equivoco amb el nom, el puc canviar amb:
+
 groupmod -n parchis dames
 
+Afegir usuaris al grup parchis
 
-Afegim els usuaris al grup parchis. Podem utilitzar les seguents comandes:
+Puc utilitzar diverses comandes:
+
 gpasswd -a roig parchis
 usermod -a -G parchis verd
 adduser groc parchis
+
 <img width="752" height="158" alt="image" src="https://github.com/user-attachments/assets/d5bbd7cb-577f-46ed-b50b-e7c058f4d939" />
 
-Ara provarem d'eliminar alguns usuaris del grup. Podem utilitzar les seguents comandes:
+Cada eina fa el mateix: afegeix usuaris a un grup secundari.
+
+Eliminar usuaris del grup
 gpasswd -d roig parchis
 deluser verd parchis
-<img width="709" height="155" alt="image" src="https://github.com/user-attachments/assets/aeea39ce-2232-4f23-8344-a2632219267b" />
 
-<img width="742" height="70" alt="image" src="https://github.com/user-attachments/assets/d8572704-9b7b-4e17-8a30-9206b065f49e" />
-
-Ara executarem la comanda
+<img width="709" height="155" alt="image" src="https://github.com/user-attachments/assets/aeea39ce-2232-4f23-8344-a2632219267b" /> <img width="742" height="70" alt="image" src="https://github.com/user-attachments/assets/d8572704-9b7b-4e17-8a30-9206b065f49e" />
+Canviar el grup principal d’un usuari
 usermod -g parchis roig
+
 <img width="742" height="70" alt="2025-11-17_13-02" src="https://github.com/user-attachments/assets/55123161-054f-4db2-abad-e65e7856a07a" />
-EXPLCICACIÓ: usermod -g serveix per modificar el grup prinicipal de l'usuari. Un usuari nomes té un grup principal pero pot formar part de molts de grups 
-El grup principal es pot establir de manera fixa com aquesta comanda o de manera temporal.
 
+L’opció -g canvia el grup principal.
+Un usuari només en té un, però pot pertànyer a tants grups secundaris com vulgui.
 
-Ara provarem d'eliminar el grup amb la comanda
+Intentar eliminar el grup parchis
 groupdel parchis
+
 <img width="684" height="74" alt="image" src="https://github.com/user-attachments/assets/284b726f-e888-4c3d-9f12-27cb7938e2e7" />
 
-EXPLICACIÓ: Sempre es pot eliminar un grup pero si el grup es el grup principal de l'usuari no es pot esborrar, per aixo ens salta l'error.
+No puc eliminar-lo perquè encara és el grup principal d’un usuari.
+Un grup només es pot eliminar si cap usuari el té com a grup principal.
 
+Fitxers de configuració importants
 
-#### Prova de Comandes per a la Creació i Configuració d'Usuaris amb adduser i useradd
-/etc/skel: Conté els arxius predeterminats per als nous usuaris (afecta adduser).
-/etc/adduser.conf: Configura el comportament de adduser per a la creació d'usuaris (afecta adduser).
-/etc/login.defs: Estableix paràmetres globals per a la creació d'usuaris i gestió de contrasenyes (afecta adduser i useradd).
-/etc/default/useradd: Configura els valors per defecte en crear usuaris amb useradd (afecta useradd).
+Aquests fitxers defineixen el comportament d’adduser i useradd:
 
+/etc/skel: Conté fitxers predeterminats copiats al home dels nous usuaris.
 
+/etc/adduser.conf: Configuració general d’adduser.
 
+/etc/login.defs: Paràmetres globals de contrasenyes i comptes.
+
+/etc/default/useradd: Valors per defecte específics de useradd.
+
+Modificant /etc/skel
 cd /etc/skel/
 ls -la
 mkdir prova
 touch hola
 ls -la
+
 <img width="627" height="420" alt="image" src="https://github.com/user-attachments/assets/701b7d3a-d73d-4917-8649-c8796d2821b4" />
-EXPLICACIÓ:Tot el que es troba dins del directori /etc/skel/ es copiarà automàticament al directori personal de qualsevol nou usuari creat mitjançant la comanda adduser. Això inclou fitxers i subdirectoris com el que acabem de crear. Per exemple, si creem un nou usuari, el directori prova i el fitxer hola es copiaran al directori home d'aquest usuari.
 
+Tot allò que es trobi dins /etc/skel/ es copiarà automàticament al directori personal dels nous usuaris creats amb adduser.
+Per tant, qualsevol fitxer o carpeta que hi deixo, apareixerà també al seu home.
 
-Ara procedim a editar el fitxer de configuració principal de adduser amb la comanda nano /etc/adduser.conf.
-
-Un cop a dins, aquí establim un nou rang per als identificadors d'usuari (UID) i de grup (GID) del sistema. L'objectiu és que els nous usuaris no comencin a comptar des del 1000, sinó des del 3000.
+Editant /etc/adduser.conf
 <img width="821" height="581" alt="image" src="https://github.com/user-attachments/assets/dcfd72ce-4de2-4f2e-ad81-7392dee2ef37" />
 
+Aquí modifico el rang d’identificadors d’usuari i grup perquè comencin a partir del 3000.
 
-
-/etc/login.defs 
-Aqui establim cada quant volem que expire la contrasenya
+Editant /etc/login.defs
 <img width="816" height="598" alt="image" src="https://github.com/user-attachments/assets/2342a2a4-ddec-402b-9b97-28fb46b7ca1b" />
 
+Aquí estableixo cada quant expira la contrasenya i altres paràmetres globals.
 
-
-
+Verificació del canvi d’UID/GID
 ls /var
 cat /etc/passwd | grep gris
+
 <img width="624" height="111" alt="image" src="https://github.com/user-attachments/assets/3af92494-b3bb-4159-af26-53cb4ef0e2e9" />
 
-EXPLICACIÓ: Ha funcionat el canvi d'ID: Els números 3000:3000 demostren que l'usuari gris ha agafat correctament la nova configuració (FIRST_UID=3000 i FIRST_GID=3000) que havíem establert al fitxer.
+Comprovo que l’usuari gris ha estat creat amb UID i GID 3000, tal com vaig configurar.
 
-
-ls -la /var/gris/
-CAPTURA
-EXPLICACIÓ: 
-
-
-
-
-nano /etc/default/useradd
-
+Editant /etc/default/useradd
 <img width="814" height="554" alt="image" src="https://github.com/user-attachments/assets/691e61ec-c6ee-4774-b405-3406f1b29bbd" />
 
+Creo un usuari amb:
 
-nano /etc/default/useradd
 useradd negre
 cat /etc/passwd | grep negre
 cat /etc/shadow | grep negre
-CAPTURA
-EXPLCIACIÓ
 
 
+Així verifico com useradd aplica els valors per defecte.
 
+Contingut de /etc/skel i directors personals
 clear
 ls -la /etc/skel/
 ls -la /home/groc
 ls -la /home/verd
 
-
-
-cd /etc/skel/
-nano .profile
+Modificant els fitxers inicials dels nous usuaris
+.profile
 <img width="818" height="586" alt="image" src="https://github.com/user-attachments/assets/688ef91d-f479-4a86-a4c2-43850cc2ce0a" />
-CAPTURA
-EXPLICACIÓ: hem afegir PWD="/var/$USER"
+
+He afegit:
+
+PWD="/var/$USER"
 
 
+Això fa que en iniciar sessió s’estableixi aquest camí com a directori actual.
 
-
-
-nano .bashr
+.bashrc
 <img width="824" height="571" alt="image" src="https://github.com/user-attachments/assets/af184873-77f8-4f6c-ad62-4619e2b7b09f" />
-EXPLICACIÓ:hem afegit alias connexió="ls -la"
 
+He afegit un àlies:
 
-nano .bash_logout
+alias connexió="ls -la"
+
+.bash_logout
 <img width="812" height="301" alt="image" src="https://github.com/user-attachments/assets/dea060a4-53b8-4b28-831a-b81934964c9c" />
-EXPLICACIÓ
 
+Aquest fitxer s’executa quan tanquem la sessió.
+Hi puc afegir missatges o neteges automàtiques.
 
+Creació d’un nou usuari (rosa)
 adduser rosa
+
 <img width="817" height="279" alt="image" src="https://github.com/user-attachments/assets/b1bc51c7-1cca-47a9-8dc3-47d1845daabc" />
 
+Quan inicio sessió com rosa i faig pwd, apareix:
 
-ctrl+f5
-mos logegem en rosa
-i fem la comanda pwd
-hauria de mostrar /var/rosa
-
-ara fem un ls
-hauria de sortir snap
+/var/rosa
 
 
+És el nou directori que vaig definir a .profile.
 
-TASQUES:
+Tasques realitzades sobre .bashrc, .bash_logout i .profile
+1. Afegir un dibuix ASCII al .bashrc
+<img width="750" height="656" alt="image" src="https://github.com/user-attachments/assets/61650095-dd07-441e-b7b4-c8e36045fcd5" />
 
-prova definir algo al bashrf,al bash logout i al .profile
-i crear un nou usuari per comrpovar que s'ha afegit
-(per exemple algun dibuix en ascii o algo xulo que es mostri)
+Cada vegada que un usuari obre una terminal, apareix el dibuix.
 
+2. Afegir un missatge a .bash_logout
+<img width="736" height="57" alt="image" src="https://github.com/user-attachments/assets/8187d2af-5bfc-4440-9cff-83ee05225af6" />
 
+Quan l’usuari tanca sessió, es mostra "adeu fins aviat".
+
+3. Afegir un dibuix ASCII i missatge de benvinguda a .profile
+<img width="794" height="760" alt="image" src="https://github.com/user-attachments/assets/5cb7f7aa-e404-465a-8419-47b94e4709a6" />
+
+Així, en iniciar sessió, qualsevol usuari veu el missatge personalitzat.
 
 
 
