@@ -118,3 +118,5 @@ i ara al fer un reboot al cap de 1 minut
 tasques:
 cron i anacron i un script que faci algo
 i triar un programa que faci 3 tipus de copies de seguretat. fer completa i restaurarla i fer diferencial i restaurarla
+
+revisar la captura que falta d'avui
