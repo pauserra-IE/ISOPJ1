@@ -120,3 +120,195 @@ cron i anacron i un script que faci algo
 i triar un programa que faci 3 tipus de copies de seguretat. fer completa i restaurarla i fer diferencial i restaurarla
 
 revisar la captura que falta d'avui
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+15/12/25
+
+Maquina en 2 discos de 1gb
+
+Quotes de discos/usuaris
+
+Definició: la quota de disc és la limitacio d'espai de disc que es dona als usuaris
+hi ha un limit de temps, etc.
+
+
+
+
+
+sudo su
+cd 
+
+fdisk -l
+--captura a sdc1 
+
+mkfs.ext4 /dev/sdc1
+
+apt update
+
+apt install quota
+--captura
+
+
+
+
+cd /mnt/
+
+mkdir dades_usuaris
+-- captura
+
+nano /etc/fstab/
+AFEGIR LINIA
+/dev/sdc1              /mnt/dades_usuari            ext4           defaults,usrquota,grpquota     0       0
+--captura
+
+guardar, tancar i reiniciar maquina
+
+
+
+dos maneres per comprovar que quan reiniciem que el punt de muntatge es correcte
+
+ls /mnt/dades_usuaris
+
+df -T 
+--captura
+
+
+
+adduser prova
+--captura
+
+cd /mn/dades_usuari
+ls -l
+
+hauria d'apariexer lost+found i un altre arxiu
+
+quotacheck -cug /mnt/dades_usuari
+hauria d'apareixeer aquota.group aquota.user lost+found
+
+--captura
+
+
+
+quotaon /mnt/dades_usuari
+ls
+quotaoff /mnt/dades_usuari
+ls
+explicacio: serveixen per activar i desactivar aquest mecanisme de control de quotes en un sistema de fitxers muntat.
+--captura
+
+quota -u prova
+
+repquota /dev/sdc1
+--captura
+
+
+edquota -u prova
+CANVIAR LINIA A 
+/dev/sdc1         0      1024     2048     0        0
+--captura
+guardar i sortir
+
+explicacio: es pot configurar per la part de bloc o per la part de nodes
+
+
+chmod 777 /mnt/dades_usuaris
+--captura
+
+clear
+
+
+su prova
+dd if=/dev/zero of=test bs=1K  count=800
+
+--captura
+
+dd if=/dev/zero of=test2 bs=1K  count=800
+--captura
+
+sudo su
+repquota /dev/sdc1
+
+--captura
+
+quota -u prova
+--captura
+su prova
+dd if=/dev/zero of=test3 bs=1K  count=800
+hauria de sortir error en escriure
+ls
+ls -l
+--captura
+explicacio: l'arxiu esta incomplet
+
+exit
+clear
+
+
+repquota /dev/sdc1
+quotaoff /mnt/dades_usuari
+su prova
+dd if=/dev/zero of=test4 bs=1K  count=800
+--captura
+explicació: com que hem fet quotaoff ara si que ens deixa crear l'arxiu test4
+
+
+exit
+
+
+edquota -t 
+
+EXPLICACIÓaquest periode de gracia es el que perdefete als usuaris
+sempre que editem aquest fitxer es per a tots els usuaris pero es pot fer per a un usuari en concret
+--captura
+
+
+setquota -T -u prova 1296000 1296000 /mnt/dades_usuaris
+
+explicacio de la comanda:
+
+repquota /dev/sdc1
+explicacio de la comanda:
+--captura
