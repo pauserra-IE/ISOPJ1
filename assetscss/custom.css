@@ -37,15 +37,15 @@ a:hover {
   text-decoration: underline;
 }
 
-/* Botons de desplaçament (amunt i avall) */
+/* Botons de desplaçament (amunt i avall) a la part inferior dreta */
 #scrollButtons {
   position: fixed;
-  bottom: 20px;
-  left: 20px;
+  bottom: 20px; /* Espai des de la part inferior */
+  right: 20px;  /* Espai des de la part dreta */
   display: flex;
   flex-direction: column; /* Apilar els botons un sobre l'altre */
   gap: 10px; /* Espai entre els botons */
-  z-index: 1000;
+  z-index: 1000; /* Assegura que els botons siguin visibles sobre altres elements */
 }
 
 #scrollUpBtn, #scrollDownBtn {
@@ -63,6 +63,7 @@ a:hover {
 #scrollUpBtn:hover, #scrollDownBtn:hover {
   background-color: #0c59b3;
 }
+
 
 /* Estils generals */
 body {
