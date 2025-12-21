@@ -1,202 +1,51 @@
 /* Suaviza les línies horizontals */
 hr {
   border: none;
-  border-top: 1px solid #e0e0e0;
-  margin: 40px 0;
+  border-top: 1px solid #ccc;
+  margin: 20px 0;
 }
 
 /* Títols */
 h1, h2, h3 {
-  color: #333;
-  font-weight: 600;
-  margin-top: 40px;
-  margin-bottom: 15px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  color: #2c3e50;
 }
 
+/* Títols específics */
 h1 {
-  font-size: 2.5em;
+  font-size: 2.5em; /* 40px */
 }
 
 h2 {
-  font-size: 2em;
+  font-size: 2em; /* 32px */
 }
 
 h3 {
-  font-size: 1.5em;
+  font-size: 1.5em; /* 24px */
 }
 
-/* Enlaces */
+/* Enllaços */
 a {
   color: #1a73e8;
   text-decoration: none;
-  font-weight: 500;
-  transition: color 0.3s ease, border-bottom 0.3s ease;
+  margin-bottom: 5px;
+  display: inline-block;
+  font-size: 1.05em;
 }
-
 a:hover {
-  color: #0c59b3;
-  border-bottom: 2px solid #0c59b3;
-}
-
-/* Peu de pàgina */
-footer, .license {
-  font-size: 0.85em;
-  color: #777;
-  margin-top: 40px;
-  border-top: 1px solid #e0e0e0;
-  padding-top: 20px;
-  text-align: center;
-}
-
-footer a {
-  color: #555;
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-footer a:hover {
-  color: #1a73e8;
-}
-
-/* Contingut principal */
-body {
-  font-family: 'Helvetica Neue', Arial, sans-serif;
-  line-height: 1.6;
-  background-color: #f9f9f9;
-  color: #333;
-  margin: 0;
-  padding: 0 20px;
-  max-width: 1200px;
-  margin: 0 auto; /* Centrar el contingut */
-}
-
-main {
-  padding: 40px 0;
-}
-
-/* Imatges responsives */
-img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-  margin: 20px 0; /* Afegir espai entre imatges i text */
-}
-
-/* Estilitzar llistes */
-ul, ol {
-  padding-left: 20px;
-  margin: 20px 0;
-}
-
-ul li, ol li {
-  line-height: 1.8;
-}
-
-/* Estilitzar taules (si n'hi ha) */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 40px;
-}
-
-table, th, td {
-  border: 1px solid #e0e0e0;
-}
-
-th, td {
-  padding: 12px;
-  text-align: left;
-  font-size: 1em;
-}
-
-th {
-  background-color: #f4f4f4;
-  font-weight: bold;
-}
-
-/* Responsivitat per a mòbils */
-@media (max-width: 768px) {
-  body {
-    padding: 0 15px;
-  }
-
-  h1 {
-    font-size: 2em;
-  }
-
-  h2 {
-    font-size: 1.8em;
-  }
-
-  h3 {
-    font-size: 1.4em;
-  }
-
-  footer {
-    font-size: 0.75em;
-  }
-}
-
-/* Elements de la pàgina centrats */
-section, article {
-  margin-bottom: 40px;
-}
-
-/* Millorar l'aspecte de les citacions */
-blockquote {
-  background-color: #f0f0f0;
-  border-left: 5px solid #1a73e8;
-  padding: 15px 20px;
-  margin: 20px 0;
-  font-style: italic;
-  color: #555;
-}
-
-/* Millorar els botons (si n'hi ha) */
-button, .btn {
-  background-color: #1a73e8;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  font-size: 1em;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-button:hover, .btn:hover {
-  background-color: #0c59b3;
-}
-
-/* Botó per tornar a la pàgina principal */
-#goToHomeBtn {
-  position: fixed;
-  top: 20px; /* Posició a la part superior */
-  right: 20px; /* Posició a la dreta */
-  background-color: #1a73e8;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  font-size: 1.5em;
-  border-radius: 50%;
-  cursor: pointer;
-  z-index: 1000; /* Assegura que el botó estigui per sobre de la resta de contingut */
-  transition: background-color 0.3s ease;
-}
-
-#goToHomeBtn:hover {
-  background-color: #0c59b3;
+  text-decoration: underline;
 }
 
 /* Botons de desplaçament (amunt i avall) */
 #scrollButtons {
   position: fixed;
-  bottom: 20px; /* Posició a la part inferior */
-  left: 20px; /* Posició a l'esquerra */
+  bottom: 20px;
+  left: 20px;
   display: flex;
   flex-direction: column; /* Apilar els botons un sobre l'altre */
   gap: 10px; /* Espai entre els botons */
-  z-index: 1000; /* Assegura que els botons estiguin per sobre del contingut */
+  z-index: 1000;
 }
 
 #scrollUpBtn, #scrollDownBtn {
@@ -208,10 +57,74 @@ button:hover, .btn:hover {
   border-radius: 50%;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  display: block; /* Assegura que els botons siguin elements de bloc */
+  display: block;
 }
 
 #scrollUpBtn:hover, #scrollDownBtn:hover {
   background-color: #0c59b3;
 }
 
+/* Estils generals */
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.3;
+  padding: 0 15px;
+}
+
+li {
+  line-height: 1.2;
+}
+
+/* Botó de "Tornar a l'inici" */
+#goToHomeBtn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #1a73e8;
+  color: white;
+  border: none;
+  padding: 15px;
+  font-size: 1.5em;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  z-index: 1000;
+}
+
+#goToHomeBtn:hover {
+  background-color: #0c59b3;
+}
+
+/* Peu de pàgina amb llicència */
+footer, .license {
+  font-size: 0.85em;
+  color: #666;
+  margin-top: 20px;
+  border-top: 1px solid #eee;
+  padding-top: 10px;
+  text-align: left;
+}
+
+.license-icon {
+  max-width: 1em;
+  max-height: 1em;
+  margin-left: 0.2em;
+}
+
+/* Responsivitat per dispositius petits */
+@media (max-width: 600px) {
+  body {
+    padding: 0 10px;
+  }
+
+  /* Botons fixos ajustats per a mòbils */
+  #scrollButtons {
+    bottom: 10px;
+    left: 10px;
+  }
+
+  #goToHomeBtn {
+    top: 10px;
+    right: 10px;
+  }
+}
