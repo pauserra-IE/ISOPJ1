@@ -167,3 +167,50 @@ button, .btn {
 button:hover, .btn:hover {
   background-color: #0c59b3;
 }
+
+/* Botó per tornar a la pàgina principal */
+#goToHomeBtn {
+  position: fixed;
+  top: 20px; /* Posició a la part superior */
+  right: 20px; /* Posició a la dreta */
+  background-color: #1a73e8;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-size: 1.5em;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 1000; /* Assegura que el botó estigui per sobre de la resta de contingut */
+  transition: background-color 0.3s ease;
+}
+
+#goToHomeBtn:hover {
+  background-color: #0c59b3;
+}
+
+/* Botons de desplaçament (amunt i avall) */
+#scrollButtons {
+  position: fixed;
+  bottom: 20px; /* Posició a la part inferior */
+  left: 20px; /* Posició a l'esquerra */
+  display: flex;
+  flex-direction: column; /* Apilar els botons un sobre l'altre */
+  gap: 10px; /* Espai entre els botons */
+  z-index: 1000; /* Assegura que els botons estiguin per sobre del contingut */
+}
+
+#scrollUpBtn, #scrollDownBtn {
+  background-color: #1a73e8;
+  color: white;
+  border: none;
+  padding: 15px;
+  font-size: 1.5em;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#scrollUpBtn:hover, #scrollDownBtn:hover {
+  background-color: #0c59b3;
+}
+
