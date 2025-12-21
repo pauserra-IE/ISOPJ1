@@ -1,4 +1,4 @@
-theme: minima
+#theme: minima
 
 sass:
   style: compressed
@@ -6,5 +6,5 @@ sass:
 plugins:
   - jekyll-seo-tag
 
-include:
-  - assets/css/custom.css
+#include:
+#  - assets/css/custom.css
