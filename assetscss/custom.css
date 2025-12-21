@@ -95,21 +95,25 @@ li {
   background-color: #0c59b3;
 }
 
-/* Peu de pàgina amb llicència */
-footer, .license {
-  font-size: 0.85em;
-  color: #666;
-  margin-top: 20px;
-  border-top: 1px solid #eee;
-  padding-top: 10px;
-  text-align: left;
+/* Millorar la separació entre text i les icones de llicència */
+footer .license {
+  margin-top: 20px;  /* Afegim marge superior per separar millor del text */
 }
 
 .license-icon {
-  max-width: 1em;
-  max-height: 1em;
-  margin-left: 0.2em;
+  max-width: 1.5em;  /* Una mica més grans per a una millor visibilitat */
+  max-height: 1.5em;
+  margin-left: 10px; /* Separar les icones unes de les altres */
+  margin-right: 10px; /* Afegir marge a la dreta de cada icona */
+  vertical-align: middle; /* Centra les icones amb el text */
+  display: inline-block; /* Assegura que estiguin en línia, no apilades */
 }
+
+/* Afegir marge entre les imatges de les llicències */
+footer .license img {
+  margin-right: 10px;  /* Afegir espai entre les icones */
+}
+
 
 /* Responsivitat per dispositius petits */
 @media (max-width: 600px) {
@@ -127,4 +131,12 @@ footer, .license {
     top: 10px;
     right: 10px;
   }
+}
+
+/* Afegir espai entre les imatges i el text */
+img {
+  display: block;        /* Força que les imatges siguin blocs, no alineades amb el text */
+  margin: 20px 0;        /* Marge superior i inferior per separar de manera visual */
+  max-width: 100%;       /* Evita que les imatges surtin de la pàgina */
+  height: auto;          /* Manté la relació d'aspecte original */
 }
