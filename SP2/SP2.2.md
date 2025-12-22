@@ -20,7 +20,7 @@ Que es una copia
   - Deja-Dup
   - Duplicity
 
-### 5. Teoria Automatització scripts.cron i anacron
+### 5. Teoria Automatització i scripts cron i anacron
 
 ### 6. Pràctica automatització
   - cron
@@ -30,40 +30,61 @@ DOCUMENTACIO
 
 01/12/25
 ### 1. Teoria Còpies de Seguretat
-Que es una copia
+Aquí tens la documentació millorada d'aquest apartat, estructurada de manera més professional i clara per al teu fitxer de GitHub.
 
-3 tipus de copies de seguretat, ventatjes i desventatges i que es necessita per recuperar cadascuna
-Tipus: completa, diferencial, incremental
+---
 
-1-Completa
-2-Diferencial: ventatjaocupa menys que una completa. la diferencial sempre es fa a partir de la completa. desventatja: per a recuperarla necessites la ultima completa 
-3-Incremental: es necessita la ultima completa o diferencial i totes les incrementals anteriors. ventatja ocupen molt poc ja que nomes conte la diferencia...
-fer una taula en 6 columnes: tipus, ques es, avantatges, desventatges i que es necessita per a recuperarles
+### 1. Teoria de Còpies de Seguretat (Backups)
 
+Una **còpia de seguretat** és un duplicat de dades que es realitza per poder recuperar la informació en cas de pèrdua, corrupció o fallada del sistema. És la mesura de seguretat més crítica en l'administració de sistemes.
 
+#### Tipus de Còpies de Seguretat
 
-cp: es una copìa simple que no es inteligent. transfereix arxius nomes localment. no optimitza ni temps ni espai
-rsync: es una eina inteligent que nomes copia els fitxers modificats. treballa en local i en remot.
-dd:No es una eina per a copiar (es una eina per a clonar) s'utlitza quan volem copiar tot el contingut d'un disc o una particio.
+A continuació, es comparen els tres mètodes principals segons la seva gestió de dades i recuperació:
 
+| Tipus | Descripció | Avantatges | Desavantatges | Requisits de Recuperació | Espai Ocupat |
+| --- | --- | --- | --- | --- | --- |
+| **Completa** | Copia totes les dades seleccionades. | Recuperació fàcil i ràpida. | Lentitud i gran consum d'espai. | Només la darrera còpia completa. | Molt alt |
+| **Diferencial** | Copia els canvis fets des de l'última **Completa**. | Més ràpida que la completa i estalvia espai. | Creix amb el temps fins a la següent completa. | L'última Completa + l'última Diferencial. | Mitjà |
+| **Incremental** | Copia els canvis des de la **darrera còpia** (sigui completa o incremental). | La més ràpida i la que menys espai ocupa. | Recuperació més complexa i lenta. | L'última Completa + **totes** les incrementals en ordre. | Baix |
 
-Pràctica:
+---
 
+#### Eines de Còpia i Clonació en Linux
 
-captura fdisk -l
+* **`cp` (Copy):** És una eina de còpia simple i local. No és "intel·ligent", la qual cosa significa que si tornem a executar la còpia, tornarà a copiar tots els fitxers de zero sense optimitzar temps ni espai.
+* **`rsync` (Remote Sync):** Eina avançada i intel·ligent. Només transfereix els fitxers modificats (còpia incremental a nivell de blocs). Permet treballar tant en local com de forma remota (via SSH) i manté els permisos i propietaris.
+* **`dd` (Data Duplicator):** No és una eina de còpia de fitxers convencional, sinó una eina de **clonació a nivell de bits**. S'utilitza per copiar discos sencers o particions bit a bit, ideal per a forense o replicació de sistemes.
+
+---
+
+### Part Pràctica: Gestió de Discos i Còpies
+
+#### 1. Identificació de Discos i Particions
+
+Abans de realitzar qualsevol còpia en dispositius físics, fem servir `fdisk -l` per llistar els dispositius d'emmagatzematge disponibles.
+
 <img width="1203" height="769" alt="image" src="https://github.com/user-attachments/assets/d0af3951-2465-4402-bc89-5dfcd497d8b0" />
 
-captura comprovacio despres de crear les particions:
+Després de crear les particions necessàries per allotjar les còpies, verifiquem que l'estructura és correcta:
+
 <img width="781" height="562" alt="image" src="https://github.com/user-attachments/assets/5190a366-914a-4855-b589-d3d51bd48e7e" />
 
+---
 
+#### 2. Execució de Còpies de Seguretat
 
-captura cp -R /home/pauserra/Documents/* /var/copies
+**Ús de `cp` recursiu:**
+Executem una còpia de tot el contingut del directori `Documents` de l'usuari cap al directori de destinació `/var/copies` utilitzant el paràmetre `-R` (recursiu).
+
 <img width="953" height="221" alt="image" src="https://github.com/user-attachments/assets/fc9fe6b2-00f8-4716-b231-02a0beea17a5" />
 
-captura rsync
+**Ús de `rsync` per a sincronització eficient:**
+Utilitzem `rsync` per assegurar que només es copiïn les noves modificacions, optimitzant així el rendiment del sistema.
+
 <img width="918" height="482" alt="image" src="https://github.com/user-attachments/assets/0a76a433-ff91-40a8-bd2d-1479e9359646" />
 
+---
 09/12/25
 
 <img width="903" height="415" alt="image" src="https://github.com/user-attachments/assets/ade638e8-8fa5-4f99-a5d3-abd9ffcb1294" />
@@ -206,151 +227,148 @@ Explicació: L'opció --ignore-existing fa que rsync salti qualsevol fitxer que 
 
 
 
+15/15/25
 
-15/12/25
+## Quotes d’usuari
 
-Maquina en 2 discos de 1gb
+Les quotes de disc, també anomenades quotes d’usuari, són un mecanisme del sistema operatiu que permet controlar i restringir la quantitat d’espai de disc i el nombre de fitxers que poden utilitzar els usuaris o els grups dins d’un sistema.
 
-Quotes de discos/usuaris
+### Verificació dels discos disponibles
 
-Definició: la quota de disc és la limitacio d'espai de disc que es dona als usuaris
-hi ha un limit de temps, etc.
+En primer lloc, comprovem els discos presents al sistema utilitzant la comanda `fdisk -l`.
 
+<img width="593" height="337" alt="image" src="https://github.com/user-attachments/assets/f57aea23-8e03-4e40-800a-d4f00a009770" />
 
+## Instal·lació del suport per a quotes
 
+Per poder gestionar les quotes, instal·lem el paquet necessari amb la comanda:
 
+`apt install quota`
 
-sudo su
-cd 
+<img width="786" height="247" alt="image" src="https://github.com/user-attachments/assets/12d137b6-0748-4de9-a6ac-5dcf8d83e02e" />
 
-fdisk -l
---captura a sdc1 
+### Creació del directori de dades
 
-mkfs.ext4 /dev/sdc1
+A continuació, creem un directori dins de `/mnt` que servirà com a punt de muntatge per a les dades dels usuaris.
 
-apt update
+<img width="548" height="54" alt="image" src="https://github.com/user-attachments/assets/99e1f9c7-02a1-4bf7-9426-0c7d8cab5f8c" />
 
-apt install quota
---captura
+### Configuració del muntatge permanent
 
+Editem l’arxiu `/etc/fstab` i afegim la següent entrada:
 
+```
+/dev/sdc1   /mnt/dades_usuaris   ext4   defaults,usrquota,grpquota   0   0
+```
 
+Significat dels camps:
 
-cd /mnt/
+* **/dev/sdc1**: partició del disc que es muntarà.
+* **/mnt/dades_usuaris**: carpeta on es podrà accedir al contingut.
+* **ext4**: sistema de fitxers utilitzat.
+* **usrquota**: habilita el control de quotes per usuari.
+* **grpquota**: habilita el control de quotes per grup.
+* **0 0**: opcions relacionades amb la còpia de seguretat i la comprovació del disc.
 
-mkdir dades_usuaris
--- captura
+<img width="928" height="415" alt="image" src="https://github.com/user-attachments/assets/156bbda2-92e5-410b-b713-0bac0d8906a4" />
 
-nano /etc/fstab/
-AFEGIR LINIA
-/dev/sdc1              /mnt/dades_usuari            ext4           defaults,usrquota,grpquota     0       0
---captura
+Un cop guardats els canvis, reiniciem la màquina perquè la configuració tingui efecte.
 
-guardar, tancar i reiniciar maquina
+<img width="541" height="105" alt="image" src="https://github.com/user-attachments/assets/1a2115fd-2511-4078-899d-0c843d8f0bf6" />
 
+### Comprovació del punt de muntatge
 
+Després de reiniciar, podem verificar que el disc està muntat correctament de dues formes:
 
-dos maneres per comprovar que quan reiniciem que el punt de muntatge es correcte
+* Consultant el contingut del directori amb `ls /mnt/dades_usuaris`
+* Revisant els sistemes de fitxers actius amb `df -T`
 
-ls /mnt/dades_usuaris
+<img width="651" height="261" alt="image" src="https://github.com/user-attachments/assets/ac388e06-be85-4c38-a23d-ab6c70ca54ba" />
 
-df -T 
---captura
+### Creació d’un usuari de prova
 
+Creem un usuari anomenat **prova**, que utilitzarem per validar el funcionament de les quotes.
 
+<img width="812" height="548" alt="image" src="https://github.com/user-attachments/assets/764bf323-c82b-4827-aeff-e2f1f4289a05" />
 
-adduser prova
---captura
+Dins del directori de dades s’han de generar automàticament els fitxers:
 
-cd /mn/dades_usuari
-ls -l
+* `lost+found`
+* `aquota.user`
+* `aquota.group`
 
-hauria d'apariexer lost+found i un altre arxiu
+<img width="689" height="49" alt="image" src="https://github.com/user-attachments/assets/b7fa2c1d-c2ea-47d8-beff-fc943df48167" />
 
-quotacheck -cug /mnt/dades_usuari
-hauria d'apareixeer aquota.group aquota.user lost+found
+### Activació del control de quotes
 
---captura
+Per assegurar el correcte funcionament, activem i desactivem les quotes del sistema de fitxers:
 
+* `quotaoff /mnt/dades_usuaris`
+* `quotaon /mnt/dades_usuaris`
 
+Aquestes ordres permeten habilitar o aturar temporalment el sistema de control de quotes.
 
-quotaon /mnt/dades_usuari
-ls
-quotaoff /mnt/dades_usuari
-ls
-explicacio: serveixen per activar i desactivar aquest mecanisme de control de quotes en un sistema de fitxers muntat.
---captura
+### Consulta de l’estat de les quotes
 
-quota -u prova
+Comprovem l’estat de les quotes configurades mitjançant les ordres següents:
 
-repquota /dev/sdc1
---captura
+* `quota -u prova` per consultar un usuari concret.
+* `repquota /dev/sdc1` per obtenir un informe general del disc.
 
+<img width="947" height="181" alt="image" src="https://github.com/user-attachments/assets/887a3288-b52c-4572-9909-9884f1dcebf4" />
 
-edquota -u prova
-CANVIAR LINIA A 
-/dev/sdc1         0      1024     2048     0        0
---captura
-guardar i sortir
+### Assignació de límits d’espai
 
-explicacio: es pot configurar per la part de bloc o per la part de nodes
+Editem la quota de l’usuari **prova** amb la comanda:
 
+`edquota -u prova`
 
-chmod 777 /mnt/dades_usuaris
---captura
+Configurem els valors de la següent manera:
 
-clear
+```
+/dev/sdc1   0   1024   2048   0   0
+```
 
+* **Límit tou**: 1024 blocs (aproximadament 1 MB).
+* **Límit dur**: 2048 blocs (aproximadament 2 MB).
+* No s’estableix cap límit pel nombre de fitxers.
 
-su prova
-dd if=/dev/zero of=test bs=1K  count=800
+### Assignació de permisos
 
---captura
+Canviem els permisos del directori per permetre l’escriptura als usuaris:
 
-dd if=/dev/zero of=test2 bs=1K  count=800
---captura
+`chmod 777 /mnt/dades_usuaris`
 
-sudo su
-repquota /dev/sdc1
+<img width="739" height="291" alt="image" src="https://github.com/user-attachments/assets/188f011e-ffbb-4a3f-b8dc-a639017889a2" />
 
---captura
+## Verificació pràctica amb l’usuari prova
 
-quota -u prova
---captura
-su prova
-dd if=/dev/zero of=test3 bs=1K  count=800
-hauria de sortir error en escriure
-ls
-ls -l
---captura
-explicacio: l'arxiu esta incomplet
+Accedim amb l’usuari **prova** i comencem a crear fitxers per comprovar els límits configurats.
 
-exit
-clear
+Creació del primer fitxer:
 
+<img width="862" height="116" alt="image" src="https://github.com/user-attachments/assets/29f33a5a-47dd-415a-aff6-b9de66f3dd2e" />
 
-repquota /dev/sdc1
-quotaoff /mnt/dades_usuari
-su prova
-dd if=/dev/zero of=test4 bs=1K  count=800
---captura
-explicació: com que hem fet quotaoff ara si que ens deixa crear l'arxiu test4
+Creació del segon fitxer fins arribar a 1600 KB:
 
+<img width="862" height="116" alt="image" src="https://github.com/user-attachments/assets/b13303e4-1610-49f9-b867-8b88cfed9aaa" />
 
-exit
+En intentar crear un tercer fitxer, el sistema indica que s’ha superat la quota establerta i només permet crear l’arxiu parcialment.
 
+<img width="870" height="312" alt="image" src="https://github.com/user-attachments/assets/80e272c6-efee-4328-98d8-d3a4b44095e6" />
 
-edquota -t 
+## Configuració del període de gràcia
 
-EXPLICACIÓaquest periode de gracia es el que perdefete als usuaris
-sempre que editem aquest fitxer es per a tots els usuaris pero es pot fer per a un usuari en concret
---captura
+El període de gràcia general del sistema es pot modificar amb la comanda:
 
+`edquota -t`
 
-setquota -T -u prova 1296000 1296000 /mnt/dades_usuaris
+Aquest valor afecta totes les quotes del disc.
 
-explicacio de la comanda:
+<img width="765" height="178" alt="image" src="https://github.com/user-attachments/assets/68739e8e-065b-4db4-b409-30c6f7fbf732" />
 
-repquota /dev/sdc1
-explicacio de la comanda:
---captura
+Si volem definir un període de gràcia específic només per a un usuari concret, podem utilitzar:
+
+`setquota -T -u prova 1296000 1296000 /mnt/dades_usuaris`
+
+<img width="903" height="228" alt="image" src="https://github.com/user-attachments/assets/8358248d-f6d3-40a7-87af-3d62a747f258" />
