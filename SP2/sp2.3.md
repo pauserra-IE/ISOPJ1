@@ -9,28 +9,28 @@ title: "Sprint 2: Instal·lació, Configuració de Programari de Base i Gestió 
   - [Mida block](#mida-block)
   - [Fragmentació interna](#fragmentació-interna)
   - [Fragmentació externa](#fragmentació-externa)
-- [Tipus de formateig](#tipus-de-formateig)
-  - [Baix nivell](#baix-nivell)
-  - [Mig nivell](#mig-nivell)
-  - [Alt nivell](#alt-nivell)
+  - [Tipus de formateig](#tipus-de-formateig)
+   - [Baix nivell](#baix-nivell)
+   - [Mig nivell](#mig-nivell)
+   - [Alt nivell](#alt-nivell)
 - [Gestió de particions](#gestió-de-particions)
 - [Gestió d’usuaris i grups i permisos](#gestió-dusuaris-i-grups-i-permisos)
 - [Gestió de processos](#gestió-de-processos)
-- [Còpies de seguretat i automatització de tasques](#còpies-de-seguretat-i-automatització-de-tasques)
+- [Còpies de seguretat i automatització de tasques](#teoria-copies-de-seguretat)
   - [Teoria Còpies de Seguretat](#teoria-copies-de-seguretat)
   - [Teoria Comandes Backups](#teoria-comandes-backups)
-  - [Pràctica comandes Bàsiques](#pràctica-comandes-bàsiques)
+  - [Pràctica comandes Bàsiques](#TASQUES-PRÀCTIQUES)
     - [cp](#cp)
     - [rsync](#rsync)
     - [dd](#dd)
   - [Pràctica programes Backups](#pràctica-programes-backups)
-    - [Deja-Dup]
-    - [Duplicity]
+    - [Deja-Dup](#deja-dup)
+    - [Duplicity](#duplicity)
   - [Teoria Automatització (scripts, cron i anacron)](#5.-Teoria-i-Pràctica-d'Automatització:-scripts,-Cron-i-Anacron)
 )
   - [Pràctica automatització](#TASQUES-PRÀCTIQUES)
-    - [cron]
-    - [anacron]
+    - [cron](#cron)
+    - [anacron](#anacron)
 - [Quotes d’usuari](#quotes-dusuari)
 
 
@@ -522,8 +522,53 @@ Prova 2: Accés permès (Usuari Roig) En canvi, l'usuari roig, gràcies a la ACL
 
 
 ---------------------------------------------------------------------------
+
 ## Gestió de processos
 
+Un procés es defineix com una instància dinàmica que es genera quan s'executa un programa o codi. És l'element fonamental que el sistema operatiu ha de gestionar, organitzar i supervisar constantment per assegurar el bon funcionament del sistema.
+
+Per veure els processos filtrats per usuari, podem usar la comanda `pstree -p -h [usuari]`: <img width="613" height="769" alt="image" src="https://github.com/user-attachments/assets/20abdc31-0c86-435d-bb2f-d9232f205605" />
+
+Si volem filtrar per trobar els processos del terminal, podem fer-ho així: <img width="614" height="188" alt="image" src="https://github.com/user-attachments/assets/f420dbce-d5df-4121-b02d-613eba0b3ced" />
+
+En aquesta imatge, veiem la sortida de `ps aux`, que mostra informació detallada sobre cada procés. Aquí expliquem què significa cada columna: <img width="614" height="690" alt="image" src="https://github.com/user-attachments/assets/166e265e-05d7-4a2c-8fdd-867173af594b" />
+
+Si volem veure només els processos relacionats amb `gnome-terminal`, podem fer servir `ps aux | grep gnome-terminal`: <img width="612" height="99" alt="image" src="https://github.com/user-attachments/assets/459f952e-2adc-4a13-972f-fd6b00b49acb" />
+
+Si volem finalitzar un procés, podem fer-ho amb la comanda `kill -9 [PID]`, on `[PID]` és l'identificador del procés.
+
+Per interactuar amb processos des de la línia de comandes, podem utilitzar les següents opcions:
+
+* Entrant a `top`, per veure els processos en temps real. Si volem aturar un procés, utilitzem `Ctrl + C`; per aturar un procés temporalment, `Ctrl + Z` i després podem veure els processos aturats amb `jobs`. Per tornar a executar un procés aturat, utilitzem `fg %[n.job]`.
+
+  <img width="235" height="49" alt="image" src="https://github.com/user-attachments/assets/895d777c-e8c5-4c7c-96d7-3f77f4e46350" />
+
+* Per executar un procés en segon pla, afegim l’ampersand (`&`) després del comandament. Així el procés seguirà corrent sense bloquejar la terminal:
+
+  <img width="319" height="30" alt="image" src="https://github.com/user-attachments/assets/ae8d6692-7932-47bc-adae-709dc9ddf8e7" />
+
+* Per canviar la prioritat d'un procés, utilitzem la comanda `renice`. Si volem llançar un procés amb una prioritat específica, podem usar `nice`:
+
+  <img width="587" height="767" alt="image" src="https://github.com/user-attachments/assets/dbcb63ea-1b88-4840-8b73-e674cea7cf2f" />
+
+Cada procés té dues identificacions importants assignades pel sistema operatiu:
+
+1. **Identificador de Procés (PID):** És un número únic assignat a cada procés durant la seva existència.
+2. **Usuari vinculat:** El procés s'executa sota un usuari específic, amb els permisos i restriccions que aquest usuari té.
+
+Els processos poden canviar d'estat de manera contínua (com passar de "Actiu" a "Esperant recursos", o bé quedar en "Zombi" després d'acabar, esperant ser netejat). El sistema operatiu és el responsable de gestionar la planificació i l'ús del temps de la CPU, assegurant que tot funcioni adequadament.
+
+Per gestionar els processos des de la línia de comandes, tenim una sèrie d'eines i comandes:
+
+| Acció                 | Comandes Essencials    | Descripció                                                                                          |
+| :-------------------- | :--------------------- | :-------------------------------------------------------------------------------------------------- |
+| **Visualització**     | `ps`, `top`, `htop`    | Permeten veure l'estat dels processos, el consum de CPU i memòria, i la llista de tasques actives.  |
+| **Finalització**      | `kill`, `pkill`        | Permeten aturar processos específics mitjançant el PID o per nom d'usuari o grup.                   |
+| **Priorització**      | `nice`, `renice`       | Modifiquen la prioritat d'un procés, regulant quins processos poden accedir més recursos de la CPU. |
+| **Gestió de Serveis** | `systemctl`, `service` | Gestionen serveis de fons o daemons, permetent iniciar, aturar o reiniciar serveis del sistema.     |
+
+* **Permisos:** Un procés només pot accedir als recursos que l'usuari té permès.
+* **Tipus d'execució:** Els processos poden funcionar com a processos interactius (en primer pla) o com a serveis de fons (daemons).
 
 
 
