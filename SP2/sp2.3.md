@@ -14,9 +14,6 @@ title: "Sprint 2: Instal·lació, Configuració de Programari de Base i Gestió 
   - [Mig nivell](#mig-nivell)
   - [Alt nivell](#alt-nivell)
 - [Gestió de particions](#gestió-de-particions)
-  - [Preparació del Maquinari](#preparació-del-maquinari)
-  - [GPARTED](#gparted)
-  - [Comandes i muntatge (fstab)](#comandes-i-muntatge-fstab)
 - [Gestió d’usuaris i grups i permisos](#gestió-dusuaris-i-grups-i-permisos)
 - [Gestió de processos](#gestió-de-processos)
 - [Còpies de seguretat i automatització de tasques](#còpies-de-seguretat-i-automatització-de-tasques)
@@ -27,12 +24,13 @@ title: "Sprint 2: Instal·lació, Configuració de Programari de Base i Gestió 
     - [rsync](#rsync)
     - [dd](#dd)
   - [Pràctica programes Backups](#pràctica-programes-backups)
-    - [Deja-Dup](#deja-dup)
-    - [Duplicity](#duplicity)
-  - [Teoria Automatització (scripts, cron i anacron)](#teoria-automatització-scripts-cron-i-anacron)
-  - [Pràctica automatització](#pràctica-automatització)
-    - [cron](#cron)
-    - [anacron](#anacron)
+    - [Deja-Dup]
+    - [Duplicity]
+  - [Teoria Automatització (scripts, cron i anacron)](#5.-Teoria-i-Pràctica-d'Automatització:-scripts,-Cron-i-Anacron)
+)
+  - [Pràctica automatització](#TASQUES-PRÀCTIQUES)
+    - [cron]
+    - [anacron]
 - [Quotes d’usuari](#quotes-dusuari)
 
 
@@ -83,9 +81,12 @@ title: "Sprint 2: Instal·lació, Configuració de Programari de Base i Gestió 
   <img width="677" height="284" alt="image" src="https://github.com/user-attachments/assets/f3b3d86f-e394-4b08-aae0-a7be89890749" />
 
 - ### Tipus de formateig
-  - **Baix nivell:** Esborra arxius, sistema de fitxers i intenta arreglar sectors defectuosos físicament. Necessitem programes específics, no es pot fer des del S.O. convencional.
-  - **Mig nivell:** No esborra els arxius físicament (es poden recuperar), però si troba sectors defectuosos els arregla (format lent).
-  - **Alt nivell:** No esborra els arxius, només esborra la taula del sistema de fitxers. És molt ràpid però recuperable. Si troba sectors defectuosos els ignora (casella "formato rápido").
+- ### **Baix nivell:**
+  - Esborra arxius, sistema de fitxers i intenta arreglar sectors defectuosos físicament. Necessitem programes específics, no es pot fer des del S.O. convencional.
+- ### **Mig nivell:**
+  - No esborra els arxius físicament (es poden recuperar), però si troba sectors defectuosos els arregla (format lent).
+- ### **Alt nivell:**
+  - No esborra els arxius, només esborra la taula del sistema de fitxers. És molt ràpid però recuperable. Si troba sectors defectuosos els ignora (casella "formato rápido").
 
 - ### Gestió de particions
   Una partició és un tros físic del disc dur. Un volum és una capa d'abstracció que es posa damunt de les particions. Amb el GParted podem gestionar particions però no podem modificar la mida del bloc fàcilment un cop creada.
@@ -643,7 +644,7 @@ Anacron es gestiona principalment a través del fitxer `/etc/anacrontab`. Està 
 
 ### TASQUES PRÀCTIQUES
 
-#### 1. Creació d'un Script de Còpia de Seguretat
+#### TASCA 1. Creació d'un Script de Còpia de Seguretat
 
 Primer, crearem un script anomenat `copies.sh` al nostre directori personal (home).
 
@@ -691,7 +692,7 @@ A la configuració de `/etc/anacrontab`, podem veure que les tasques diàries s'
 Finalment, en fer un **reboot** i esperar el temps de marge configurat, l'script s'executarà automàticament.
 <img width="416" height="189" alt="image" src="https://github.com/user-attachments/assets/fa1ab1d5-4420-4081-a15f-bac724a2a40c" />
 
-TASCA 2: Triar un programa i fer 3 tipus de copies de seguretat
+#### TASCA 2: Triar un programa i fer 3 tipus de copies de seguretat
 
 He tirat rsync per gestionar diferents tipus de còpies de seguretat. A continuació, resumeixo el procés seguit a les captures i la documentació corresponent per a cada mètode:
 
