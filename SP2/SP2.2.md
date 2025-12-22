@@ -96,13 +96,13 @@ El servei de Cron utilitza diversos fitxers i directoris de configuració segons
 
 **Arxius i directoris importants:**
 
-<img width="909" height="516" alt="image" src="[https://github.com/user-attachments/assets/7cae644a-c4e3-4263-a6d5-8b88567d815d](https://github.com/user-attachments/assets/7cae644a-c4e3-4263-a6d5-8b88567d815d)" />
+<img width="909" height="516" alt="image" src="https://github.com/user-attachments/assets/7cae644a-c4e3-4263-a6d5-8b88567d815d" />
 
 Si volem programar una tasca per a un usuari específic, utilitzem la comanda `crontab -e` (o `crontab -e -u [usuari]` amb permisos de superusuari) per editar el fitxer de configuració personal.
 
-<img width="1309" height="500" alt="image" src="[https://github.com/user-attachments/assets/91b044ed-a40d-43ce-9698-66c23a894adb](https://github.com/user-attachments/assets/91b044ed-a40d-43ce-9698-66c23a894adb)" />
+<img width="1309" height="500" alt="image" src="https://github.com/user-attachments/assets/91b044ed-a40d-43ce-9698-66c23a894adb" />
 
-<img width="792" height="554" alt="image" src="[https://github.com/user-attachments/assets/be1b1a1b-1150-4ac0-8e25-40a22cbba871](https://github.com/user-attachments/assets/be1b1a1b-1150-4ac0-8e25-40a22cbba871)" />
+<img width="792" height="554" alt="image" src="https://github.com/user-attachments/assets/be1b1a1b-1150-4ac0-8e25-40a22cbba871" />
 
 A més de la configuració manual, el sistema disposa de carpetes predeterminades on podem moure els nostres scripts directament:
 
@@ -113,13 +113,13 @@ A més de la configuració manual, el sistema disposa de carpetes predeterminade
 
 Aquesta metodologia és molt pràctica, ja que no cal conèixer la sintaxi de cron (els 5 asteriscs); només cal desar el fitxer executable dins de la carpeta corresponent.
 
-<img width="470" height="208" alt="image" src="[https://github.com/user-attachments/assets/f39b3c75-5bfd-4bea-9c8a-a51c83bfa262](https://github.com/user-attachments/assets/f39b3c75-5bfd-4bea-9c8a-a51c83bfa262)" />
+<img width="470" height="208" alt="image" src="https://github.com/user-attachments/assets/f39b3c75-5bfd-4bea-9c8a-a51c83bfa262" />
 
 #### ANACRON: El fitxer anacrontab
 
 Anacron es gestiona principalment a través del fitxer `/etc/anacrontab`. Està dissenyat per garantir que les tasques de manteniment s'executin encara que l'ordinador hagi estat apagat.
 
-<img width="808" height="347" alt="image" src="[https://github.com/user-attachments/assets/5bd5b17f-d9be-49bd-b1ca-c00c5a58f1b6](https://github.com/user-attachments/assets/5bd5b17f-d9be-49bd-b1ca-c00c5a58f1b6)" />
+<img width="808" height="347" alt="image" src="https://github.com/user-attachments/assets/5bd5b17f-d9be-49bd-b1ca-c00c5a58f1b6" />
 
 ---
 
@@ -141,7 +141,7 @@ tar -cvf /home/pauserra/Escriptori/copies_$TIMESTAMP.tar.gz /home/pauserra/Imatg
 
 ```
 
-<img width="886" height="191" alt="image" src="[https://github.com/user-attachments/assets/1d246cfe-cacc-40fc-9655-e53f0059e5a6](https://github.com/user-attachments/assets/1d246cfe-cacc-40fc-9655-e53f0059e5a6)" />
+<img width="886" height="191" alt="image" src="https://github.com/user-attachments/assets/1d246cfe-cacc-40fc-9655-e53f0059e5a6" />
 
 Un cop creat, és imprescindible donar-li **permisos d'execució**:
 
@@ -149,29 +149,29 @@ Un cop creat, és imprescindible donar-li **permisos d'execució**:
 chmod +x copies.sh
 
 ```
-<img width="785" height="341" alt="image" src="[https://github.com/user-attachments/assets/bbc8bdb9-35a1-4dff-8047-e147ef45490f](https://github.com/user-attachments/assets/bbc8bdb9-35a1-4dff-8047-e147ef45490f)" />
+<img width="785" height="341" alt="image" src="https://github.com/user-attachments/assets/bbc8bdb9-35a1-4dff-8047-e147ef45490f" />
 
 #### 2. Programació amb Cron
 
 Per programar l'execució automàtica, editem el fitxer `/etc/crontab` i afegim la línia corresponent amb la sintaxi de temps i l'usuari que l'ha d'executar.
 
-<img width="901" height="414" alt="image" src="[https://github.com/user-attachments/assets/ae4d6c42-2cdb-4171-9b8d-dc64bd5eddeb](https://github.com/user-attachments/assets/ae4d6c42-2cdb-4171-9b8d-dc64bd5eddeb)" />
+<img width="901" height="414" alt="image" src="https://github.com/user-attachments/assets/ae4d6c42-2cdb-4171-9b8d-dc64bd5eddeb" />
 
 Podem verificar que el fitxer s'ha creat correctament a l'hora indicada:
-<img width="901" height="414" alt="image" src="[https://github.com/user-attachments/assets/056047d7-e293-44f9-a412-f26519af6641](https://github.com/user-attachments/assets/056047d7-e293-44f9-a412-f26519af6641)" />
+<img width="901" height="414" alt="image" src="https://github.com/user-attachments/assets/056047d7-e293-44f9-a412-f26519af6641" />
 
 #### 3. Automatització amb Anacron (via cron.daily)
 
 Si volem que la tasca s'executi diàriament sense dependre d'una hora exacta, copiem el nostre script a la carpeta `cron.daily`:
 
-<img width="768" height="71" alt="image" src="[https://github.com/user-attachments/assets/6cc9eb8f-1a0a-4e70-bc39-5f22e11d0c13](https://github.com/user-attachments/assets/6cc9eb8f-1a0a-4e70-bc39-5f22e11d0c13)" />
+<img width="768" height="71" alt="image" src="https://github.com/user-attachments/assets/6cc9eb8f-1a0a-4e70-bc39-5f22e11d0c13" />
 
 A la configuració de `/etc/anacrontab`, podem veure que les tasques diàries s'executaran amb un retard (delay) determinat després de l'arrencada del sistema (per exemple, 5 minuts després d'engegar).
 
-<img width="806" height="313" alt="image" src="[https://github.com/user-attachments/assets/120f5a72-139c-4d66-bf60-d8725a3d2ca5](https://github.com/user-attachments/assets/120f5a72-139c-4d66-bf60-d8725a3d2ca5)" />
+<img width="806" height="313" alt="image" src="https://github.com/user-attachments/assets/120f5a72-139c-4d66-bf60-d8725a3d2ca5" />
 
 Finalment, en fer un **reboot** i esperar el temps de marge configurat, l'script s'executarà automàticament.
-<img width="416" height="189" alt="image" src="[https://github.com/user-attachments/assets/fa1ab1d5-4420-4081-a15f-bac724a2a40c](https://github.com/user-attachments/assets/fa1ab1d5-4420-4081-a15f-bac724a2a40c)" />
+<img width="416" height="189" alt="image" src="https://github.com/user-attachments/assets/fa1ab1d5-4420-4081-a15f-bac724a2a40c" />
 
 TASCA 2: Triar un programa i fer 3 tipus de copies de seguretat
 
