@@ -160,17 +160,19 @@ afegim la linia:
 <img width="796" height="217" alt="image" src="https://github.com/user-attachments/assets/f073779d-4ecb-4fc9-8737-2de9a608e2d6" />
 
 getent passwd | grep alu1
-hauria de sortir una linia
+ens retorna ... per tant s'ha creat correctament
+<img width="683" height="45" alt="image" src="https://github.com/user-attachments/assets/6be6539a-e6fc-48d3-af11-69008c4befaf" />
 
 
 fem un reboot
 
 
 mos logejem en alu1 (passwd: alu1)
-
 whoami
 cd ..
 ls
+<img width="573" height="253" alt="image" src="https://github.com/user-attachments/assets/854749a4-b03d-49e9-b6ef-28522934d970" />
+
 
 
 
