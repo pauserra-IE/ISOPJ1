@@ -60,7 +60,7 @@ slapcat:
 
 
 descomprimim la carpeta darcius
-<img width="546" height="315" alt="image" src="https://github.com/user-attachments/assets/2ecb7e72-4e87-421e-91a0-6525bcc63bd9" />
+<img width="599" height="47" alt="image" src="https://github.com/user-attachments/assets/22df3a28-6c65-44d8-9852-df5e91ee2ce4" />
 
 a continuacio fem un dpkg-reconfigure slapd i seguim el seguent procés:
 
