@@ -184,13 +184,12 @@ ls
 
 26/01/26
 
-##El Servidor Samba serveix per a compartir fitxers en xarxa entre diferents sistemes operatius.
+##Samba
+El Servidor Samba serveix per a compartir fitxers en xarxa entre diferents sistemes operatius.
 
 La diferència principal respecte a altres sistemes de compartició és que Samba utilitza autenticació, ja sigui:
 
-Mitjançant usuaris de Samba
-
-O a través de LDAP
+Mitjançant usuaris de Samba o a través de LDAP
 
 Permet l’accés tant des de màquines Windows com Ubuntu/Linux.
 
@@ -232,6 +231,7 @@ Per a cada usuari, executem:
 smbpasswd -a nom_usuari
 
 <img width="402" height="299" alt="image" src="https://github.com/user-attachments/assets/a35af88f-f03a-46e4-beb0-a2f2fd2b8bf7" />
+
 5️⃣ Configuració del fitxer smb.conf
 
 Editem el fitxer de configuració:
@@ -242,21 +242,25 @@ nano /etc/samba/smb.conf
 Afegim la configuració al final del fitxer:
 
 <img width="807" height="563" alt="image" src="https://github.com/user-attachments/assets/e565e86d-e5e7-4a1f-ab2b-5ad3a45c6862" />
+
 6️⃣ Reiniciar serveis Samba
 systemctl restart smbd nmbd
 
 <img width="898" height="706" alt="image" src="https://github.com/user-attachments/assets/43111fe5-c580-4c73-b866-0371475ad0b0" />
+
 💻 Configuració del client
 1️⃣ Instal·lar eines necessàries
 sudo apt update
 sudo apt install smbclient
 
 <img width="894" height="371" alt="image" src="https://github.com/user-attachments/assets/6c8df766-600a-4653-804f-77c5fd47cba6" />
+
 2️⃣ Comprovació de connectivitat
 
 Fem un ping al servidor per assegurar-nos que hi ha connexió:
 
 <img width="899" height="499" alt="image" src="https://github.com/user-attachments/assets/99c9f2bf-3e31-4a3f-be8b-b8713523ac4a" />
+
 📁 Accés al recurs compartit
 
 Anem a Fitxers → Altres ubicacions
@@ -273,6 +277,7 @@ Com a anònim
 O amb un usuari Samba
 
 <img width="578" height="577" alt="image" src="https://github.com/user-attachments/assets/51214508-86b4-4dbb-a312-c6a1ae4005d3" />
+
 🔐 Resultats segons l’usuari
 ❌ Usuari Roig
 
@@ -285,6 +290,7 @@ Pot llegir els fitxers
 ❌ No pot escriure, ja que no té permisos d’escriptura
 
 <img width="537" height="170" alt="image" src="https://github.com/user-attachments/assets/97a6fe46-e1c2-42a3-aa34-79593b372a40" />
+
 ✅ Usuari Blau
 
 Pot llegir i escriure
