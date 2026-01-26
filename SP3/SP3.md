@@ -209,7 +209,7 @@ apt update
 2️⃣ Instal·lació de Samba
 apt install samba
 
-<img width="815" height="392" alt="image" src="https://github.com/user-attachments/assets/e881aca7-b799-4e56-a445-671bfdcddf63" /> <img width="670" height="242" alt="image" src="https://github.com/user-attachments/assets/97a222a7-1d02-4b34-b36f-24f6460ac2f8" />
+<img width="815" height="392" alt="image" src="https://github.com/user-attachments/assets/e881aca7-b799-4e56-a445-671bfdcddf63" />
 
 ⚠️ Nota: Comprovar que la instal·lació finalitza correctament.
 
