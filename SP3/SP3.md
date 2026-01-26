@@ -184,50 +184,118 @@ ls
 
 26/01/26
 
-##Servidor Samba
+##El Servidor Samba serveix per a compartir fitxers en xarxa entre diferents sistemes operatius.
 
-Serveix per a compartir...
-la diferencia es que samba es fa amb autentificacio a nivell sigui a traves d'usuaris de samba o del ldap. permet tant maquines windows com ubuntu 
+La diferència principal respecte a altres sistemes de compartició és que Samba utilitza autenticació, ja sigui:
 
-Pràctica:
+Mitjançant usuaris de Samba
 
-Engeguem el Client i el servidor
+O a través de LDAP
 
-Obrim un terminal amb sudo su al servidor
+Permet l’accés tant des de màquines Windows com Ubuntu/Linux.
+
+🧪 Pràctica
+🔌 Inici
+
+Engeguem el servidor i el client.
+
+⚙️ Configuració del servidor Samba
+1️⃣ Actualitzar el sistema
+
+Obrim un terminal al servidor i accedim com a superusuari:
+
+sudo su
 apt update
 
+2️⃣ Instal·lació de Samba
 apt install samba
-<img width="815" height="392" alt="image" src="https://github.com/user-attachments/assets/e881aca7-b799-4e56-a445-671bfdcddf63" />
 
-<img width="670" height="242" alt="image" src="https://github.com/user-attachments/assets/97a222a7-1d02-4b34-b36f-24f6460ac2f8" />
-ARREGLAR 
+<img width="815" height="392" alt="image" src="https://github.com/user-attachments/assets/e881aca7-b799-4e56-a445-671bfdcddf63" /> <img width="670" height="242" alt="image" src="https://github.com/user-attachments/assets/97a222a7-1d02-4b34-b36f-24f6460ac2f8" />
 
-afegim aquests tres usuaris amb la comanda
+⚠️ Nota: Comprovar que la instal·lació finalitza correctament.
+
+3️⃣ Creació d’usuaris Samba
+
+Afegim tres usuaris (exemple: blau, groc, roig) amb la següent comanda:
+
 useradd -M -s /sbin/nologin blau
+
 <img width="737" height="423" alt="image" src="https://github.com/user-attachments/assets/4a012fea-2c4b-4bdc-ae3a-41b9b24b6c38" />
-nota: no son valids per a l sistema operatiu son per accedirt al servidor samba
 
-fem la comanda smbpassws -a per a cada usuari
+📌 Nota:
+Aquests usuaris no són vàlids per al sistema operatiu, només s’utilitzen per a l’accés al servidor Samba.
+
+4️⃣ Assignar contrasenya Samba
+
+Per a cada usuari, executem:
+
+smbpasswd -a nom_usuari
+
 <img width="402" height="299" alt="image" src="https://github.com/user-attachments/assets/a35af88f-f03a-46e4-beb0-a2f2fd2b8bf7" />
+5️⃣ Configuració del fitxer smb.conf
 
-fem un nano /etc/samba/smb.conf
-i afegim el seguent baix de tot:
+Editem el fitxer de configuració:
+
+nano /etc/samba/smb.conf
+
+
+Afegim la configuració al final del fitxer:
+
 <img width="807" height="563" alt="image" src="https://github.com/user-attachments/assets/e565e86d-e5e7-4a1f-ab2b-5ad3a45c6862" />
+6️⃣ Reiniciar serveis Samba
+systemctl restart smbd nmbd
 
-fem un systemctl restart smbd nmbd
 <img width="898" height="706" alt="image" src="https://github.com/user-attachments/assets/43111fe5-c580-4c73-b866-0371475ad0b0" />
-
-
-ENTREM AL CLIENT
+💻 Configuració del client
+1️⃣ Instal·lar eines necessàries
 sudo apt update
 sudo apt install smbclient
+
 <img width="894" height="371" alt="image" src="https://github.com/user-attachments/assets/6c8df766-600a-4653-804f-77c5fd47cba6" />
+2️⃣ Comprovació de connectivitat
 
+Fem un ping al servidor per assegurar-nos que hi ha connexió:
 
-fen un ping al server per comprovar 
 <img width="899" height="499" alt="image" src="https://github.com/user-attachments/assets/99c9f2bf-3e31-4a3f-be8b-b8713523ac4a" />
+📁 Accés al recurs compartit
+
+Anem a Fitxers → Altres ubicacions
+
+Introduïm la ruta del servidor:
+
+smb://10.0.2.15/proves/
 
 
+El sistema ens demanarà si volem connectar-nos:
 
+Com a anònim
+
+O amb un usuari Samba
+
+<img width="578" height="577" alt="image" src="https://github.com/user-attachments/assets/51214508-86b4-4dbb-a312-c6a1ae4005d3" />
+🔐 Resultats segons l’usuari
+❌ Usuari Roig
+
+No es pot connectar perquè està definit com a invalid user.
+
+👁️ Usuari Groc
+
+Pot llegir els fitxers
+
+❌ No pot escriure, ja que no té permisos d’escriptura
+
+<img width="537" height="170" alt="image" src="https://github.com/user-attachments/assets/97a6fe46-e1c2-42a3-aa34-79593b372a40" />
+✅ Usuari Blau
+
+Pot llegir i escriure
+
+S’ha creat una carpeta amb el seu nom per comprovar-ho
+
+<img width="629" height="283" alt="image" src="https://github.com/user-attachments/assets/55d9c13d-25eb-4879-9ff0-a72d207d5c82" />
+
+
+TASQUES
+afegirm permisos de lectura i escriptura per a alu1
+es a dir ens hem d'autenticar amb ldap per accedir a samba
 
 ##Servidor NFS
