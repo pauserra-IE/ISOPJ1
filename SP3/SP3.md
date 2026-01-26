@@ -176,3 +176,58 @@ ls
 
 
 
+
+
+
+
+
+
+26/01/26
+
+##Servidor Samba
+
+Serveix per a compartir...
+la diferencia es que samba es fa amb autentificacio a nivell sigui a traves d'usuaris de samba o del ldap. permet tant maquines windows com ubuntu 
+
+Pràctica:
+
+Engeguem el Client i el servidor
+
+Obrim un terminal amb sudo su al servidor
+apt update
+
+apt install samba
+<img width="815" height="392" alt="image" src="https://github.com/user-attachments/assets/e881aca7-b799-4e56-a445-671bfdcddf63" />
+
+<img width="670" height="242" alt="image" src="https://github.com/user-attachments/assets/97a222a7-1d02-4b34-b36f-24f6460ac2f8" />
+ARREGLAR 
+
+afegim aquests tres usuaris amb la comanda
+useradd -M -s /sbin/nologin blau
+<img width="737" height="423" alt="image" src="https://github.com/user-attachments/assets/4a012fea-2c4b-4bdc-ae3a-41b9b24b6c38" />
+nota: no son valids per a l sistema operatiu son per accedirt al servidor samba
+
+fem la comanda smbpassws -a per a cada usuari
+<img width="402" height="299" alt="image" src="https://github.com/user-attachments/assets/a35af88f-f03a-46e4-beb0-a2f2fd2b8bf7" />
+
+fem un nano /etc/samba/smb.conf
+i afegim el seguent baix de tot:
+<img width="807" height="563" alt="image" src="https://github.com/user-attachments/assets/e565e86d-e5e7-4a1f-ab2b-5ad3a45c6862" />
+
+fem un systemctl restart smbd nmbd
+<img width="898" height="706" alt="image" src="https://github.com/user-attachments/assets/43111fe5-c580-4c73-b866-0371475ad0b0" />
+
+
+ENTREM AL CLIENT
+sudo apt update
+sudo apt install smbclient
+<img width="894" height="371" alt="image" src="https://github.com/user-attachments/assets/6c8df766-600a-4653-804f-77c5fd47cba6" />
+
+
+fen un ping al server per comprovar 
+<img width="899" height="499" alt="image" src="https://github.com/user-attachments/assets/99c9f2bf-3e31-4a3f-be8b-b8713523ac4a" />
+
+
+
+
+##Servidor NFS
