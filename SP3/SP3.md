@@ -299,6 +299,10 @@ S’ha creat una carpeta amb el seu nom per comprovar-ho
 
 <img width="629" height="283" alt="image" src="https://github.com/user-attachments/assets/55d9c13d-25eb-4879-9ff0-a72d207d5c82" />
 
+si volem que un anònim tingui permisos de lectura i escriptura fem els seguents canvis a l'arxiu smb.conf
+<img width="415" height="255" alt="image" src="https://github.com/user-attachments/assets/65fe6b71-b847-4c0c-8d26-899219fd6648" />
+i fem un systemctl restart smbd nmbd per aplicar els canvis
+
 
 TASQUES
 afegirm permisos de lectura i escriptura per a alu1
