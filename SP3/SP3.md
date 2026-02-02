@@ -374,84 +374,100 @@ si volem que un anònim tingui permisos de lectura i escriptura fem els seguents
 <img width="415" height="255" alt="image" src="https://github.com/user-attachments/assets/65fe6b71-b847-4c0c-8d26-899219fd6648" />
 i fem un systemctl restart smbd nmbd per aplicar els canvis
 
-## TASCA 3: Integració de Samba amb autenticació LDAP
 
-L'objectiu d'aquesta configuració és permetre que l'usuari **alu1**, definit prèviament al directori LDAP, es pugui autenticar al servidor Samba i tingui permisos de lectura i escriptura en un recurs compartit.
 
-### 7.1. Requisits previs
-Cal instal·lar les llibreries que permeten la comunicació entre el servei Samba i el directori LDAP:
+## TASCA 3: Autenticació Samba amb usuaris LDAP
+
+Una vegada tenim el servidor LDAP operatiu i Samba funcionant, configurem Samba perquè utilitzi el directori LDAP com a font d'usuaris (backend). Això permetrà que l'usuari **alu1** (que existeix al LDAP però no al sistema local com a usuari Samba) pugui accedir als recursos.
+
+### 1. Instal·lació de paquets de connexió
+
+Necessitem les llibreries que permeten a Samba parlar amb el servidor LDAP. Al servidor:
 
 ```
-sudo apt update
 sudo apt install libnss-ldap libpam-ldap smbldap-tools -y
 
 ```
+<img width="816" height="85" alt="image" src="https://github.com/user-attachments/assets/b6689b43-22d7-4947-8ec5-52dd94fa4f2a" />
 
-### 2. Configuració del backend LDAP a Samba
+### 2. Configuració del backend a `smb.conf`
 
-Editem el fitxer de configuració principal de Samba `/etc/samba/smb.conf` per indicar que la base de dades d'usuaris resideix al LDAP.
-
-Dins de la secció `[global]`, afegim:
+Editem l'arxiu de configuració:
 
 ```
-[global]
-   workgroup = WORKGROUP
-   security = user
-   
-   # Connexió amb el servidor LDAP
+nano /etc/samba/smb.conf
+
+```
+
+Dins del bloc **`[global]`**, afegim (o modifiquem) les següents línies per indicar a Samba on és el servidor LDAP i com connectar-s'hi:
+
+```
+   # Configuració Backend LDAP
    passdb backend = ldapsam:ldap://localhost
-   ldap suffix = dc=fjeclot,dc=net
-   ldap user suffix = ou=people
-   ldap group suffix = ou=groups
-   ldap admin dn = cn=admin,dc=fjeclot,dc=net
+   ldap suffix = dc=proves,dc=cat
+   ldap user suffix = ou=usuaris
+   ldap group suffix = ou=grups
+   # DN de l'administrador que has configurat abans
+   ldap admin dn = cn=admin,dc=proves,dc=cat
    ldap ssl = no
 
 ```
 
-Perquè Samba pugui fer consultes al directori, hem de desar la contrasenya de l'administrador LDAP al sistema de claus de Samba:
+*Nota: Assegura't que `ou=usuaris` i `ou=grups` coincideixen amb les Unitats Organitzatives que has creat al teu fitxer `uo.ldif`.*
+
+### 3. Emmagatzemar la contrasenya de l'admin LDAP
+
+Perquè Samba pugui fer consultes, necessita la contrasenya de l'usuari `cn=admin`. L'hem de guardar de forma segura:
 
 ```
-sudo smbpasswd -w la_teva_contrasenya_ldap
+sudo smbpasswd -w pauserver
 
 ```
 
-### 3. Creació del recurs per a l'usuari `alu1`
+*(Si la comanda funciona correctament, hauràs de veure un missatge indicant que s'ha guardat el secret).*
 
-Afegim al final del fitxer `/etc/samba/smb.conf` la definició del recurs on l'usuari de LDAP tindrà permisos totals:
+### 4. Crear el recurs compartit per a `alu1`
+
+Al final del fitxer `/etc/samba/smb.conf`, afegim una carpeta específica on només l'usuari del LDAP tingui accés d'escriptura:
 
 ```
-[compartit_ldap]
-   comment = Recurs per a usuaris de LDAP
-   path = /srv/samba/ldap_alu1
+[recurs_alu1]
+   comment = Carpeta privada per a alu1 (LDAP)
+   path = /srv/samba/alu1
    browseable = yes
    read only = no
    guest ok = no
-   # Restricció d'accés només a l'usuari alu1 de LDAP
    valid users = alu1
    writable = yes
-   create mask = 0775
-   directory mask = 0775
+   create mask = 0770
+   directory mask = 0770
 
 ```
 
-### 4. Aplicació de canvis i permisos de sistema
+### 5. Aplicar canvis
 
-Creem la carpeta física al servidor i reiniciem els serveis:
-
-```
-# Creació de la carpeta i permisos totals per evitar conflictes de sistema de fitxers
-sudo mkdir -p /srv/samba/ldap_alu1
-sudo chmod -R 777 /srv/samba/ldap_alu1
-```
-# Reinici dels serveis per aplicar la nova configuració de backend
-```
-sudo systemctl restart smbd nmbd
+Creem la carpeta física, assignem permisos i reiniciem el servei:
 
 ```
+# Creem la carpeta
+mkdir -p /srv/samba/alu1
 
-### 5. Verificació del funcionament
+# Donem permisos oberts a nivell de sistema (Samba filtrarà l'accés)
+chmod 777 /srv/samba/alu1
 
-1. Des del client, anem a **Fitxers → Altres ubicacions**.
-2. Introduïm la ruta: `smb://10.0.2.15/compartit_ldap/`.
-3. Quan ens demani credencials, triem **Usuari registrat** i posem l'usuari **alu1** i la seva contrasenya de LDAP.
-4. **Resultat esperat:** L'usuari `alu1` pot entrar, veure el contingut i crear fitxers/carpetes (Lectura i Escriptura).
+# Reiniciem Samba per carregar la nova configuració LDAP
+systemctl restart smbd nmbd
+
+```
+
+### 6. Comprovació des del Client
+
+Des del client (on ja hem comprovat que tenim connectivitat):
+
+1. Obrim el navegador de fitxers.
+2. Anem a "Altres ubicacions" -> `smb://10.0.2.15/recurs_alu1`.
+3. Ens demanarà autenticació.
+4. Introduïm:
+* **Usuari:** `alu1`
+* **Contrasenya:** (la contrasenya que hagis posat al `usu.ldif` per a alu1).
+5. Si tot és correcte, podrem entrar i crear carpetes.
