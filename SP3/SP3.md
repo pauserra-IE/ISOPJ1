@@ -398,6 +398,7 @@ Editem l'arxiu de configuració:
 nano /etc/samba/smb.conf
 
 ```
+<img width="596" height="28" alt="image" src="https://github.com/user-attachments/assets/e0c01a41-ce35-4699-812e-9cc617463179" />
 
 Dins del bloc **`[global]`**, afegim (o modifiquem) les següents línies per indicar a Samba on és el servidor LDAP i com connectar-s'hi:
 
@@ -412,6 +413,7 @@ Dins del bloc **`[global]`**, afegim (o modifiquem) les següents línies per in
    ldap ssl = no
 
 ```
+<img width="928" height="355" alt="image" src="https://github.com/user-attachments/assets/3e09c58a-c632-422f-aae9-045d5647c1fd" />
 
 *Nota: Assegura't que `ou=usuaris` i `ou=grups` coincideixen amb les Unitats Organitzatives que has creat al teu fitxer `uo.ldif`.*
 
@@ -443,6 +445,7 @@ Al final del fitxer `/etc/samba/smb.conf`, afegim una carpeta específica on nom
    directory mask = 0770
 
 ```
+<img width="829" height="730" alt="image" src="https://github.com/user-attachments/assets/ee182a04-2d4d-48ec-9e28-c18d4c81307e" />
 
 ### 5. Aplicar canvis
 
