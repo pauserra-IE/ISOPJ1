@@ -3,18 +3,57 @@ layout: default
 title: "Sprint 3: Administració de Dominis i Seguretat"
 ---
 
-#INSTAL·LACIÓ DOMINI LDAP I UNIR CLIENT AL DOMINI
+# Instal·lació de Domini LDAP i Unió d’un Client al Domini
+
+## 1. Introducció
+Abans de començar amb la pràctica explicaré els conceptes bàsics dels dominis LDAP, així com els elements principals que els formen. 
+---
+
+## 2. Teoria dels Dominis
+
+Un **domini** és una estructura centralitzada que permet administrar usuaris, recursos i polítiques de manera unificada dins d’una xarxa.
+
+### 2.1 Usuaris
+Els usuaris representen les identitats que poden autenticar-se al domini.
+
+- Inici de sessió centralitzat
+- Gestió de credencials
+- Assignació de permisos
+
+---
+
+### 2.2 Recursos
+Els recursos són els elements compartits dins del domini.
+
+Exemples:
+- Carpetes compartides
+- Impressores
+- Serveis de xarxa
+
+Els permisos d’accés als recursos es gestionen a través del domini.
+
+---
+
+### 2.3 Unitats Organitzatives (U.O.)
+Les **Unitats Organitzatives (OU)** permeten organitzar els objectes del domini de manera jeràrquica.
+
+Funcions principals:
+- Classificar usuaris i equips
+- Aplicar **GPO (Group Policy Objects)**
+- Facilitar l’administració del domini
+
+Exemples d’ús:
+- OU per departaments
+- OU per tipus d’usuari
+- OU per equips
+
+---
+
+## 3. Conclusió
+La correcta estructura d’usuaris, recursos i unitats organitzatives és clau per a una administració eficient d’un domini LDAP i per garantir seguretat, escalabilitat i facilitat de gestió.
 
 
-
-DOMINIS: 
-usuaris
-grups
-recursos (carpetes, impresores)
-U.O (unitats organitzatives)---> (GPO, etc.)
-
-
-12/01/26
+## TASCA 1 CONFIGURACIÓ DEL SERVIDOR I EXEMPLES DE CADA COMANDA DE LDAP:
 PASSOS PREVIS
 En primer lloc configurem la xarxa NAT 
 
@@ -177,8 +216,40 @@ ls
 
 
 
+## TASCA 2: INSTALACIÓ DE L'ENTORN GRÀFIC LDAP ACCOUNT MANAGER
 
+Per facilitar la gestió del servidor LDAP en l'entorn Ubuntu 24.04, he analitzat diferents alternatives per a la interfície d'usuari. Finalment, he optat per la instal·lació de **LDAP Account Manager (LAM)** per la seva lleugeresa i facilitat d'integració web.
 
+### Comparativa amb altres eines gràfiques
+
+| Eina | Tipus | Dificultat | Motiu de l'elecció / descart |
+| :--- | :--- | :--- | :--- |
+| **LDAP Account Manager (LAM)** | Web (PHP) | **Molt Baixa** | **Seleccionat.** Instal·lació directa via `apt`, interfície moderna i gestió d'usuaris intuïtiva. |
+| **phpLDAPadmin** | Web (PHP) | Mitja | Descartat per problemes de compatibilitat de codi amb les versions més recents de PHP a Ubuntu 24.04. |
+| **Apache Directory Studio** | Escriptori (Java) | Mitja | Descartat per requerir instal·lació de JRE i ser una eina massa pesada per a una gestió ràpida. |
+| **JXplorer** | Escriptori (Java) | Mitja | Descartat per tenir una interfície desactualitzada i menys funcional que LAM. |
+
+### Procés d'instal·lació i configuració
+
+1. **Instal·lació del paquet:**
+   ```
+   sudo apt update
+   sudo apt install ldap-account-manager -y
+<img width="869" height="144" alt="image" src="https://github.com/user-attachments/assets/f765a3cc-4c35-482e-96a7-0d598287d490" />
+
+2. **Accés a la interfície:**
+    L'eina està disponible a l'adreça: http://localhost/lam
+<img width="478" height="334" alt="image" src="https://github.com/user-attachments/assets/8677641a-d839-4b37-ad3f-39f93cc8d72c" />
+
+3. **Configuració del perfil:**
+
+  Accedim a LAM Configuration > Edit server profiles
+
+  <img width="474" height="669" alt="image" src="https://github.com/user-attachments/assets/2ed477ef-0ff5-477d-854c-b2a4a77bf9cd" />
+
+  Des d'aquest menu podem configurar el Tree suffix (ex: dc=my-domain,dc=com) i l'Admin address (ex: cn=manager,dc=my-domain,dc=com).
+
+Això ens permet gestionar Unitats Organitzatives, usuaris i grups de forma visual sense dependre de fitxers .ldif manuals.
 
 
 
