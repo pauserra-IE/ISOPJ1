@@ -462,6 +462,8 @@ chmod 777 /srv/samba/alu1
 systemctl restart smbd nmbd
 
 ```
+<img width="687" height="86" alt="image" src="https://github.com/user-attachments/assets/4ad9d7ad-4b1b-4191-83c6-5b6c7a53e24a" />
+
 
 ### 6. Comprovació des del Client
 
