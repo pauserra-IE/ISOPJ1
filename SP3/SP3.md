@@ -476,3 +476,243 @@ Des del client (on ja hem comprovat que tenim connectivitat):
 * **Usuari:** `alu1`
 * **Contrasenya:** (la contrasenya que hagis posat al `usu.ldif` per a alu1).
 5. Si tot és correcte, podrem entrar i crear carpetes.
+
+---
+09/02/26
+
+## TASCA 4: CONFIGURACIÓ DEL SERVIDOR NFS
+
+### 1. Teoria: NFS vs Samba
+
+**NFS (Network File System)** és un protocol que permet compartir fitxers i carpetes en una xarxa local, funcionant de manera nativa en sistemes Unix/Linux.
+
+Principals diferències amb Samba:
+
+* **Autenticació:** NFS realitza l'autenticació principalment a nivell de *host* (IP de la màquina client), mentre que Samba ho fa a nivell d'usuari/contrasenya.
+* **Recursos:** NFS està dissenyat per compartir fitxers, però **no permet compartir impressores** (a diferència de Samba).
+* **Compatibilitat:** Tot i ser natiu de Linux, els clients Windows (versions Pro/Enterprise) poden accedir-hi si s'activen les característiques opcionals.
+
+### 2. Configuració de NFS sense LDAP (Bàsic)
+
+#### A. Configuració del Servidor
+
+1. **Instal·lació del servei**
+Entrem com a superusuari (root) i instal·lem el paquet necessari:
+```bash
+sudo su
+apt update
+apt install nfs-kernel-server
+
+```
+
+
+*(Inserir captura de la instal·lació)*
+2. **Creació de la carpeta compartida**
+Creem una carpeta a l'arrel anomenada `1exercici`, li donem permisos totals i canviem el propietari a `nobody:nogroup` (usuari genèric per a NFS):
+```bash
+cd /
+mkdir 1exercici
+chmod 777 1exercici
+chown nobody:nogroup 1exercici
+
+```
+
+
+Creem un fitxer de prova a dins:
+```bash
+touch /1exercici/hola
+ls -l | grep 1exercici
+
+```
+
+
+*(Inserir captura on es vegin els permisos drwxrwxrwx i el propietari nobody)*
+3. **Exportar la carpeta**
+Editem el fitxer de configuració `/etc/exports` per definir qui pot accedir i com:
+```bash
+nano /etc/exports
+
+```
+
+
+Afegim la següent línia al final del fitxer:
+```text
+/1exercici *(rw,sync,no_subtree_check)
+
+```
+
+
+> **Explicació dels paràmetres:**
+
+
+> * `*`: Permet l'accés a qualsevol IP de la xarxa (es podria restringir per IP o rang).
+> * `rw`: Permisos de lectura i escriptura.
+> * `sync`: Confirma l'escriptura al disc abans de respondre (més segur).
+> * `no_subtree_check`: Millora el rendiment evitant comprovacions de subarbres.
+> 
+> 
+
+
+4. **Reiniciar el servei**
+Apliquem els canvis i verifiquem l'estat:
+```bash
+systemctl restart nfs-kernel-server
+systemctl status nfs-kernel-server
+
+```
+
+
+*(Inserir captura de l'estat active/running)*
+
+#### B. Configuració del Client (Linux)
+
+1. **Instal·lació de dependències**
+Al client, entrem com a root i instal·lem les eines necessàries:
+```bash
+sudo su
+apt update
+apt install nfs-common rpcbind
+
+```
+
+
+2. **Preparació del punt de muntatge**
+Creem la carpeta local on muntarem el recurs remot i li donem permisos:
+```bash
+mkdir -p /mnt/nfs_client
+chmod 777 /mnt/nfs_client
+
+```
+
+
+*(Inserir captura de la creació de la carpeta)*
+3. **Comprovació de connectivitat**
+Fem un ping a la IP del servidor (10.0.2.15) per assegurar que tenim xarxa.
+*(Inserir captura del ping)*
+4. **Muntatge automàtic amb `/etc/fstab**`
+Perquè la carpeta es monti automàticament en arrencar el sistema, editem el fitxer `/etc/fstab`:
+```bash
+nano /etc/fstab
+
+```
+
+
+Afegim la següent línia al final (substituint la IP per la del teu servidor):
+```text
+10.0.2.15:/1exercici /mnt/nfs_client nfs auto,noatime,nolock,bg,nfsvers=3,intr,tcp,actimeo=1800 0 0
+
+```
+
+
+5. **Verificació**
+Reiniciem el client (`reboot`) o muntem manualment amb `mount -a`.
+Comprovem que podem veure el fitxer creat al servidor:
+```bash
+ls -l /mnt/nfs_client
+
+```
+
+
+Hauríem de veure el fitxer `hola`.
+*(Inserir captura del resultat del ls)*
+
+#### C. Configuració del Client (Windows)
+
+Per accedir des de Windows, cal activar el client NFS:
+
+1. Anar a **"Activar o desactivar les característiques de Windows"**.
+2. Buscar i marcar **"Services for NFS"** (Serveis per a NFS).
+3. Des del CMD o connectar unitat de xarxa, muntar el recurs.
+*(Inserir captura de l'activació de la característica a Windows)*
+
+---
+
+## TASCA 5: NFS AMB AUTENTICACIÓ LDAP (HOME DIRECTORIES)
+
+L'objectiu és utilitzar NFS per allotjar les carpetes personals (`/home`) dels usuaris LDAP al servidor, de manera centralitzada.
+
+### 1. Configuració al Servidor
+
+1. **Crear el directori arrel per als homes**
+```bash
+mkdir /homes
+chmod 777 /homes
+chown nobody:nogroup /homes
+
+```
+
+
+2. **Exportar el directori**
+Editem de nou `/etc/exports`:
+```bash
+nano /etc/exports
+
+```
+
+
+Afegim la línia:
+```text
+/homes *(rw,sync,no_subtree_check)
+
+```
+
+
+3. **Reiniciar el servei**
+```bash
+systemctl restart nfs-kernel-server
+
+```
+
+
+
+### 2. Creació de l'Usuari LDAP amb Home remot
+
+Hem de crear un nou fitxer LDIF (o editar l'existent `usu.ldif`) per afegir un usuari nou que tingui el seu directori personal apuntant a `/homes`.
+
+Editem el fitxer `usu_nfs.ldif` amb les següents característiques clau:
+
+* **uidNumber:** Un número alt (per evitar conflictes).
+* **gidNumber:** 1001 (o el grup que correspongui).
+* **homeDirectory:** `/homes/nom_usuari` (Important: ruta del NFS).
+
+Exemple de configuració:
+
+```ldif
+dn: uid=aluNFS,ou=usuaris,dc=proves,dc=cat
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+cn: Alumne NFS
+sn: NFS
+uid: aluNFS
+userPassword: password123
+uidNumber: 2000
+gidNumber: 1001
+homeDirectory: /homes/aluNFS
+loginShell: /bin/bash
+
+```
+
+*(Inserir captura del fitxer ldif creat)*
+
+Afegim l'usuari al LDAP:
+
+```bash
+ldapadd -x -D "cn=admin,dc=proves,dc=cat" -W -f usu_nfs.ldif
+
+```
+
+### 3. Comprovació al Client
+
+1. Reiniciem el client (per assegurar que la configuració de muntatge del punt `/homes` o l'automuntador estigui llesta, si s'ha configurat al fstab del client com a la Tasca 4, apuntant a `/homes`).
+2. Ens loguejem amb el nou usuari `aluNFS`.
+3. Si la configuració és correcta (i el sistema té PAM configurat per crear directoris, `pam_mkhomedir`), en iniciar sessió es crearà la carpeta personal.
+4. Anem al **Servidor**, entrem a la carpeta `/homes` i fem un `ls`. Hem de veure que s'ha creat la carpeta de l'usuari automàticament.
+
+```bash
+# Al servidor:
+ls -l /homes
+
+```
+
+*(Inserir captura on es vegi la carpeta de l'usuari creada dins de /homes)*
