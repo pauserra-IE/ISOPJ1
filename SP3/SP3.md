@@ -498,7 +498,7 @@ Principals diferències amb Samba:
 
 1. **Instal·lació del servei**
 Entrem com a superusuari (root) i instal·lem el paquet necessari:
-```bash
+```
 sudo su
 apt update
 apt install nfs-kernel-server
@@ -509,7 +509,8 @@ apt install nfs-kernel-server
 *(Inserir captura de la instal·lació)*
 2. **Creació de la carpeta compartida**
 Creem una carpeta a l'arrel anomenada `1exercici`, li donem permisos totals i canviem el propietari a `nobody:nogroup` (usuari genèric per a NFS):
-```bash
+
+```
 cd /
 mkdir 1exercici
 chmod 777 1exercici
@@ -519,7 +520,7 @@ chown nobody:nogroup 1exercici
 
 
 Creem un fitxer de prova a dins:
-```bash
+```
 touch /1exercici/hola
 ls -l | grep 1exercici
 
@@ -529,14 +530,14 @@ ls -l | grep 1exercici
 *(Inserir captura on es vegin els permisos drwxrwxrwx i el propietari nobody)*
 3. **Exportar la carpeta**
 Editem el fitxer de configuració `/etc/exports` per definir qui pot accedir i com:
-```bash
+```
 nano /etc/exports
 
 ```
 
 
 Afegim la següent línia al final del fitxer:
-```text
+```
 /1exercici *(rw,sync,no_subtree_check)
 
 ```
@@ -555,7 +556,7 @@ Afegim la següent línia al final del fitxer:
 
 4. **Reiniciar el servei**
 Apliquem els canvis i verifiquem l'estat:
-```bash
+```
 systemctl restart nfs-kernel-server
 systemctl status nfs-kernel-server
 
@@ -568,7 +569,7 @@ systemctl status nfs-kernel-server
 
 1. **Instal·lació de dependències**
 Al client, entrem com a root i instal·lem les eines necessàries:
-```bash
+```
 sudo su
 apt update
 apt install nfs-common rpcbind
@@ -578,7 +579,7 @@ apt install nfs-common rpcbind
 
 2. **Preparació del punt de muntatge**
 Creem la carpeta local on muntarem el recurs remot i li donem permisos:
-```bash
+```
 mkdir -p /mnt/nfs_client
 chmod 777 /mnt/nfs_client
 
@@ -591,14 +592,14 @@ Fem un ping a la IP del servidor (10.0.2.15) per assegurar que tenim xarxa.
 *(Inserir captura del ping)*
 4. **Muntatge automàtic amb `/etc/fstab**`
 Perquè la carpeta es monti automàticament en arrencar el sistema, editem el fitxer `/etc/fstab`:
-```bash
+```
 nano /etc/fstab
 
 ```
 
 
 Afegim la següent línia al final (substituint la IP per la del teu servidor):
-```text
+```
 10.0.2.15:/1exercici /mnt/nfs_client nfs auto,noatime,nolock,bg,nfsvers=3,intr,tcp,actimeo=1800 0 0
 
 ```
@@ -607,7 +608,7 @@ Afegim la següent línia al final (substituint la IP per la del teu servidor):
 5. **Verificació**
 Reiniciem el client (`reboot`) o muntem manualment amb `mount -a`.
 Comprovem que podem veure el fitxer creat al servidor:
-```bash
+```
 ls -l /mnt/nfs_client
 
 ```
@@ -634,7 +635,7 @@ L'objectiu és utilitzar NFS per allotjar les carpetes personals (`/home`) dels 
 ### 1. Configuració al Servidor
 
 1. **Crear el directori arrel per als homes**
-```bash
+```
 mkdir /homes
 chmod 777 /homes
 chown nobody:nogroup /homes
@@ -644,21 +645,21 @@ chown nobody:nogroup /homes
 
 2. **Exportar el directori**
 Editem de nou `/etc/exports`:
-```bash
+```
 nano /etc/exports
 
 ```
 
 
 Afegim la línia:
-```text
+```
 /homes *(rw,sync,no_subtree_check)
 
 ```
 
 
 3. **Reiniciar el servei**
-```bash
+```
 systemctl restart nfs-kernel-server
 
 ```
@@ -697,7 +698,7 @@ loginShell: /bin/bash
 
 Afegim l'usuari al LDAP:
 
-```bash
+```
 ldapadd -x -D "cn=admin,dc=proves,dc=cat" -W -f usu_nfs.ldif
 
 ```
@@ -709,7 +710,7 @@ ldapadd -x -D "cn=admin,dc=proves,dc=cat" -W -f usu_nfs.ldif
 3. Si la configuració és correcta (i el sistema té PAM configurat per crear directoris, `pam_mkhomedir`), en iniciar sessió es crearà la carpeta personal.
 4. Anem al **Servidor**, entrem a la carpeta `/homes` i fem un `ls`. Hem de veure que s'ha creat la carpeta de l'usuari automàticament.
 
-```bash
+```
 # Al servidor:
 ls -l /homes
 
