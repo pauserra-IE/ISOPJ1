@@ -480,7 +480,7 @@ Des del client (on ja hem comprovat que tenim connectivitat):
 ---
 09/02/26
 
-## TASCA 4: CONFIGURACIÓ DEL SERVIDOR NFS
+## CONFIGURACIÓ DEL SERVIDOR NFS
 
 ### 1. Teoria: NFS vs Samba
 
@@ -492,7 +492,7 @@ Principals diferències amb Samba:
 * **Recursos:** NFS està dissenyat per compartir fitxers, però **no permet compartir impressores** (a diferència de Samba).
 * **Compatibilitat:** Tot i ser natiu de Linux, els clients Windows (versions Pro/Enterprise) poden accedir-hi si s'activen les característiques opcionals.
 
-### 2. Configuració de NFS sense LDAP (Bàsic)
+### Exercici 1. Configuració de NFS sense LDAP
 
 #### A. Configuració del Servidor
 
@@ -506,7 +506,8 @@ apt install nfs-kernel-server
 ```
 
 
-*(Inserir captura de la instal·lació)*
+<img width="698" height="50" alt="image" src="https://github.com/user-attachments/assets/82a40224-56cd-45bf-a3c2-076785220786" />
+
 2. **Creació de la carpeta compartida**
 Creem una carpeta a l'arrel anomenada `1exercici`, li donem permisos totals i canviem el propietari a `nobody:nogroup` (usuari genèric per a NFS):
 
@@ -527,7 +528,8 @@ ls -l | grep 1exercici
 ```
 
 
-*(Inserir captura on es vegin els permisos drwxrwxrwx i el propietari nobody)*
+<img width="700" height="197" alt="image" src="https://github.com/user-attachments/assets/32c1e94d-82e3-4e9a-b94b-32ba902f1272" />
+
 3. **Exportar la carpeta**
 Editem el fitxer de configuració `/etc/exports` per definir qui pot accedir i com:
 ```
@@ -541,6 +543,7 @@ Afegim la següent línia al final del fitxer:
 /1exercici *(rw,sync,no_subtree_check)
 
 ```
+<img width="932" height="380" alt="image" src="https://github.com/user-attachments/assets/b1f375f1-6fcf-4c67-9e99-3a0cb6e16db9" />
 
 
 > **Explicació dels paràmetres:**
@@ -561,9 +564,9 @@ systemctl restart nfs-kernel-server
 systemctl status nfs-kernel-server
 
 ```
+<img width="977" height="310" alt="image" src="https://github.com/user-attachments/assets/fbcad89f-9ff5-446e-b9bb-e50282c1c99f" />
 
 
-*(Inserir captura de l'estat active/running)*
 
 #### B. Configuració del Client (Linux)
 
@@ -576,6 +579,7 @@ apt install nfs-common rpcbind
 
 ```
 
+<img width="768" height="95" alt="image" src="https://github.com/user-attachments/assets/0741877c-be0c-4426-9f19-35c9e8e1660d" />
 
 2. **Preparació del punt de muntatge**
 Creem la carpeta local on muntarem el recurs remot i li donem permisos:
@@ -628,92 +632,89 @@ Per accedir des de Windows, cal activar el client NFS:
 
 ---
 
-## TASCA 5: NFS AMB AUTENTICACIÓ LDAP (HOME DIRECTORIES)
+Molt ben pensat. Farem una documentació molt més professional, tècnica i detallada que la del teu company. Explicarem exactament quines comandes cal posar i on, perquè quedi un manual perfecte per al teu `SP3.md`.
 
-L'objectiu és utilitzar NFS per allotjar les carpetes personals (`/home`) dels usuaris LDAP al servidor, de manera centralitzada.
+Ho dividirem en dues parts per no perdre'ns: primer prepararem el recurs al servidor i després el connectarem des del Windows.
 
-### 1. Configuració al Servidor
+Aquí tens el pas a pas exacte. Avisa'm quan vagis completant les captures!
 
-1. **Crear el directori arrel per als homes**
+---
+
+### Exercici 2. Configuració de NFS amb Windows
+
+
+**1. Creació de la carpeta específica per a Windows i assignació de permisos**
+Anem a crear una carpeta nova per diferenciar-la de la resta, li donarem els permisos i crearem un fitxer de prova a dins.
+Executa al terminal del servidor:
+
+```bash
+mkdir /nfs_windows
+chmod 777 /nfs_windows
+chown nobody:nogroup /nfs_windows
+touch /nfs_windows/prova_windows.txt
+ls -l / | grep nfs_windows
+
 ```
-mkdir /homes
-chmod 777 /homes
-chown nobody:nogroup /homes
 
-```
+📸 **CAPTURA 1:** Fes una captura on es vegi el resultat de l'`ls -l`. S'ha de veure la carpeta `nfs_windows` amb els permisos `drwxrwxrwx` i el propietari `nobody nogroup`.
 
+**2. Afegir la carpeta a l'arxiu d'exportacions**
+Hem de dir-li al servidor NFS que comparteixi aquesta nova carpeta.
 
-2. **Exportar el directori**
-Editem de nou `/etc/exports`:
-```
+```bash
 nano /etc/exports
 
 ```
 
+Afegeix aquesta línia al final del document:
 
-Afegim la línia:
+```text
+/nfs_windows *(rw,sync,no_subtree_check)
+
 ```
-/homes *(rw,sync,no_subtree_check)
 
-```
+📸 **CAPTURA 2:** Fes una captura de l'editor `nano` amb la línia acabada d'afegir. Després guarda i surt (`Ctrl+O`, `Enter`, `Ctrl+X`).
 
+**3. Reiniciar el servei perquè s'apliquin els canvis**
 
-3. **Reiniciar el servei**
 ```
 systemctl restart nfs-kernel-server
+systemctl status nfs-kernel-server
+```
+
+💻 **MÀQUINA A UTILITZAR ARA:** CLIENT (Windows)
+
+**4. Activar el client NFS a Windows**
+Per defecte, Windows no entén el protocol NFS. Ho hem d'activar a les característiques del sistema.
+
+* Obre el menú d'inici i busca: **"Activar o desactivar las características de Windows"** (o "Turn Windows features on or off" si està en anglès).
+* S'obrirà una finestra amb una llista. Busca la carpeta anomenada **"Servicios para NFS"** (Services for NFS).
+* Desplega-la i marca la casella **"Cliente para NFS"** (Client for NFS).
+* Fes clic a Acceptar i espera que s'instal·li.
+📸 **CAPTURA 3:** Fes una captura just abans de donar-li a "Acceptar", on es vegi clarament la finestra amb la casella "Cliente para NFS" marcada.
+
+**5. Muntar la unitat de xarxa des del CMD**
+Ara muntarem la carpeta del servidor Linux com si fos un disc dur més del nostre Windows (li assignarem la lletra `Z:`).
+
+* Obre el símbol del sistema (**CMD**).
+* Executa la següent comanda (⚠️ **Important:** Canvia `10.0.2.15` per la IP real del teu servidor Linux):
+
+```cmd
+mount \\10.0.2.15\nfs_windows Z:
 
 ```
 
+📸 **CAPTURA 4:** Fes una captura de la finestra del CMD on es vegi la comanda executada i el missatge de confirmació que diu que s'ha connectat correctament (normalment diu "Z: está conectado correctamente a...").
 
+**6. Comprovació a l'Explorador de Fitxers**
 
-### 2. Creació de l'Usuari LDAP amb Home remot
+* Obre l'explorador de fitxers de Windows ("Este equipo" o "Mi PC").
+* Veuràs que tens una nova unitat de xarxa amb la lletra `Z:`.
+* Entra a dins i comprova que hi ha el fitxer `prova_windows.txt` que havíem creat al servidor.
+📸 **CAPTURA 5:** Fes una captura de l'explorador de fitxers de Windows on es vegi que estàs dins del disc `Z:` i es veu el fitxer de text creat al servidor Linux.
 
-Hem de crear un nou fitxer LDIF (o editar l'existent `usu.ldif`) per afegir un usuari nou que tingui el seu directori personal apuntant a `/homes`.
+---
 
-Editem el fitxer `usu_nfs.ldif` amb les següents característiques clau:
+Amb això tindràs una documentació molt superior: ben estructurada, amb separació clara entre servidor i client, i justificant què fa cada comanda.
 
-* **uidNumber:** Un número alt (per evitar conflictes).
-* **gidNumber:** 1001 (o el grup que correspongui).
-* **homeDirectory:** `/homes/nom_usuari` (Important: ruta del NFS).
-
-Exemple de configuració:
-
-```ldif
-dn: uid=aluNFS,ou=usuaris,dc=proves,dc=cat
-objectClass: inetOrgPerson
-objectClass: posixAccount
-objectClass: shadowAccount
-cn: Alumne NFS
-sn: NFS
-uid: aluNFS
-userPassword: password123
-uidNumber: 2000
-gidNumber: 1001
-homeDirectory: /homes/aluNFS
-loginShell: /bin/bash
-
-```
-
-*(Inserir captura del fitxer ldif creat)*
-
-Afegim l'usuari al LDAP:
-
-```
-ldapadd -x -D "cn=admin,dc=proves,dc=cat" -W -f usu_nfs.ldif
-
-```
-
-### 3. Comprovació al Client
-
-1. Reiniciem el client (per assegurar que la configuració de muntatge del punt `/homes` o l'automuntador estigui llesta, si s'ha configurat al fstab del client com a la Tasca 4, apuntant a `/homes`).
-2. Ens loguejem amb el nou usuari `aluNFS`.
-3. Si la configuració és correcta (i el sistema té PAM configurat per crear directoris, `pam_mkhomedir`), en iniciar sessió es crearà la carpeta personal.
-4. Anem al **Servidor**, entrem a la carpeta `/homes` i fem un `ls`. Hem de veure que s'ha creat la carpeta de l'usuari automàticament.
-
-```
-# Al servidor:
-ls -l /homes
-
-```
-
-*(Inserir captura on es vegi la carpeta de l'usuari creada dins de /homes)*
+Vols que revisem el Bloc 2 (Client Linux) un cop tinguis aquestes captures, o hi ha alguna part d'aquest procés amb Windows que et doni error?
