@@ -590,7 +590,8 @@ chmod 777 /mnt/nfs_client
 ```
 
 
-*(Inserir captura de la creació de la carpeta)*
+<img width="712" height="43" alt="image" src="https://github.com/user-attachments/assets/4c9f1568-5759-49f3-8617-913ffe832c68" />
+
 3. **Comprovació de connectivitat**
 Fem un ping a la IP del servidor (10.0.2.15) per assegurar que tenim xarxa.
 *(Inserir captura del ping)*
