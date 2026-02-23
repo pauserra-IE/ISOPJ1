@@ -594,7 +594,8 @@ chmod 777 /mnt/nfs_client
 
 3. **Comprovació de connectivitat**
 Fem un ping a la IP del servidor (10.0.2.15) per assegurar que tenim xarxa.
-*(Inserir captura del ping)*
+<img width="661" height="226" alt="image" src="https://github.com/user-attachments/assets/6bb4cdac-e8aa-4589-a71e-311012f54391" />
+
 4. **Muntatge automàtic amb `/etc/fstab**`
 Perquè la carpeta es monti automàticament en arrencar el sistema, editem el fitxer `/etc/fstab`:
 ```
@@ -603,11 +604,12 @@ nano /etc/fstab
 ```
 
 
-Afegim la següent línia al final (substituint la IP per la del teu servidor):
+Afegim la següent línia al final:
 ```
 10.0.2.15:/1exercici /mnt/nfs_client nfs auto,noatime,nolock,bg,nfsvers=3,intr,tcp,actimeo=1800 0 0
 
 ```
+<img width="1007" height="400" alt="image" src="https://github.com/user-attachments/assets/3c3d2e77-6c86-4265-b21e-0deda3e0c675" />
 
 
 5. **Verificació**
@@ -620,26 +622,8 @@ ls -l /mnt/nfs_client
 
 
 Hauríem de veure el fitxer `hola`.
-*(Inserir captura del resultat del ls)*
+<img width="652" height="111" alt="image" src="https://github.com/user-attachments/assets/61de9f11-e542-4559-955b-7807b8259b5a" />
 
-#### C. Configuració del Client (Windows)
-
-Per accedir des de Windows, cal activar el client NFS:
-
-1. Anar a **"Activar o desactivar les característiques de Windows"**.
-2. Buscar i marcar **"Services for NFS"** (Serveis per a NFS).
-3. Des del CMD o connectar unitat de xarxa, muntar el recurs.
-*(Inserir captura de l'activació de la característica a Windows)*
-
----
-
-Molt ben pensat. Farem una documentació molt més professional, tècnica i detallada que la del teu company. Explicarem exactament quines comandes cal posar i on, perquè quedi un manual perfecte per al teu `SP3.md`.
-
-Ho dividirem en dues parts per no perdre'ns: primer prepararem el recurs al servidor i després el connectarem des del Windows.
-
-Aquí tens el pas a pas exacte. Avisa'm quan vagis completant les captures!
-
----
 
 ### Exercici 2. Configuració de NFS amb Windows
 
