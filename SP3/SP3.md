@@ -641,7 +641,8 @@ ls -l / | grep nfs_windows
 
 ```
 
-📸 **CAPTURA 1:** Fes una captura on es vegi el resultat de l'`ls -l`. S'ha de veure la carpeta `nfs_windows` amb els permisos `drwxrwxrwx` i el propietari `nobody nogroup`.
+<img width="694" height="139" alt="image" src="https://github.com/user-attachments/assets/47277313-9a7c-4f77-94d9-20c99344331b" />
+
 
 **2. Afegir la carpeta a l'arxiu d'exportacions**
 Hem de dir-li al servidor NFS que comparteixi aquesta nova carpeta.
@@ -658,7 +659,8 @@ Afegeix aquesta línia al final del document:
 
 ```
 
-📸 **CAPTURA 2:** Fes una captura de l'editor `nano` amb la línia acabada d'afegir. Després guarda i surt (`Ctrl+O`, `Enter`, `Ctrl+X`).
+<img width="758" height="368" alt="image" src="https://github.com/user-attachments/assets/d36d8d2a-4cf6-4cd6-8e2c-7b0247d623e5" />
+
 
 **3. Reiniciar el servei perquè s'apliquin els canvis**
 
@@ -667,7 +669,8 @@ systemctl restart nfs-kernel-server
 systemctl status nfs-kernel-server
 ```
 
-💻 **MÀQUINA A UTILITZAR ARA:** CLIENT (Windows)
+<img width="900" height="349" alt="image" src="https://github.com/user-attachments/assets/113631fc-bcd0-491a-9f7a-fc27e0615226" />
+
 
 **4. Activar el client NFS a Windows**
 Per defecte, Windows no entén el protocol NFS. Ho hem d'activar a les característiques del sistema.
@@ -676,7 +679,9 @@ Per defecte, Windows no entén el protocol NFS. Ho hem d'activar a les caracter�
 * S'obrirà una finestra amb una llista. Busca la carpeta anomenada **"Servicios para NFS"** (Services for NFS).
 * Desplega-la i marca la casella **"Cliente para NFS"** (Client for NFS).
 * Fes clic a Acceptar i espera que s'instal·li.
-📸 **CAPTURA 3:** Fes una captura just abans de donar-li a "Acceptar", on es vegi clarament la finestra amb la casella "Cliente para NFS" marcada.
+* 
+<img width="804" height="495" alt="image" src="https://github.com/user-attachments/assets/65a75944-5a66-4883-94ca-a262b4808b00" />
+
 
 **5. Muntar la unitat de xarxa des del CMD**
 Ara muntarem la carpeta del servidor Linux com si fos un disc dur més del nostre Windows (li assignarem la lletra `Z:`).
@@ -689,17 +694,18 @@ mount \\10.0.2.15\nfs_windows Z:
 
 ```
 
-📸 **CAPTURA 4:** Fes una captura de la finestra del CMD on es vegi la comanda executada i el missatge de confirmació que diu que s'ha connectat correctament (normalment diu "Z: está conectado correctamente a...").
+<img width="539" height="125" alt="image" src="https://github.com/user-attachments/assets/f7b6bcd1-d2ae-4584-af9f-6ce4d0fc7796" />
+
 
 **6. Comprovació a l'Explorador de Fitxers**
 
 * Obre l'explorador de fitxers de Windows ("Este equipo" o "Mi PC").
 * Veuràs que tens una nova unitat de xarxa amb la lletra `Z:`.
 * Entra a dins i comprova que hi ha el fitxer `prova_windows.txt` que havíem creat al servidor.
-📸 **CAPTURA 5:** Fes una captura de l'explorador de fitxers de Windows on es vegi que estàs dins del disc `Z:` i es veu el fitxer de text creat al servidor Linux.
+* 
+<img width="767" height="553" alt="image" src="https://github.com/user-attachments/assets/7a2ea10d-410b-419c-b7c1-dacece601674" />
+
+<img width="646" height="106" alt="image" src="https://github.com/user-attachments/assets/985e88cf-4aab-4029-97d6-2f788a52f0cf" />
+
 
 ---
-
-Amb això tindràs una documentació molt superior: ben estructurada, amb separació clara entre servidor i client, i justificant què fa cada comanda.
-
-Vols que revisem el Bloc 2 (Client Linux) un cop tinguis aquestes captures, o hi ha alguna part d'aquest procés amb Windows que et doni error?
