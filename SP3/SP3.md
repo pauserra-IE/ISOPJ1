@@ -265,8 +265,7 @@ Mitjançant usuaris de Samba o a través de LDAP
 
 Permet l’accés tant des de màquines Windows com Ubuntu/Linux.
 
-🧪 Pràctica
-🔌 Inici
+### 🧪 Pràctica
 
 Engeguem el servidor i el client.
 
