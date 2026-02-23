@@ -252,10 +252,11 @@ Per facilitar la gestió del servidor LDAP en l'entorn Ubuntu 24.04, he analitza
 Això ens permet gestionar Unitats Organitzatives, usuaris i grups de forma visual sense dependre de fitxers .ldif manuals.
 
 
+---
 
 26/01/26
 
-##Samba
+## Samba
 El Servidor Samba serveix per a compartir fitxers en xarxa entre diferents sistemes operatius.
 
 La diferència principal respecte a altres sistemes de compartició és que Samba utilitza autenticació, ja sigui:
