@@ -541,7 +541,7 @@ Quan un client no pot entrar al domini, aquestes comandes et diran per què:
 
 
 
--------------------
+---
 
 
 09/02/26
@@ -564,12 +564,12 @@ Principals diferències amb Samba:
 
 1. **Instal·lació del servei**
 Entrem com a superusuari (root) i instal·lem el paquet necessari:
-```
+
 sudo su
 apt update
 apt install nfs-kernel-server
 
-```
+
 
 
 <img width="698" height="50" alt="image" src="https://github.com/user-attachments/assets/82a40224-56cd-45bf-a3c2-076785220786" />
@@ -577,38 +577,36 @@ apt install nfs-kernel-server
 2. **Creació de la carpeta compartida**
 Creem una carpeta a l'arrel anomenada `1exercici`, li donem permisos totals i canviem el propietari a `nobody:nogroup` (usuari genèric per a NFS):
 
-```
+
 cd /
 mkdir 1exercici
 chmod 777 1exercici
 chown nobody:nogroup 1exercici
 
-```
+
 
 
 Creem un fitxer de prova a dins:
-```
+
 touch /1exercici/hola
 ls -l | grep 1exercici
 
-```
+
 
 
 <img width="700" height="197" alt="image" src="https://github.com/user-attachments/assets/32c1e94d-82e3-4e9a-b94b-32ba902f1272" />
 
 3. **Exportar la carpeta**
 Editem el fitxer de configuració `/etc/exports` per definir qui pot accedir i com:
-```
+
 nano /etc/exports
 
-```
 
 
 Afegim la següent línia al final del fitxer:
-```
 /1exercici *(rw,sync,no_subtree_check)
 
-```
+
 
 <img width="932" height="380" alt="image" src="https://github.com/user-attachments/assets/b1f375f1-6fcf-4c67-9e99-3a0cb6e16db9" />
 
@@ -624,11 +622,11 @@ Afegim la següent línia al final del fitxer:
 
 4. **Reiniciar el servei**
 Apliquem els canvis i verifiquem l'estat:
-```
+
 systemctl restart nfs-kernel-server
 systemctl status nfs-kernel-server
 
-```
+
 
 <img width="977" height="310" alt="image" src="https://github.com/user-attachments/assets/fbcad89f-9ff5-446e-b9bb-e50282c1c99f" />
 
@@ -638,22 +636,21 @@ systemctl status nfs-kernel-server
 
 1. **Instal·lació de dependències**
 Al client, entrem com a root i instal·lem les eines necessàries:
-```
+
 sudo su
 apt update
 apt install nfs-common rpcbind
 
-```
+
 
 <img width="768" height="95" alt="image" src="https://github.com/user-attachments/assets/0741877c-be0c-4426-9f19-35c9e8e1660d" />
 
 2. **Preparació del punt de muntatge**
 Creem la carpeta local on muntarem el recurs remot i li donem permisos:
-```
+
 mkdir -p /mnt/nfs_client
 chmod 777 /mnt/nfs_client
 
-```
 
 
 <img width="712" height="43" alt="image" src="https://github.com/user-attachments/assets/4c9f1568-5759-49f3-8617-913ffe832c68" />
@@ -663,7 +660,7 @@ Fem un ping a la IP del servidor (10.0.2.15) per assegurar que tenim xarxa.
 
 <img width="661" height="226" alt="image" src="https://github.com/user-attachments/assets/6bb4cdac-e8aa-4589-a71e-311012f54391" />
 
-5. **Muntatge automàtic amb `/etc/fstab**`
+5. **Muntatge automàtic amb /etc/fstab**
 Perquè la carpeta es monti automàticament en arrencar el sistema, editem el fitxer `/etc/fstab`:
 ```
 nano /etc/fstab
@@ -672,10 +669,9 @@ nano /etc/fstab
 
 
 Afegim la següent línia al final:
-```
+
 10.0.2.15:/1exercici /mnt/nfs_client nfs auto,noatime,nolock,bg,nfsvers=3,intr,tcp,actimeo=1800 0 0
 
-```
 
 <img width="1007" height="400" alt="image" src="https://github.com/user-attachments/assets/3c3d2e77-6c86-4265-b21e-0deda3e0c675" />
 
@@ -683,17 +679,18 @@ Afegim la següent línia al final:
 5. **Verificació**
 Reiniciem el client (`reboot`) o muntem manualment amb `mount -a`.
 Comprovem que podem veure el fitxer creat al servidor:
-```
+
 ls -l /mnt/nfs_client
 
-```
 
 
-Hauríem de veure el fitxer `hola`.
+
+Hauríem de veure el fitxer hola.
 
 
 <img width="652" height="111" alt="image" src="https://github.com/user-attachments/assets/61de9f11-e542-4559-955b-7807b8259b5a" />
 
+---
 
 ### Exercici 2. Configuració de NFS amb Windows
 
