@@ -479,7 +479,7 @@ Des del client (on ja hem comprovat que tenim connectivitat):
 
 ---
 
-## ǴESTIÓ DEL DOMINI MITJANÇANT COMANDES
+# ǴESTIÓ DEL DOMINI MITJANÇANT COMANDES
 
 1. Gestió Avançada de LDAP (ldap-utils)
 
