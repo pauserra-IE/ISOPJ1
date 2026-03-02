@@ -491,10 +491,12 @@ Més enllà d'afegir usuaris amb fitxers `.ldif`, en el dia a dia necessitaràs 
 
 * **Cercar tots els usuaris:**
 `ldapsearch -x -b "ou=usuaris,dc=proves,dc=cat"`
+
 <img width="778" height="339" alt="image" src="https://github.com/user-attachments/assets/a54a2bee-6a6f-4acf-b293-ba925f0686e7" />
 
 * **Cercar un usuari específic pel seu UID:**
 `ldapsearch -x -b "dc=proves,dc=cat" "(uid=alu1)"`
+
 <img width="811" height="341" alt="image" src="https://github.com/user-attachments/assets/ef73bbf9-c12c-41f0-b5d8-258f2cd0b302" />
 
 ### B. Modificar dades (`ldapmodify`)
@@ -520,6 +522,7 @@ Per exemple si un alumne marxa del centre:
 `ldapdelete -x -D "cn=admin,dc=proves,dc=cat" -W "uid=alu1,ou=usuaris,dc=proves,dc=cat"`
 
 ---
+
 <img width="823" height="32" alt="image" src="https://github.com/user-attachments/assets/2ea047b6-8772-4e38-8816-dc9bd32aff34" />
 
 
@@ -606,6 +609,7 @@ Afegim la següent línia al final del fitxer:
 /1exercici *(rw,sync,no_subtree_check)
 
 ```
+
 <img width="932" height="380" alt="image" src="https://github.com/user-attachments/assets/b1f375f1-6fcf-4c67-9e99-3a0cb6e16db9" />
 
 
@@ -616,8 +620,6 @@ Afegim la següent línia al final del fitxer:
 > * `rw`: Permisos de lectura i escriptura.
 > * `sync`: Confirma l'escriptura al disc abans de respondre (més segur).
 > * `no_subtree_check`: Millora el rendiment evitant comprovacions de subarbres.
-> 
-> 
 
 
 4. **Reiniciar el servei**
@@ -627,6 +629,7 @@ systemctl restart nfs-kernel-server
 systemctl status nfs-kernel-server
 
 ```
+
 <img width="977" height="310" alt="image" src="https://github.com/user-attachments/assets/fbcad89f-9ff5-446e-b9bb-e50282c1c99f" />
 
 
@@ -657,9 +660,10 @@ chmod 777 /mnt/nfs_client
 
 3. **Comprovació de connectivitat**
 Fem un ping a la IP del servidor (10.0.2.15) per assegurar que tenim xarxa.
+
 <img width="661" height="226" alt="image" src="https://github.com/user-attachments/assets/6bb4cdac-e8aa-4589-a71e-311012f54391" />
 
-4. **Muntatge automàtic amb `/etc/fstab**`
+5. **Muntatge automàtic amb `/etc/fstab**`
 Perquè la carpeta es monti automàticament en arrencar el sistema, editem el fitxer `/etc/fstab`:
 ```
 nano /etc/fstab
@@ -672,6 +676,7 @@ Afegim la següent línia al final:
 10.0.2.15:/1exercici /mnt/nfs_client nfs auto,noatime,nolock,bg,nfsvers=3,intr,tcp,actimeo=1800 0 0
 
 ```
+
 <img width="1007" height="400" alt="image" src="https://github.com/user-attachments/assets/3c3d2e77-6c86-4265-b21e-0deda3e0c675" />
 
 
@@ -685,6 +690,8 @@ ls -l /mnt/nfs_client
 
 
 Hauríem de veure el fitxer `hola`.
+
+
 <img width="652" height="111" alt="image" src="https://github.com/user-attachments/assets/61de9f11-e542-4559-955b-7807b8259b5a" />
 
 
@@ -742,6 +749,7 @@ Per defecte, Windows no entén el protocol NFS. Ho hem d'activar a les caracter�
 * S'obrirà una finestra amb una llista. Busca la carpeta anomenada **"Servicios para NFS"** (Services for NFS).
 * Desplega-la i marca la casella **"Cliente para NFS"** (Client for NFS).
 * Fes clic a Acceptar i espera que s'instal·li.
+
 * 
 <img width="804" height="495" alt="image" src="https://github.com/user-attachments/assets/65a75944-5a66-4883-94ca-a262b4808b00" />
 
@@ -765,7 +773,9 @@ mount \\10.0.2.15\nfs_windows Z:
 * Obre l'explorador de fitxers de Windows ("Este equipo" o "Mi PC").
 * Veuràs que tens una nova unitat de xarxa amb la lletra `Z:`.
 * Entra a dins i comprova que hi ha el fitxer `prova_windows.txt` que havíem creat al servidor.
-* 
+
+
+
 <img width="767" height="553" alt="image" src="https://github.com/user-attachments/assets/7a2ea10d-410b-419c-b7c1-dacece601674" />
 
 <img width="646" height="106" alt="image" src="https://github.com/user-attachments/assets/985e88cf-4aab-4029-97d6-2f788a52f0cf" />
