@@ -478,6 +478,83 @@ Des del client (on ja hem comprovat que tenim connectivitat):
 5. Si tot és correcte, podrem entrar i crear carpetes.
 
 ---
+
+## ǴESTIÓ DEL DOMINI MITJANÇANT COMANDES
+
+1. Gestió Avançada de LDAP (ldap-utils)
+
+Més enllà d'afegir usuaris amb fitxers `.ldif`, en el dia a dia necessitaràs buscar, modificar i esborrar dades ràpidament.
+
+### A. Cercar informació (`ldapsearch`)
+
+És la comanda més utilitzada per verificar que tot és al seu lloc.
+
+* **Cercar tots els usuaris:**
+`ldapsearch -x -b "ou=usuaris,dc=proves,dc=cat"`
+* **Cercar un usuari específic pel seu UID:**
+`ldapsearch -x -b "dc=proves,dc=cat" "(uid=alu1)"`
+
+### B. Modificar dades (`ldapmodify`)
+
+Si l'usuari `alu1` canvia de cognom o de departament, no cal esborrar-lo. Es crea un fitxer `.ldif` de canvi:
+
+```ldif
+dn: uid=alu1,ou=usuaris,dc=proves,dc=cat
+changetype: modify
+replace: sn
+sn: NouCognom
+
+```
+
+I s'executa: `ldapmodify -x -D "cn=admin,dc=proves,dc=cat" -W -f modificacio.ldif`
+
+### C. Esborrar objectes (`ldapdelete`)
+
+Si un alumne marxa del centre:
+`ldapdelete -x -D "cn=admin,dc=proves,dc=cat" -W "uid=alu1,ou=usuaris,dc=proves,dc=cat"`
+
+---
+
+## 2. Gestió d'Usuaris i Seguretat de Samba
+
+Ja has fet servir `smbpasswd`, però hi ha una eina més potent per a administradors: **`pdbedit`**.
+
+* **Llistar tots els usuaris de Samba:**
+`sudo pdbedit -L -v`
+* **Bloquejar un compte d'usuari:**
+`sudo smbpasswd -d alu1` (l'usuari no podrà entrar fins que el desbloquegis amb `-e`).
+* **Forçar canvi de contrasenya al pròxim inici:**
+`sudo net sam set pwdmustchangenow alu1 yes`
+
+---
+
+## 3. Gestió de Recursos Compartits (NFS)
+
+Per a la gestió en calent sense haver de reiniciar tot el servidor cada vegada:
+
+* **Actualitzar exportacions sense reiniciar el servei:**
+`sudo exportfs -ra` (molt útil si afegeixes una carpeta nova a `/etc/exports`).
+* **Veure què s'està compartint realment i qui té permís:**
+`exportfs -v`
+
+---
+
+## 4. Comandes de Diagnòstic (El "Kit de supervivència")
+
+Quan un client no pot entrar al domini, aquestes comandes et diran per què:
+
+| Comanda | Funció |
+| --- | --- |
+| `slaptest` | Comprova si hi ha errors de sintaxi en la configuració de LDAP. |
+| `testparm` | Verifica que el fitxer `smb.conf` no tingui errors. |
+| `getent passwd` | Comprova si el sistema "veu" els usuaris de LDAP com si fossin locals. |
+| `smbstatus` | Mostra qui hi ha connectat ara mateix al Samba i a quins fitxers. |
+
+
+
+-------------------
+
+
 09/02/26
 
 ## CONFIGURACIÓ DEL SERVIDOR NFS
