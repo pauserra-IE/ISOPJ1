@@ -491,8 +491,11 @@ Més enllà d'afegir usuaris amb fitxers `.ldif`, en el dia a dia necessitaràs 
 
 * **Cercar tots els usuaris:**
 `ldapsearch -x -b "ou=usuaris,dc=proves,dc=cat"`
+<img width="778" height="339" alt="image" src="https://github.com/user-attachments/assets/a54a2bee-6a6f-4acf-b293-ba925f0686e7" />
+
 * **Cercar un usuari específic pel seu UID:**
 `ldapsearch -x -b "dc=proves,dc=cat" "(uid=alu1)"`
+<img width="811" height="341" alt="image" src="https://github.com/user-attachments/assets/ef73bbf9-c12c-41f0-b5d8-258f2cd0b302" />
 
 ### B. Modificar dades (`ldapmodify`)
 
@@ -507,6 +510,7 @@ sn: NouCognom
 ```
 
 I s'executa: `ldapmodify -x -D "cn=admin,dc=proves,dc=cat" -W -f modificacio.ldif`
+<img width="1004" height="24" alt="image" src="https://github.com/user-attachments/assets/34d3d398-be99-4621-9d2c-66c80a71ed48" />
 
 ### C. Esborrar objectes (`ldapdelete`)
 
