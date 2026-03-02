@@ -673,7 +673,7 @@ Afegim la següent línia al final:
 10.0.2.15:/1exercici /mnt/nfs_client nfs auto,noatime,nolock,bg,nfsvers=3,intr,tcp,actimeo=1800 0 0
 
 
-<img width="1007" height="400" alt="image" src="https://github.com/user-attachments/assets/4829f231-e3b4-4895-8258-795e9696a9a2" />
+<img width="811" height="198" alt="image" src="https://github.com/user-attachments/assets/959ee0e2-7794-4b14-9301-6b2036f314e0" />
 
 
 5. **Verificació**
@@ -688,7 +688,7 @@ ls -l /mnt/nfs_client
 Hauríem de veure el fitxer hola.
 
 
-<img width="652" height="111" alt="image" src="https://github.com/user-attachments/assets/5584c908-bcbc-4a43-a6d3-467ee91158ea" />
+<img width="648" height="114" alt="image" src="https://github.com/user-attachments/assets/bf2448ac-8ab3-43ce-8078-e724068f530a" />
 
 ---
 
