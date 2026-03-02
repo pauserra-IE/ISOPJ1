@@ -508,42 +508,24 @@ replace: sn
 sn: NouCognom
 
 ```
+<img width="557" height="172" alt="image" src="https://github.com/user-attachments/assets/e1b0d807-17a1-489c-aace-368290db4d94" />
+
 
 I s'executa: `ldapmodify -x -D "cn=admin,dc=proves,dc=cat" -W -f modificacio.ldif`
 <img width="1004" height="24" alt="image" src="https://github.com/user-attachments/assets/34d3d398-be99-4621-9d2c-66c80a71ed48" />
 
 ### C. Esborrar objectes (`ldapdelete`)
 
-Si un alumne marxa del centre:
+Per exemple si un alumne marxa del centre:
 `ldapdelete -x -D "cn=admin,dc=proves,dc=cat" -W "uid=alu1,ou=usuaris,dc=proves,dc=cat"`
 
 ---
+<img width="823" height="32" alt="image" src="https://github.com/user-attachments/assets/2ea047b6-8772-4e38-8816-dc9bd32aff34" />
 
-## 2. Gestió d'Usuaris i Seguretat de Samba
-
-Ja has fet servir `smbpasswd`, però hi ha una eina més potent per a administradors: **`pdbedit`**.
-
-* **Llistar tots els usuaris de Samba:**
-`sudo pdbedit -L -v`
-* **Bloquejar un compte d'usuari:**
-`sudo smbpasswd -d alu1` (l'usuari no podrà entrar fins que el desbloquegis amb `-e`).
-* **Forçar canvi de contrasenya al pròxim inici:**
-`sudo net sam set pwdmustchangenow alu1 yes`
 
 ---
 
-## 3. Gestió de Recursos Compartits (NFS)
-
-Per a la gestió en calent sense haver de reiniciar tot el servidor cada vegada:
-
-* **Actualitzar exportacions sense reiniciar el servei:**
-`sudo exportfs -ra` (molt útil si afegeixes una carpeta nova a `/etc/exports`).
-* **Veure què s'està compartint realment i qui té permís:**
-`exportfs -v`
-
----
-
-## 4. Comandes de Diagnòstic (El "Kit de supervivència")
+###  Comandes de Diagnòstic (El "Kit de supervivència")
 
 Quan un client no pot entrar al domini, aquestes comandes et diran per què:
 
