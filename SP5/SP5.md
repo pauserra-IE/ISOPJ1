@@ -201,11 +201,92 @@ apt install google-chrome-stable
 
 ![Instal·lació Chrome](https://github.com/user-attachments/assets/feb84d4a-a253-46c7-a5d9-23b3ba70c911)
 
+I tal com es veu a la captura s'ha instal·lat correctament:
+<img width="400" height="252" alt="image" src="https://github.com/user-attachments/assets/b496a703-459b-40d3-9ee3-a0b03250142f" />
+
 ---
 
-## 5. Tasca Servidor d'Actualitzacions amb un altre paquet
+# Tasca Servidor d'Actualitzacions (Amb un altre paquet)
 
 Ara repetiré el procés fet a classe amb un altre paquet, per exemple **htop** (programa que serveix per monitoritzar processos del sistema).
+
+
+
+## 1. Configurar `apt-mirror`
+Accedim com a root:
+
+```
+sudo su
+````
+
+Editem la configuració:
+
+```
+nano /etc/apt/mirror.list
+```
+
+* Afegim el repositori de htop
+
+<img width="687" height="415" alt="image" src="https://github.com/user-attachments/assets/174e9ced-b515-49c2-9bc7-19f17feb49f9" />
+
+Executem la descàrrega dels paquets:
+
+```
+apt-mirror
+```
+
+FALTA CAPTURA
+
+---
+
+## 2. Configurar Apache
+
+Creem un **softlink** per servir els paquets amb Apache:
+
+```
+ln -s /var/spool/apt-mirror/mirror/dl.google.com/linux/chrome/deb /var/www/html/
+```
+
+![Softlink creat](https://github.com/user-attachments/assets/0f47648b-d9b5-45e8-a12d-0caf98b9c944)
+
+Verifiquem que el softlink s’ha creat correctament:
+
+![Verificació softlink](https://github.com/user-attachments/assets/a53ace71-5df1-42cd-b8e3-b7348bd4414a)
+
+Comprovem la IP del servidor (en aquest exemple `10.0.2.9`):
+
+![IP del servidor](https://github.com/user-attachments/assets/24cdcfce-a646-42c5-8754-3ff2e09418e3)
+
+---
+
+## 3. Configurar el client
+
+Obrim el fitxer de repositoris del client:
+
+```
+nano /etc/apt/sources.list
+```
+
+![Sources.list client](https://github.com/user-attachments/assets/abe74f5b-1515-474a-af9f-a00c40a2acb9)
+
+
+Fem un `apt update` per comprovar que el client obté els paquets del servidor local:
+
+![Apt update client](https://github.com/user-attachments/assets/05e5dd6b-010a-44a7-ad4f-3a7fc0214330)
+
+Instal·lem el paquet des del servidor:
+
+```
+apt install google-chrome-stable
+```
+
+![Instal·lació Chrome](https://github.com/user-attachments/assets/feb84d4a-a253-46c7-a5d9-23b3ba70c911)
+
+I tal com es veu a la captura s'ha instal·lat correctament:
+
+
+---
+
 
 
 
