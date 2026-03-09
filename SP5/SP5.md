@@ -81,3 +81,132 @@ Entrar a monitor del sistema: Fer 3 captures que es veigue que es pot monitoritz
 Escenari imagineu que A traves de una imatge configurem que els logs dels alumnes vinguin al profe.
 simularem aixo en dues maquines virtuals:
 2 maquines ubuntu i una ha de rebre els logs de l'altra. hem de desactivar firewalls, instalar un pasquet i al 50-default.conf configurar la ip...
+
+
+03/03/26
+Pràctica Conjunta (Valle)
+
+
+
+
+
+
+# Servidor d'Actualitzacions
+
+**Data:** 09/03/26
+
+Aquesta documentació explica com configurar un servidor local d'actualitzacions amb `apt-mirror` i Apache, i com configurar un client per obtenir paquets des d’aquest servidor.
+
+---
+
+## 1. Obrir el servidor
+
+Accedim com a root:
+
+```
+sudo su
+````
+
+Actualitzem els repositoris:
+
+```
+apt update
+```
+
+Instal·lem Apache2:
+
+```
+apt install apache2
+```
+
+![Apache instal·lat](https://github.com/user-attachments/assets/c6d88018-875c-4891-b17b-3fed85095733)
+
+Instal·lem `apt-mirror`:
+
+```
+apt install apt-mirror
+```
+
+![Apt-mirror instal·lat](https://github.com/user-attachments/assets/9c8c385f-f0db-4e80-bb24-4873e5de5858)
+
+---
+
+## 2. Configurar `apt-mirror`
+
+Editem la configuració:
+
+```
+nano /etc/apt/mirror.list
+```
+
+* Afegim tots els repositoris que volem descarregar al servidor local.
+* D’aquesta manera, els clients no hauran de descarregar els paquets d’internet.
+* Per a la prova, comentem tots els altres repositoris i afegim només el de Google Chrome.
+
+![Configuració mirror.list](https://github.com/user-attachments/assets/8dfb681b-44de-4dd7-8897-4c4fade3c069)
+
+Executem la descàrrega dels paquets:
+
+```
+apt-mirror
+```
+
+![Execució apt-mirror](https://github.com/user-attachments/assets/4cb18ca3-68ee-49cf-93eb-6bfc22c24901)
+
+---
+
+## 3. Configurar Apache
+
+Creem un **softlink** per servir els paquets amb Apache:
+
+```
+ln -s /var/spool/apt-mirror/mirror/dl.google.com/linux/chrome/deb /var/www/html/
+```
+
+![Softlink creat](https://github.com/user-attachments/assets/0f47648b-d9b5-45e8-a12d-0caf98b9c944)
+
+Verifiquem que el softlink s’ha creat correctament:
+
+![Verificació softlink](https://github.com/user-attachments/assets/a53ace71-5df1-42cd-b8e3-b7348bd4414a)
+
+Comprovem la IP del servidor (en aquest exemple `10.0.2.9`):
+
+![IP del servidor](https://github.com/user-attachments/assets/24cdcfce-a646-42c5-8754-3ff2e09418e3)
+
+---
+
+## 4. Configurar el client
+
+Obrim el fitxer de repositoris del client:
+
+```
+nano /etc/apt/sources.list
+```
+
+![Sources.list client](https://github.com/user-attachments/assets/abe74f5b-1515-474a-af9f-a00c40a2acb9)
+
+Com que Google Chrome necessita signatura, la importem:
+
+![Signatura Chrome](https://github.com/user-attachments/assets/bd56d477-e673-4cf1-a3c2-771ea4cf20f9)
+
+Fem un `apt update` per comprovar que el client obté els paquets del servidor local:
+
+![Apt update client](https://github.com/user-attachments/assets/05e5dd6b-010a-44a7-ad4f-3a7fc0214330)
+
+Instal·lem el paquet des del servidor:
+
+```
+apt install google-chrome-stable
+```
+
+![Instal·lació Chrome](https://github.com/user-attachments/assets/feb84d4a-a253-46c7-a5d9-23b3ba70c911)
+
+---
+
+## 5. Tasca Servidor d'Actualitzacions amb un altre paquet
+
+Ara repetiré el procés fet a classe amb un altre paquet, per exemple **htop** (programa que serveix per monitoritzar processos del sistema).
+
+
+
+
