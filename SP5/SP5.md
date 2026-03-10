@@ -69,7 +69,7 @@ Antigament, tota la configuració es trobava a `/etc/rsyslog.conf`. Actualment, 
 Per veure els canvis en directe mentre fem proves, executem en una terminal:
 `tail -f /var/log/syslog`
 
-#### Prova 1: Kern.notice
+####  1: Kern.notice
 
 Executem: `logger -i -s -p kern.notice "Prova pau"`
 El resultat a la terminal de monitoratge serà:
@@ -91,7 +91,7 @@ Podem provar amb diferents serveis com el de correu:
 
 Si modifiquem el fitxer de configuració per filtrar nivells específics (per exemple, usant o traient l'igual `=` a `mail.err`), el comportament del log canviarà, registrant només aquest nivell o tots els superiors.
 
-<img width="784" height="179" alt="image" src="https://github.com/user-attachments/assets/424b7b37-6b36-4fc0-9360-4ed966deaf40" />
+<img width="784" height="129" alt="image (10)" src="https://github.com/user-attachments/assets/8c430e9e-0c90-483f-b027-3e9fd4d0a64c" />
 <img width="1231" height="409" alt="image" src="https://github.com/user-attachments/assets/1cbf2e38-065e-4ca2-8207-5c42abeebff9" />
 
 #### Prova 5: Fitxers de log personalitzats
@@ -496,47 +496,3 @@ I tal com es veu a la captura s'ha instal·lat correctament:
 
 
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
