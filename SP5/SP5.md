@@ -114,11 +114,39 @@ Per exemple, per veure només els logs de correu:
 
 ---
 
+## TASCA 1: Rendiment
 
-## TASCA 1: Rendiment:
-Entrar a monitor del sistema: Fer 3 captures que es veigue que es pot monitoritzar els processos, pestanya de recursos i sistemes de fitxers
+Per observar el rendiment del sistema utilitzem el **Monitor del sistema d’Ubuntu**, una eina gràfica que permet veure informació sobre els processos actius, el consum de recursos i l’estat dels sistemes de fitxers.
+
+Aquesta eina és útil per supervisar el funcionament del sistema i detectar possibles problemes de rendiment.
 
 ---
+
+### Pestanya 1: Processos
+
+En aquesta pestanya podem veure **tots els processos que s’estan executant al sistema**.  
+També mostra informació com el **PID, l’usuari, el percentatge de CPU i la memòria utilitzada** per cada procés.
+
+<img width="699" height="590" alt="image" src="https://github.com/user-attachments/assets/f92f86ba-7f1e-4b39-9439-7c40bb3563bc" />
+
+---
+
+### Pestanya 2: Recursos
+
+En aquesta pestanya es mostren **gràfiques del consum de recursos del sistema**, com l’ús de **CPU, memòria RAM, memòria swap i xarxa**.  
+Això permet veure l’activitat del sistema en temps real.
+
+<img width="676" height="504" alt="image" src="https://github.com/user-attachments/assets/a2730a83-b391-49a2-b416-14d550ec88b6" />
+
+---
+
+### Pestanya 3: Sistemes de fitxers
+
+En aquesta secció es mostra informació sobre els **discos i particions del sistema**, indicant l’**espai utilitzat i l’espai disponible** a cada sistema de fitxers.
+
+<img width="657" height="308" alt="image" src="https://github.com/user-attachments/assets/edad65f4-baae-44fc-9216-5b729c62c817" />
+
+---  
 
 # TASCA CONJUNTA: Configuració de Rsyslog per a Enviament de Logs entre Hosts
 
