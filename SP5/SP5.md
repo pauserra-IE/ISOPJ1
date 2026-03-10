@@ -3,91 +3,299 @@ layout: default
 title: "Sprint 5: Monitoratge, Auditories i Programari Client/Servidor"
 ---
 
-FACILITY
-*-> totes les aplicacions o tos els serveis
-- ->missat nomes este nivell de servei = nivell acció
-
-logger -i -s -p mail.err aturant el sistema
+# Sprint 5: Monitoratge, Auditories i Programari Client/Servidor
 
 
-## Directoris i fitxers importants
 
-En aquest directori estan tots els logs del sistema pero hi ha serveis que que instalem que posen logs a les seves propies carpetes.
+## 1. Conceptes Fonamentals de Logging
+
+Per gestionar els logs, Linux utilitza dos conceptes principals per classificar la informació:
+
+* **Facility:** Defineix l'origen o el tipus de programa que genera el missatge (ex: `auth`, `cron`, `kern`, `mail`). L'asterisc (`*`) s'utilitza per indicar totes les fonts.
+* **Priority (Nivell):** Defineix la gravetat del missatge (ex: `debug`, `info`, `notice`, `warning`, `err`, `crit`, `alert`, `emerg`).
+* Si posem un punt (`.`), estem indicant aquest nivell i tots els superiors.
+* Si posem un igual (`.=`), indiquem **només** aquell nivell específic.
+
+
+### L'eina `logger`
+
+La comanda `logger` permet afegir entrades al log del sistema manualment des de la terminal.
+
+> **Exemple:** `logger -i -s -p mail.err "Missatge d'error"`
+> * `-i`: Afegeix el PID del procés.
+> * `-s`: Mostra el missatge també per la sortida d'error estàndard.
+> * `-p`: Especifica la *facility* i la *prioritat*.
+---
+
+## 2. Directoris i Fitxers Importants
+
+La majoria dels logs del sistema s'emmagatzemen a `/var/log`. Tot i que molts serveis escriuen al fitxer general `syslog`, alguns paquets instal·lats creen les seves pròpies carpetes per gestionar les seves dades de manera independent.
+
 <img width="1181" height="235" alt="image" src="https://github.com/user-attachments/assets/a4107def-0e00-4b8b-9cd2-d9e2b57926f1" />
 
-si fem cat syslog podrem veure...
+Si visualitzem el fitxer `syslog`, podem veure l'activitat general del sistema en temps real:
+
 <img width="1208" height="709" alt="image" src="https://github.com/user-attachments/assets/7b87c153-76c5-4a76-8bdd-89f41addc4ca" />
 
-ROTACIÓ DE LOGS: Consisteix en...
-els antics els compremeix i els fica a un altre, el numero de dies es pot personalitzar...
-per a fer-ho anem a /etc/logrotate.d/
+---
+
+## 3. Rotació de Logs (`logrotate`)
+
+Per evitar que els fitxers de log omplin tot el disc dur, el sistema utilitza **logrotate**. Aquesta eina:
+
+1. Comprimeix els logs antics (sovint en format `.gz`).
+2. Els reanomena (ex: `syslog.1`, `syslog.2.gz`).
+3. Elimina els fitxers més vells segons una configuració de dies o mida.
+
+La configuració es troba a `/etc/logrotate.d/`.
+
 <img width="1012" height="109" alt="image" src="https://github.com/user-attachments/assets/8470044a-eda1-4ee9-973c-e55b6c4faed9" />
 
-per exemple si fem un cat de rsyslog veurem que...
+Podem veure la configuració específica de `rsyslog` per entendre com gestiona els seus propis fitxers:
 
 <img width="987" height="536" alt="image" src="https://github.com/user-attachments/assets/059936de-5357-460b-878b-4a96f5aabba8" />
 
-per a ... antigament anavem a 7etc/ryslog.conf pero tal com es veu a la captura ara es troba a /etc/rsyslog.d/50-defaul.conf
+---
+
+## 4. Configuració de `rsyslog`
+
+Antigament, tota la configuració es trobava a `/etc/rsyslog.conf`. Actualment, a les distribucions basades en Ubuntu/Debian, la configuració de les regles per defecte es troba a:
+`/etc/rsyslog.d/50-default.conf`
+
 <img width="1233" height="683" alt="image" src="https://github.com/user-attachments/assets/cc484c0c-752c-4122-8982-aad728ef4138" />
 
-Anem a /etc/ryslog.d/50-default.conf
+### Proves de funcionament
 
-<img width="1045" height="683" alt="image" src="https://github.com/user-attachments/assets/7920b47f-14d3-4934-97d3-7967775d70a6" />
+Per veure els canvis en directe mentre fem proves, executem en una terminal:
+`tail -f /var/log/syslog`
 
-Aqui realitzarem diverses proves
-fem un tail -f /var/log/syslog 
-aixi veurem els canvis que fessem.
+#### Prova 1: Kern.notice
 
-ara provem la comanda logger -i -s -p kern.notice Prova pau
+Executem: `logger -i -s -p kern.notice "Prova pau"`
+El resultat a la terminal de monitoratge serà:
 
-i a la l'altra finestra (terminal) on tenim ober la comanda tail -f /var/log/syslog, veurem...
 <img width="807" height="460" alt="image" src="https://github.com/user-attachments/assets/ff3595b7-112e-4d89-9393-5df407d9a5c4" />
 
 
-ara farem una altra prova amb mail.notice
+
+#### Prova 2: Mail.notice
+
+Podem provar amb diferents serveis com el de correu:
+
 
 <img width="856" height="457" alt="image" src="https://github.com/user-attachments/assets/eff3f65b-138f-417e-a861-e4a99fad8712" />
 
 <img width="917" height="333" alt="image" src="https://github.com/user-attachments/assets/5764edfe-4c00-490d-92f8-d2e4d4d261c4" />
 
-Prova 3: (IMPORTANT: ho he fet malament he tocat el mail.err en lloc de mail.log)
+#### Prova 3 i 4: Filtres de nivell
 
-i ara veiem que prova 3 si que surt a la terminal de baix pero si fem un cat no surt
+Si modifiquem el fitxer de configuració per filtrar nivells específics (per exemple, usant o traient l'igual `=` a `mail.err`), el comportament del log canviarà, registrant només aquest nivell o tots els superiors.
+
 <img width="784" height="179" alt="image" src="https://github.com/user-attachments/assets/424b7b37-6b36-4fc0-9360-4ed966deaf40" />
-
-
-Prova 4 llevem el = de mail.err 
-
 <img width="1231" height="409" alt="image" src="https://github.com/user-attachments/assets/1cbf2e38-065e-4ca2-8207-5c42abeebff9" />
-prova 6
 
-Prova crit:
-ara afegim "*crit     -/var/log/pau.log" a 50-default.conf
+#### Prova 5: Fitxers de log personalitzats
+
+Podem redirigir logs a fitxers propis afegint una línia al fitxer `50-default.conf`. Per exemple, per enviar totes les alertes crítiques a un fitxer nou:
+`*crit -/var/log/pau.log`
+
 <img width="808" height="342" alt="image" src="https://github.com/user-attachments/assets/fe5fed93-f0e2-461a-8012-f54bd46821f8" />
-i tot seguit...
 
+---
 
-Proves journalctl:
+## 5. El sistema `journalctl`
 
-journalctl --facility=mail
+A més dels fitxers de text tradicionals, els sistemes moderns amb `systemd` utilitzen un log binari gestionat per `journalctl`. Això permet fer cerques molt més ràpides i filtrades.
+
+Per exemple, per veure només els logs de correu:
+`journalctl --facility=mail`
+
 <img width="646" height="69" alt="image" src="https://github.com/user-attachments/assets/32039832-b9f5-4be2-a548-0a72b9e1c1c6" />
 
+---
 
-## TASCA 1:Rendiment:
+
+## TASCA 1: Rendiment:
 Entrar a monitor del sistema: Fer 3 captures que es veigue que es pot monitoritzar els processos, pestanya de recursos i sistemes de fitxers
 
+---
 
-## TASCA 2: 
-Escenari imagineu que A traves de una imatge configurem que els logs dels alumnes vinguin al profe.
-simularem aixo en dues maquines virtuals:
-2 maquines ubuntu i una ha de rebre els logs de l'altra. hem de desactivar firewalls, instalar un pasquet i al 50-default.conf configurar la ip...
+# TASCA CONJUNTA: Configuració de Rsyslog per a Enviament de Logs entre Hosts
 
+**Data:** 03/03/26
+**Components:**
+Valle (Grup A)  
+Pau (Grup B)
 
-03/03/26
-Pràctica Conjunta (Valle)
+En aquesta pràctica configurem un sistema de **centralització de logs** utilitzant `rsyslog` entre dues màquines Ubuntu dins la mateixa xarxa.
+Imaginem que un profe vol visualitzar els logs dels alumnes. En aquesta pràctica simularem aquest escenari:
+Un host actuarà com a **servidor de logs (Profe)** i l’altre com a **client (Alumne)** que enviarà els seus registres al servidor.
 
+---
 
+# Pas 1: Preparació de les màquines (ambdós hosts)
 
+Primer de tot configurem la xarxa i preparem les màquines perquè es puguin comunicar correctament.
+
+## Configuració de les IPs
+
+Configurem les adreces IP a cada màquina, ja sigui des de la configuració de xarxa d’Ubuntu o utilitzant eines de terminal com `nmcli` o `netplan`.
+
+![Configuració IP](https://github.com/user-attachments/assets/814be02b-72eb-4080-949a-ea548ac7281b)
+
+Comprovem que les IPs s'han aplicat correctament amb una comanda com:
+
+```
+ip a
+````
+
+![IPs dels hosts](https://github.com/user-attachments/assets/02725cad-a757-4603-b749-912b4c455b21)
+
+---
+
+## Desactivació del Firewall
+
+Per evitar que el firewall bloquegi el tràfic de logs, desactivem `ufw` temporalment:
+
+```
+sudo ufw disable
+```
+
+![Desactivar firewall](https://github.com/user-attachments/assets/4d003f67-a7aa-41c5-8639-ddeed38214e7)
+
+---
+
+## Instal·lació de rsyslog
+
+Normalment `rsyslog` ja està instal·lat per defecte a Ubuntu, però per assegurar-nos-ho executem:
+
+```
+sudo apt update
+sudo apt install rsyslog -y
+```
+
+![Instal·lació rsyslog](https://github.com/user-attachments/assets/15559735-4340-4c36-8d2a-0ac76828cd47)
+
+---
+
+# Pas 2: Configuració del servidor (Profe)
+
+Ara configurem la màquina que actuarà com a **servidor de logs**, és a dir, la que rebrà els registres dels altres hosts.
+
+Editem el fitxer de configuració principal de `rsyslog`:
+
+```
+sudo nano /etc/rsyslog.conf
+```
+
+![Edició rsyslog.conf](https://github.com/user-attachments/assets/f8f893e9-ca0b-4071-a5db-36da1901ec52)
+
+Busquem les següents línies i eliminem el comentari (`#`) per habilitar la recepció de logs via **UDP**:
+
+```
+module(load="imudp")
+input(type="imudp" port="514")
+```
+
+Aquestes línies indiquen a `rsyslog` que escolti missatges entrants al **port 514**, que és el port estàndard per a syslog.
+
+> Si volguéssim utilitzar **TCP**, hauríem d'habilitar també el mòdul `imtcp`.
+
+---
+
+## Reiniciar el servei
+
+Un cop guardada la configuració reiniciem el servei:
+
+```
+sudo systemctl restart rsyslog
+```
+
+![Reiniciar rsyslog](https://github.com/user-attachments/assets/bd66d1dd-3309-44c8-b6cd-ba75f6b37fb8)
+
+---
+
+# Pas 3: Configuració del client (Alumne)
+
+Ara configurem la màquina client perquè **envii tots els logs al servidor**.
+
+Editem el fitxer de configuració de regles per defecte:
+
+```
+sudo nano /etc/rsyslog.d/50-default.conf
+```
+
+![Configuració client](https://github.com/user-attachments/assets/fd5a27fd-61de-4f79-84cf-d400db2a5288)
+
+Al final del fitxer afegim la següent línia:
+
+```
+*.* @192.168.1.10:514
+```
+
+Significat de la configuració:
+
+* `*.*` → enviem **tots els logs de tots els serveis**
+* `@` → enviament via **UDP**
+* `@@` → enviament via **TCP**
+* `192.168.1.10` → IP del servidor de logs
+* `514` → port de recepció del servidor
+
+---
+
+## Reiniciar el servei al client
+
+Després de modificar la configuració reiniciem `rsyslog`:
+
+```
+sudo systemctl restart rsyslog
+```
+
+![Reiniciar rsyslog client](https://github.com/user-attachments/assets/bd66d1dd-3309-44c8-b6cd-ba75f6b37fb8)
+
+---
+
+# Pas 4: Verificació i prova final
+
+Finalment comprovem que el sistema de logs funciona correctament.
+
+## Al servidor (Profe)
+
+Deixem el servidor escoltant els logs en temps real:
+
+```
+tail -f /var/log/syslog
+```
+
+---
+
+## Al client (Alumne)
+
+Enviem un missatge de prova amb la comanda `logger`:
+
+```
+logger "prova d’enviament de logs"
+```
+
+I tal com es veu a la captura, ho ha rebut correctament:
+
+![Recepció dels logs](https://github.com/user-attachments/assets/46ea9d4c-5cdd-4f0f-b5a1-86968e57fade)
+
+---
+
+# Conclusió
+
+Amb aquesta configuració hem aconseguit implementar un sistema de **centralització de logs** utilitzant `rsyslog`.
+
+Això permet que un servidor rebi i emmagatzemi els registres de múltiples màquines, facilitant:
+
+* la **monitorització del sistema**
+* la **detecció d’errors**
+* l’**anàlisi de seguretat**
+
+Aquest tipus de configuració és molt utilitzada en **infraestructures de sistemes i xarxes** per tenir un control centralitzat de tots els esdeveniments del sistema.
+
+---
 
 
 
@@ -286,6 +494,45 @@ I tal com es veu a la captura s'ha instal·lat correctament:
 
 
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
