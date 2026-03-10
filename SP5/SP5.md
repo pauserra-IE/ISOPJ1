@@ -123,7 +123,9 @@ Entrar a monitor del sistema: Fer 3 captures que es veigue que es pot monitoritz
 # TASCA CONJUNTA: Configuració de Rsyslog per a Enviament de Logs entre Hosts
 
 **Data:** 03/03/26
+
 **Components:**
+
 Valle (Grup A)  
 Pau (Grup B)
 
