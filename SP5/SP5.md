@@ -315,7 +315,7 @@ Accedim com a root:
 
 ```
 sudo su
-````
+```
 
 Actualitzem els repositoris:
 
@@ -418,7 +418,7 @@ I tal com es veu a la captura s'ha instal·lat correctament:
 
 # Tasca Servidor d'Actualitzacions (Amb un altre paquet)
 
-Ara repetiré el procés fet a classe amb un altre paquet, per exemple **htop** (programa que serveix per monitoritzar processos del sistema).
+Ara repetiré el procés fet a classe amb un altre paquet, per exemple **Opera**.
 
 
 
@@ -435,9 +435,13 @@ Editem la configuració:
 nano /etc/apt/mirror.list
 ```
 
-* Afegim el repositori de htop
+* Afegim el repositori de opera
+```
+deb [arch=amd64] https://deb.opera.com/opera-stable/ stable non-free
+```
+<img width="891" height="420" alt="image" src="https://github.com/user-attachments/assets/0f7c0941-9f2b-4804-8dde-79e612d92998" />
 
-<img width="687" height="415" alt="image" src="https://github.com/user-attachments/assets/174e9ced-b515-49c2-9bc7-19f17feb49f9" />
+
 
 Executem la descàrrega dels paquets:
 
@@ -445,7 +449,8 @@ Executem la descàrrega dels paquets:
 apt-mirror
 ```
 
-FALTA CAPTURA
+<img width="883" height="612" alt="image" src="https://github.com/user-attachments/assets/3855d332-423a-4927-8885-842069f5f2fe" />
+
 
 ---
 
@@ -454,45 +459,36 @@ FALTA CAPTURA
 Creem un **softlink** per servir els paquets amb Apache:
 
 ```
-ln -s /var/spool/apt-mirror/mirror/dl.google.com/linux/chrome/deb /var/www/html/
+ln -s /var/spool/apt-mirror/mirror/deb.opera.com/opera-stable /var/www/html/
 ```
 
-![Softlink creat](https://github.com/user-attachments/assets/0f47648b-d9b5-45e8-a12d-0caf98b9c944)
+<img width="1067" height="24" alt="image" src="https://github.com/user-attachments/assets/2769aba8-b251-4f8b-b865-3ad53955e2b0" />
+
 
 Verifiquem que el softlink s’ha creat correctament:
 
-![Verificació softlink](https://github.com/user-attachments/assets/a53ace71-5df1-42cd-b8e3-b7348bd4414a)
-
-Comprovem la IP del servidor (en aquest exemple `10.0.2.9`):
-
-![IP del servidor](https://github.com/user-attachments/assets/24cdcfce-a646-42c5-8754-3ff2e09418e3)
+<img width="612" height="45" alt="image" src="https://github.com/user-attachments/assets/3ffc8b65-2efb-4ac3-9998-e1470c757237" />
 
 ---
 
 ## 3. Configurar el client
 
-Obrim el fitxer de repositoris del client:
+Obrim el fitxer de repositoris del client. I afegim aquesta linea:
 
 ```
 nano /etc/apt/sources.list
 ```
 
-![Sources.list client](https://github.com/user-attachments/assets/abe74f5b-1515-474a-af9f-a00c40a2acb9)
+<img width="839" height="162" alt="image" src="https://github.com/user-attachments/assets/e2dbac02-f5ca-4487-b572-82639fbef390" />
+
 
 
 Fem un `apt update` per comprovar que el client obté els paquets del servidor local:
 
-![Apt update client](https://github.com/user-attachments/assets/05e5dd6b-010a-44a7-ad4f-3a7fc0214330)
-
-Instal·lem el paquet des del servidor:
-
-```
-apt install google-chrome-stable
-```
-
-![Instal·lació Chrome](https://github.com/user-attachments/assets/feb84d4a-a253-46c7-a5d9-23b3ba70c911)
+<img width="458" height="66" alt="image" src="https://github.com/user-attachments/assets/68df875e-94f8-4872-a446-16fac39f124e" />
 
 I tal com es veu a la captura s'ha instal·lat correctament:
+<img width="403" height="218" alt="image" src="https://github.com/user-attachments/assets/efe57e9a-d310-4f9e-a1ed-aab0d77ea588" />
 
 
 ---
