@@ -271,7 +271,7 @@ mdadm /dev/md0 -a /dev/sdb1
 mdadm --detail /dev/md0
 ```
 
-<img width="327" height="95" alt="image" src="https://github.com/user-attachments/assets/7ab74d5b-71ca-4d24-a8e8-aea167253e61" />
+<img width="332" height="88" alt="image" src="https://github.com/user-attachments/assets/6afeef08-448f-430a-8055-32fd022c4c29" />
 
 👉 El sistema començarà la **reconstrucció (rebuild)** automàticament.
 
