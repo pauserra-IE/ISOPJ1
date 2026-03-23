@@ -11,92 +11,371 @@ Introduccio:
 Els sistemes d'emmagatzematge redundant (RAID) son...
 Hi ha x tipus
 
-Farem falla run disco per hardware i per software. 
 
-#Pràctica RAID 1:
+---
 
-Farem un RAID 1
+# 🧩 Pràctica RAID 1
 
+En aquesta pràctica configurarem un **RAID 1 (mirroring)** utilitzant `mdadm`.
 
-En primer lloc Afegim dos discs iguals de 2gb
-<img width="615" height="418" alt="image" src="https://github.com/user-attachments/assets/516df895-ed3a-4a0f-ac38-e8e92aa93fec" />
+---
 
-<img width="443" height="314" alt="image" src="https://github.com/user-attachments/assets/2a8bce43-409e-43a0-a440-a1ca993c0089" />
+## 🔹 1. Afegir discs
 
+Afegim **dos discs iguals de 2 GB** a la màquina virtual:
 
-Iniciem la maquina 
+![Discs afegits](https://github.com/user-attachments/assets/516df895-ed3a-4a0f-ac38-e8e92aa93fec)
 
-Fem un apt update
-<img width="738" height="136" alt="image" src="https://github.com/user-attachments/assets/28e1ed48-b1a5-4e62-bc0f-87588ed77306" />
+![Configuració discs](https://github.com/user-attachments/assets/2a8bce43-409e-43a0-a440-a1ca993c0089)
 
-Instalem mdadm amb apt install mdadm
-<img width="732" height="97" alt="image" src="https://github.com/user-attachments/assets/390d1f69-b732-4e2c-b5cb-bf2754c50cc5" />
+---
 
-Ara identifiquem els dos discs que hem afegit amb la comanda fdisk -l
+## 🔹 2. Preparació del sistema
 
-<img width="681" height="633" alt="image" src="https://github.com/user-attachments/assets/0b8258c4-02b0-4a95-aa9f-1082dbe0b484" />
+Iniciem la màquina i actualitzem els repositoris:
 
-preparem els dos discos:
+```bash
+apt update
+```
+
+Instal·lem `mdadm`:
+
+```bash
+apt install mdadm
+```
+
+---
+
+## 🔹 3. Identificar els discs
+
+Comprovem els discs disponibles:
+
+```bash
+fdisk -l
+```
+
+![Llistat discs](https://github.com/user-attachments/assets/0b8258c4-02b0-4a95-aa9f-1082dbe0b484)
+
+---
+
+## 🔹 4. Preparar els discs
+
+Creem una partició a cada disc:
+
+```bash
 fdisk /dev/sdb
-introduim "n" (new)
-tot per defecte (prement intro)
-i w (per guardar els canvis ) 
-<img width="790" height="578" alt="image" src="https://github.com/user-attachments/assets/eb9a6d2d-64ae-40ff-9953-b3ed60933ab4" />
-i repteim el procés amb fdisk /dev/sdc
+```
 
-<img width="798" height="578" alt="image" src="https://github.com/user-attachments/assets/e0fb6b3e-4a9d-476b-b3ba-279170a037e4" />
+Passos dins `fdisk`:
 
-ara preparem la carpeta del raid 
+* `n` → nova partició
+* Intro → valors per defecte
+* `w` → guardar canvis
+
+Repetim el procés per `/dev/sdc`:
+
+```bash
+fdisk /dev/sdc
+```
+
+---
+
+## 🔹 5. Crear punt de muntatge
+
+```bash
 cd /mnt/
 mkdir raid1
 chmod 777 raid1/
-ls -l 
-<img width="535" height="143" alt="image" src="https://github.com/user-attachments/assets/dcfedb0c-a977-417e-9ef7-9d9ebe07997d" />
+ls -l
+```
 
+![Carpeta RAID](https://github.com/user-attachments/assets/dcfedb0c-a977-417e-9ef7-9d9ebe07997d)
 
-fem el raid amb la comanda
+---
+
+## 🔹 6. Crear el RAID 1
+
+```bash
 mdadm --create /dev/md0 --level=1 --raid-devices=2 /dev/sdb1 /dev/sdc1
-<img width="1032" height="195" alt="image" src="https://github.com/user-attachments/assets/6d8a87af-86c5-4f12-8994-d10637378b9b" />
+```
 
+![Creació RAID](https://github.com/user-attachments/assets/6d8a87af-86c5-4f12-8994-d10637378b9b)
 
-formatem el disc 
+---
+
+## 🔹 7. Formatar el RAID
+
+```bash
 mkfs.ext4 /dev/md0
-<img width="920" height="261" alt="image" src="https://github.com/user-attachments/assets/2ec0a135-e783-4cbe-929d-d3e60e103dc2" />
+```
 
+![Format RAID](https://github.com/user-attachments/assets/2ec0a135-e783-4cbe-929d-d3e60e103dc2)
 
-per a mirar com estan els raids
+---
+
+## 🔹 8. Comprovar estat del RAID
+
+```bash
 mdadm --detail /dev/md0
-<img width="801" height="595" alt="image" src="https://github.com/user-attachments/assets/be055875-7980-49bf-bc27-e193185f3bea" />
+```
 
+![Detall RAID](https://github.com/user-attachments/assets/be055875-7980-49bf-bc27-e193185f3bea)
 
-ara tenim que enviar la informacio que ens dona la comanda "mdadm --detail --scan"  a mdadm.conf:
+---
 
+## 🔹 9. Guardar configuració
 
+Obtenim la configuració:
+
+```bash
+mdadm --detail --scan
+```
+
+Exemple de sortida:
+
+```
 ARRAY /dev/md0 metadata=1.2 UUID=08e06a6d:3a112259:318350e6:d1895d81
+```
 
-per aixo utilitzem la comanda "mdadm --detail --scan > /etc/mdadm/mdadm.conf"
+La guardem a l’arxiu de configuració:
 
-<img width="793" height="66" alt="image" src="https://github.com/user-attachments/assets/023c7638-fe43-4e8b-a477-4e73a4c4440d" />
+```bash
+mdadm --detail --scan > /etc/mdadm/mdadm.conf
+```
 
+![Config mdadm](https://github.com/user-attachments/assets/023c7638-fe43-4e8b-a477-4e73a4c4440d)
 
-ara editem "nano /etc/mdadm/mdadm.conf" i afegim la linea
-"DEVICE /dev/sdb1 /dev/sdc1" 
-<img width="770" height="119" alt="image" src="https://github.com/user-attachments/assets/4a6de626-4963-4daf-bbc6-03d5f998e4a0" />
+Afegim també els dispositius:
 
-ara editem nano /etc/fstab i afegim la linea "/dev/md0        /mnt/raid1      ext4    defaults 0 0"
+```bash
+nano /etc/mdadm/mdadm.conf
+```
 
-<img width="839" height="434" alt="image" src="https://github.com/user-attachments/assets/60cb0a32-176c-48b6-8195-65290897c580" />
+Afegir línia:
 
-comprovem que funciona amb ls -la /mnt/raid1/
+```
+DEVICE /dev/sdb1 /dev/sdc1
+```
 
-<img width="627" height="109" alt="image" src="https://github.com/user-attachments/assets/d51c2764-f430-4e7f-a34a-6795da8d3327" />
-Explicació:
-La línia que indica que s’ha fet correctament és:
+![Editar mdadm.conf](https://github.com/user-attachments/assets/4a6de626-4963-4daf-bbc6-03d5f998e4a0)
 
-drwx------ 2 root root 16384 de març  23 12:31 lost+found
-La carpeta lost+found és creada automàticament quan es formata un sistema de fitxers ext4.
-La presència d’aquesta carpeta dins /mnt/raid1 confirma que el RAID /dev/md0 s’ha muntat correctament.
-Els permisos (drwx------) mostren que només l’usuari root té accés complet, cosa normal per a lost+found.
+---
 
+## 🔹 10. Configurar muntatge automàtic
 
+Editem `/etc/fstab`:
+
+```bash
+nano /etc/fstab
+```
+
+Afegim:
+
+```
+/dev/md0    /mnt/raid1    ext4    defaults    0    0
+```
+
+![fstab](https://github.com/user-attachments/assets/60cb0a32-176c-48b6-8195-65290897c580)
+
+---
+
+## 🔹 11. Verificació
+
+```bash
+ls -la /mnt/raid1/
+```
+
+![Verificació](https://github.com/user-attachments/assets/d51c2764-f430-4e7f-a34a-6795da8d3327)
+
+---
+
+## ✅ Explicació 
+
+Si tot ha funcionat correctament, veurem una línia com aquesta:
+
+```
+drwx------ 2 root root 16384 ... lost+found
+```
+
+### 🔍 Què significa?
+
+* **`lost+found`**: carpeta creada automàticament en sistemes de fitxers `ext4`.
+* Indica que el sistema de fitxers s’ha creat correctament.
+* Confirma que el RAID `/dev/md0` està **muntat correctament**.
+* Permisos `drwx------`: només l’usuari `root` té accés complet (com és habitual).
+
+---
+Aquí tens els apartats afegits i millorats, integrats amb el mateix estil clar i estructurat:
+
+---
+
+## ⚠️ Possibles problemes
+
+Si després d’editar `mdadm.conf` i `/etc/fstab` el RAID **no es munta correctament després de reiniciar**, podem forçar l’actualització de la configuració d’arrencada amb:
+
+```bash
+update-initramfs -u -k all
+```
+
+### 🔍 Explicació
+
+* **`update-initramfs`**: reconstrueix la imatge `initramfs`, necessària per arrencar el sistema.
+* **`-u` (update)**: actualitza la imatge existent.
+* **`-k all`**: aplica l’actualització a **tots els nuclis instal·lats**.
+
+👉 Això assegura que el sistema detecti correctament el RAID durant l’arrencada.
+
+---
+
+## 🧪 Proves de funcionament
+
+### 🔹 1. Crear fitxer de prova
+
+Creem un fitxer dins del RAID:
+
+![Fitxer de prova](https://github.com/user-attachments/assets/3c3d4c1a-8d62-4e57-a09a-d611b41523a2)
+
+---
+
+### 🔹 2. Simular fallada d’un disc
+
+Simulem la fallada d’un dels discos i comprovem l’estat del RAID:
+
+![Comprovació RAID](https://github.com/user-attachments/assets/1b9e30fc-803a-47b6-831e-faa6b4559b18)
+
+👉 El RAID hauria de continuar funcionant (mode degradat), ja que és un RAID 1.
+
+---
+
+### 🔹 3. Eliminar i tornar a afegir el disc
+
+Eliminem el disc fallat:
+
+```bash
+mdadm /dev/md0 -r /dev/sdb1
+```
+
+El tornem a afegir:
+
+```bash
+mdadm /dev/md0 -a /dev/sdb1
+```
+
+![Reinserció disc](https://github.com/user-attachments/assets/063a3685-42a3-423e-ba9e-d0eac9b62645)
+
+---
+
+### 🔹 4. Verificar reconstrucció
+
+```bash
+mdadm --detail /dev/md0
+```
+
+afegir captura Rebuild del raid
+
+👉 El sistema començarà la **reconstrucció (rebuild)** automàticament.
+
+---
+
+## 🗑️ Com esborrar el RAID
+
+### 🔹 1. Eliminar muntatge automàtic
+
+Editem `/etc/fstab` i **eliminem o comentem** la línia del RAID:
+
+![Eliminar fstab](https://github.com/user-attachments/assets/1e7f111d-4688-4c84-8002-e67f79981fc2)
+
+---
+
+### 🔹 2. Desmuntar el RAID
+
+```bash
+umount /dev/md0
+```
+
+👉 Desmunta el sistema de fitxers del RAID.
+
+---
+
+### 🔹 3. Aturar el RAID
+
+```bash
+mdadm --stop /dev/md0
+```
+
+👉 Atura el dispositiu RAID.
+
+---
+
+### 🔹 4. Eliminar configuració del RAID
+
+```bash
+mdadm --remove /dev/md0
+```
+
+👉 Pot donar error si ja està eliminat (és normal).
+
+---
+
+### 🔹 5. Eliminar punt de muntatge
+
+```bash
+rm -r /mnt/raid1/
+```
+
+👉 Esborrem la carpeta creada.
+
+---
+
+### 🔹 6. Netejar els discos
+
+```bash
+mdadm --zero-superblock /dev/sdb1 /dev/sdc1
+```
+
+👉 Elimina la informació RAID dels discos.
+
+---
+
+### 🔹 7. Verificació
+
+```bash
+mdadm --detail /dev/md0
+```
+
+👉 Ja no hauria d’existir.
+
+---
+
+### 🔹 8. Netejar configuració
+
+Editem:
+
+```bash
+nano /etc/mdadm/mdadm.conf
+```
+
+I eliminem les línies del RAID:
+
+![Neteja mdadm.conf](https://github.com/user-attachments/assets/5b0730c2-a575-4dcd-b886-73494c05c61a)
+
+---
+
+### 🔹 9. Reiniciar el sistema
+
+Després de reiniciar:
+
+![Sense RAID](https://github.com/user-attachments/assets/1fe97c15-3e9f-48c0-9c6a-73e8bc97e5b5)
+
+👉 El RAID ja no existeix al sistema.
+
+---
+
+## ✅ Resultat final
+
+* RAID eliminat correctament
+* Discos nets i reutilitzables
+* Sistema sense configuració residual
+
+---
 
