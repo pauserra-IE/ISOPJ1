@@ -6,19 +6,18 @@ title: "Sprint 4: Configuració del Programari de Base i Sistemes d’Emmagatzem
 
 
 
-#Teoria RAID
-Introduccio:
-Els sistemes d'emmagatzematge redundant (RAID) son...
-Hi ha x tipus
-
-
----
-
 # 🧩 Pràctica RAID 1
 
-En aquesta pràctica configurarem un **RAID 1 (mirroring)** utilitzant `mdadm`.
+## Introduccio:
+El RAID (Redundant Array of Independent Disks) és una tecnologia que combina diversos discs durs per millorar el rendiment i/o la seguretat de les dades.
+En aquest cas utilitzarem RAID 1. Funciona per mirroring, és a dir, duplica exactament la informació en dos discs.
+Això permet que, si un disc falla, les dades continuïn disponibles a l’altre.
+És una solució senzilla i molt utilitzada per augmentar la tolerància a errors.
 
----
+👉 Per a més informació i altres tipus de Raids consultar aquest enllaç [🔗 RAID - Wikipedia](https://es.wikipedia.org/wiki/RAID)
+
+
+En aquesta pràctica configurarem un **RAID 1 (mirroring)** utilitzant `mdadm`.
 
 ## 🔹 1. Afegir discs
 
@@ -241,9 +240,10 @@ Creem un fitxer dins del RAID:
 
 Simulem la fallada d’un dels discos i comprovem l’estat del RAID:
 
-![Comprovació RAID](https://github.com/user-attachments/assets/1b9e30fc-803a-47b6-831e-faa6b4559b18)
+<img width="815" height="644" alt="image" src="https://github.com/user-attachments/assets/edcb3b65-b375-4953-b0a7-6cf0673981b8" />
 
-👉 El RAID hauria de continuar funcionant (mode degradat), ja que és un RAID 1.
+👉 El RAID continuarà funcionant, ja que és un RAID 1. Per tant encara podem accedir als fitxers.
+
 
 ---
 
@@ -271,7 +271,7 @@ mdadm /dev/md0 -a /dev/sdb1
 mdadm --detail /dev/md0
 ```
 
-afegir captura Rebuild del raid
+<img width="327" height="95" alt="image" src="https://github.com/user-attachments/assets/7ab74d5b-71ca-4d24-a8e8-aea167253e61" />
 
 👉 El sistema començarà la **reconstrucció (rebuild)** automàticament.
 
@@ -378,4 +378,3 @@ Després de reiniciar:
 * Sistema sense configuració residual
 
 ---
-
