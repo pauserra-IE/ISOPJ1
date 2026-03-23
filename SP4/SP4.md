@@ -11,12 +11,12 @@ Introduccio:
 Els sistemes d'emmagatzematge redundant (RAID) son...
 Hi ha x tipus
 
+Farem falla run disco per hardware i per software. 
 
 #Pràctica RAID 1:
 
 Farem un RAID 1
 
-Farem falla run disco per hardware i per software. 
 
 En primer lloc Afegim dos discs iguals de 2gb
 <img width="615" height="418" alt="image" src="https://github.com/user-attachments/assets/516df895-ed3a-4a0f-ac38-e8e92aa93fec" />
@@ -86,3 +86,17 @@ ara editem "nano /etc/mdadm/mdadm.conf" i afegim la linea
 ara editem nano /etc/fstab i afegim la linea "/dev/md0        /mnt/raid1      ext4    defaults 0 0"
 
 <img width="839" height="434" alt="image" src="https://github.com/user-attachments/assets/60cb0a32-176c-48b6-8195-65290897c580" />
+
+comprovem que funciona amb ls -la /mnt/raid1/
+
+<img width="627" height="109" alt="image" src="https://github.com/user-attachments/assets/d51c2764-f430-4e7f-a34a-6795da8d3327" />
+Explicació:
+La línia que indica que s’ha fet correctament és:
+
+drwx------ 2 root root 16384 de març  23 12:31 lost+found
+La carpeta lost+found és creada automàticament quan es formata un sistema de fitxers ext4.
+La presència d’aquesta carpeta dins /mnt/raid1 confirma que el RAID /dev/md0 s’ha muntat correctament.
+Els permisos (drwx------) mostren que només l’usuari root té accés complet, cosa normal per a lost+found.
+
+
+
